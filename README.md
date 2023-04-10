@@ -24,11 +24,11 @@
 
 ## **Naming Conventions**
 1. Packages: Names should be in lowercase
-2. Classes: Names should be in CamelCase
-3. Interfaces: Names should be in CamelCase
-4. Methods: Names should be in mixed case
-5. Variables: Names should be in mixed case
-6. Constants: Names should be in uppercase
+2. Classes: Names should be in PascalCase
+3. Interfaces: Names should be in PascalCase
+4. Methods: Names should be in camelCase
+5. Variables: Names should be in camelCase
+6. Constants: Names should be in UPPERCASE
 
 ## **Penulis**
 
