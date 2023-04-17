@@ -1,4 +1,4 @@
-package org.objectify.controller;
+package com.objectify;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

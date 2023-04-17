@@ -21,7 +21,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>org.objectify.controller.App</mainClass>
+              <mainClass>org.objectify.App</mainClass>
             </configuration>
           </execution>
         </executions>
@@ -37,7 +37,7 @@
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <transformers>
                 <transformer>
-                  <mainClass>org.objectify.Main</mainClass>
+                  <mainClass>com.objectify.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>

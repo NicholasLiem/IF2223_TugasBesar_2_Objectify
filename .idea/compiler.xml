@@ -9,8 +9,5 @@
         <module name="ObjectifyApp" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="IF2223_TugasBesar_2_Objectify" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

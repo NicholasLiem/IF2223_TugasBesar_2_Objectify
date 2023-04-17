@@ -1,4 +1,4 @@
-package org.objectify.controller;
+package com.objectify;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
