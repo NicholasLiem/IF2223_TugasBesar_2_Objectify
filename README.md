@@ -19,8 +19,8 @@
 ## **Cara Menjalankan Program**
 1. Build package <br>
     `mvn package`
-2. Run jar file <br>
-    `java -cp target/Objectify-v1.0.jar com.objectify.Main`
+2. Jalankan Program (Pastikan ada di root folder) <br>
+    `target/ObjectifyApp-v1.0-shaded.jar`
 
 ## **Naming Conventions**
 1. Packages: Names should be in lowercase
