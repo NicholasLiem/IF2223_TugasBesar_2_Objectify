@@ -1,1 +1,9 @@
+<<<<<<< Updated upstream
 com\objectify\Main.class
+=======
+module-info.class
+org\objectify\controller\App.class
+org\objectify\controller\PrimaryController.class
+org\objectify\Main.class
+org\objectify\controller\SecondaryController.class
+>>>>>>> Stashed changes

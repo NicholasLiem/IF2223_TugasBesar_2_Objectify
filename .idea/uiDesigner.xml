@@ -121,8 +121,11 @@
       </item>
     </group>
   </component>
+<<<<<<< Updated upstream
   <component name="uidesigner-configuration">
     <option name="INSTRUMENT_CLASSES" value="false" />
     <option name="USE_DYNAMIC_BUNDLES" value="true" />
   </component>
+=======
+>>>>>>> Stashed changes
 </project>

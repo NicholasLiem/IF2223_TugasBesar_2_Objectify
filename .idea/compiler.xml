@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Objectify" />
+        <module name="ObjectifyApp" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="IF2223_TugasBesar_2_Objectify" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
