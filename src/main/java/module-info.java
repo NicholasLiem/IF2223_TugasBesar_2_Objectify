@@ -4,4 +4,6 @@ module com.objectify {
 
     opens com.objectify to javafx.fxml;
     exports com.objectify;
+    exports com.objectify.controllers;
+    opens com.objectify.controllers to javafx.fxml;
 }
