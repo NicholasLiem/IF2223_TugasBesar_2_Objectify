@@ -16,7 +16,7 @@ public class JSONAdapter implements DataStore{
     private byte[] jsonData;
 
     public JSONAdapter(String jsonFileName) throws FileNotFoundException {
-        this.jsonPath = Paths.get("src", "resources", jsonFileName);
+        this.jsonPath = Paths.get("src", "resources", "JSON", jsonFileName);
         if(!Files.exists(jsonPath)){
             throw new FileNotFoundException("File " + jsonFileName + " does not exists");
         }
