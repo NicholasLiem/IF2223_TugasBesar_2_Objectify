@@ -1,6 +1,6 @@
 package com.objectify;
 
-import com.objectify.datastore.JSONDataStore;
+import com.objectify.datastore.JSONAdapter;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -20,7 +20,7 @@ public class Main {
 //
 //        System.out.println(Nicholas);
 
-        JSONDataStore jdatastore = new JSONDataStore("users.json");
+        JSONAdapter jdatastore = new JSONAdapter("users.json");
         ArrayList<?> data = jdatastore.readData();
         for (Object obj : data) {
             System.out.println(obj.toString());

@@ -10,12 +10,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class JSONDataStore implements DataStore{
+public class JSONAdapter implements DataStore{
 
     private final Path jsonPath;
     private byte[] jsonData;
 
-    public JSONDataStore(String jsonFileName) throws FileNotFoundException {
+    public JSONAdapter(String jsonFileName) throws FileNotFoundException {
         this.jsonPath = Paths.get("src", "resources", jsonFileName);
         if(!Files.exists(jsonPath)){
             throw new FileNotFoundException("File " + jsonFileName + " does not exists");

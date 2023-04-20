@@ -2,7 +2,7 @@ package com.objectify.datastore;
 
 import java.io.IOException;
 
-public class XMLDataStore implements DataStore{
+public class XMLAdapter implements DataStore{
     @Override
     public void writeData(Object data) throws IOException {
 
