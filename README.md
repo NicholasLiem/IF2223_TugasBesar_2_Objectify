@@ -18,10 +18,13 @@
 
 ## **Cara Menjalankan Program**
 1. Build package <br>
-    `mvn package`
+    `mvn clean package`
 2. Jalankan Program (Pastikan ada di root folder) <br>
-    `target/ObjectifyApp-v1.0-shaded.jar`
-
+    `java -cp target/ObjectifyApp-v1.0-shaded.jar com.objectify.Main`
+3. Jika menggunakan linux jalankan <br>
+    `./run.sh`
+4. Jika menggunakan windows jalankan <br>
+    `./run.bat`
 ## **Naming Conventions**
 1. Packages: Names should be in lowercase
 2. Classes: Names should be in PascalCase
