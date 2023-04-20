@@ -3,6 +3,7 @@ package com.objectify.datastore;
 import java.io.IOException;
 
 public class OBJDataStore implements DataStore{
+
     @Override
     public void writeData(Object data) throws IOException {
 
