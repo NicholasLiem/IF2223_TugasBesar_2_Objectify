@@ -1,0 +1,1 @@
+java -cp target/ObjectifyApp-v1.0-shaded.jar com.objectify.Main
