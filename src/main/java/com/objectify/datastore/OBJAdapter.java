@@ -23,7 +23,7 @@ public class OBJAdapter implements DataStore{
     }
 
     @Override
-    public void saveAllData() throws IOException{
+    public void saveData() throws IOException{
 
     }
     // Kelas ini harus dapat membaca dan menulis data dalam format OBJ dengan menggunakan Java API Serializable.

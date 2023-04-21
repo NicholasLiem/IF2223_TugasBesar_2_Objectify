@@ -13,6 +13,6 @@ public interface DataStore {
 
     void deleteData() throws IOException;
 
-    void saveAllData() throws IOException;
+    void saveData() throws IOException;
 
 }
