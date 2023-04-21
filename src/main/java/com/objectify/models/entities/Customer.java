@@ -3,7 +3,7 @@ package com.objectify.models.entities;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.objectify.models.transactions.TransactionHistory;
 
-@JsonTypeName("customer")
+@JsonTypeName("Customer")
 public class Customer extends User {
 
     public Customer(){

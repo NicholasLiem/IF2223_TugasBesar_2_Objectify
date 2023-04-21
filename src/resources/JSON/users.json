@@ -19,7 +19,7 @@
         }
       ]
     },
-    "type": "member",
+    "type": "Member",
     "name": "John",
     "phoneNumber": "555-1234",
     "points": 100

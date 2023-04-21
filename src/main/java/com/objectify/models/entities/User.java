@@ -6,9 +6,9 @@ import com.objectify.models.transactions.TransactionHistory;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Member.class, name = "member"),
-        @JsonSubTypes.Type(value = VIP.class, name = "vip"),
-        @JsonSubTypes.Type(value = Customer.class, name = "customer")
+        @JsonSubTypes.Type(value = Member.class, name = "Member"),
+        @JsonSubTypes.Type(value = VIP.class, name = "VIP"),
+        @JsonSubTypes.Type(value = Customer.class, name = "Customer")
 })
 public abstract class User {
     private int userID;
