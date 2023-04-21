@@ -13,4 +13,8 @@ public class CategoryManager {
     public static void addCategory(Category category) {
         categories.add(category);
     }
+
+    public static void removeCategory(Category category){
+        categories.remove(category);
+    }
 }
