@@ -20,5 +20,10 @@ public class XMLAdapter implements DataStore{
     public void deleteData() throws IOException {
 
     }
+
+    @Override
+    public void saveAllData() throws IOException{
+
+    }
     //  Kelas ini harus dapat membaca dan menulis data dalam format XML.
 }

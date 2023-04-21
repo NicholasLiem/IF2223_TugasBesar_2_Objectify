@@ -50,6 +50,11 @@ public class JSONAdapter implements DataStore{
     public void deleteData() throws IOException {
     }
 
+    @Override
+    public void saveAllData() throws IOException{
+
+    }
+
     public void initializeJsonData(String jsonFileName) throws Exception{
         this.jsonPath = Paths.get("src", "resources", "JSON", jsonFileName);
         if(!Files.exists(jsonPath)){
