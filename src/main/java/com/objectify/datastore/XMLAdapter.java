@@ -9,7 +9,7 @@ public class XMLAdapter implements DataStore{
     }
 
     @Override
-    public Object readData() throws IOException {
+    public Object readData(String xmlFileName) throws IOException {
         return null;
     }
 

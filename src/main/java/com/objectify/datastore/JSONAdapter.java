@@ -12,14 +12,20 @@ import java.util.ArrayList;
 
 public class JSONAdapter implements DataStore{
 
-    private final Path jsonPath;
+    private static JSONAdapter jsonAdapterInstance = null;
+
+    private Path jsonPath;
     private byte[] jsonData;
 
-    public JSONAdapter(String jsonFileName) throws FileNotFoundException {
-        this.jsonPath = Paths.get("src", "resources", "JSON", jsonFileName);
-        if(!Files.exists(jsonPath)){
-            throw new FileNotFoundException("File " + jsonFileName + " does not exists");
+    private JSONAdapter(){
+
+    }
+
+    public static synchronized JSONAdapter getInstance(){
+        if (jsonAdapterInstance == null){
+            jsonAdapterInstance = new JSONAdapter();
         }
+        return jsonAdapterInstance;
     }
 
     @Override
@@ -28,8 +34,12 @@ public class JSONAdapter implements DataStore{
     }
 
     @Override
-    public ArrayList<?> readData() throws IOException {
-        this.jsonData = Files.readAllBytes(jsonPath);
+    public ArrayList<?> readData(String jsonFileName) throws IOException {
+        try{
+            this.initializeJsonData(jsonFileName);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(this.jsonData, new TypeReference<ArrayList<?>>() {});
     }
@@ -37,5 +47,12 @@ public class JSONAdapter implements DataStore{
     @Override
     public void deleteData() throws IOException {
     }
-//    Kelas ini harus dapat membaca dan menulis data dalam format JSON.
+
+    public void initializeJsonData(String jsonFileName) throws Exception{
+        this.jsonPath = Paths.get("src", "resources", "JSON", jsonFileName);
+        if(!Files.exists(jsonPath)){
+            throw new FileNotFoundException("File " + jsonFileName + " does not exists");
+        }
+        this.jsonData = Files.readAllBytes(jsonPath);
+    }
 }

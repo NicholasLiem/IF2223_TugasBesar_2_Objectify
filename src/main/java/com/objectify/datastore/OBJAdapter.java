@@ -2,7 +2,7 @@ package com.objectify.datastore;
 
 import java.io.IOException;
 
-public class OBJDataStore implements DataStore{
+public class OBJAdapter implements DataStore{
 
     @Override
     public void writeData(Object data) throws IOException {
@@ -10,7 +10,7 @@ public class OBJDataStore implements DataStore{
     }
 
     @Override
-    public Object readData() throws IOException {
+    public Object readData(String objFileName) throws IOException {
         return null;
     }
 

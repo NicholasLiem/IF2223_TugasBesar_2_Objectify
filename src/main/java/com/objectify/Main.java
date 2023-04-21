@@ -20,8 +20,10 @@ public class Main {
 //
 //        System.out.println(Nicholas);
 
-        JSONAdapter jdatastore = new JSONAdapter("users.json");
-        ArrayList<?> data = jdatastore.readData();
+        JSONAdapter jdatastore = JSONAdapter.getInstance();
+        JSONAdapter testing = JSONAdapter.getInstance();
+        System.out.println(jdatastore.hashCode() + ":" + testing.hashCode());
+        ArrayList<?> data = jdatastore.readData("users.json");
         for (Object obj : data) {
             System.out.println(obj.toString());
         }
