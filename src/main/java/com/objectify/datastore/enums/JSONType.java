@@ -2,7 +2,8 @@ package com.objectify.datastore.enums;
 public enum JSONType {
     USERS("Users.json"),
     TRANSACTIONS("Transactions.json"),
-    PRODUCTS("Products.json");
+    PRODUCTS("Products.json"),
+    CATEGORIES("Categories.json");
 
     private final String fileName;
 
