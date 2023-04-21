@@ -9,6 +9,10 @@ public class VIP extends User{
     private String phoneNumber;
     private int points;
 
+    public VIP(){
+        super();
+    }
+
     public VIP(int userID, boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {
         super(userID, activationStatus, transactionHistory);
         this.name = name;

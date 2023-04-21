@@ -1,8 +1,11 @@
 package com.objectify.datastore;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,17 +33,33 @@ public class JSONAdapter implements DataStore{
     }
 
     @Override
-    public void writeData(Object data) throws IOException {
-
+    public <T> void writeData(String jsonFileName, ArrayList<T> data) throws IOException {
+        try {
+            this.initializeJSONData(jsonFileName);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode arrayNode = objectMapper.createArrayNode();
+        if (!data.isEmpty()) {
+            for (T item : data) {
+                ObjectNode itemNode = JsonNodeFactory.instance.objectNode();
+                itemNode.put("type", item.getClass().getSimpleName());
+                objectMapper.convertValue(item, JsonNode.class).fields().forEachRemaining(e -> itemNode.set(e.getKey(), e.getValue()));
+                arrayNode.add(itemNode);
+            }
+        }
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(this.jsonPath.toFile(), arrayNode);
     }
 
     @Override
     public <T> ArrayList<T> readData(String jsonFileName, Class<T> valueType) throws IOException {
         try {
-            this.initializeJsonData(jsonFileName);
+            this.initializeJSONData(jsonFileName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        this.jsonData = Files.readAllBytes(jsonPath);
         ObjectMapper objectMapper = new ObjectMapper();
         JavaType type = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, valueType);
         return objectMapper.readValue(this.jsonData, type);
@@ -48,18 +67,21 @@ public class JSONAdapter implements DataStore{
 
     @Override
     public void deleteData() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode emptyArray = objectMapper.createArrayNode();
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(this.jsonPath.toFile(), emptyArray);
     }
 
     @Override
-    public void saveAllData() throws IOException{
-
+    public <T> void saveData(String jsonFileName, ArrayList<T> data) throws IOException{
+        this.writeData(jsonFileName, data);
+        Files.write(jsonPath, jsonData);
     }
 
-    public void initializeJsonData(String jsonFileName) throws Exception{
+    public void initializeJSONData(String jsonFileName) throws Exception{
         this.jsonPath = Paths.get("src", "resources", "JSON", jsonFileName);
         if(!Files.exists(jsonPath)){
-            throw new FileNotFoundException("File " + jsonFileName + " does not exists");
+            throw new FileNotFoundException("File " + jsonFileName + " does not exist");
         }
-        this.jsonData = Files.readAllBytes(jsonPath);
     }
 }

@@ -1,3 +1,4 @@
+com\objectify\datastore\enums\JSONType.class
 com\objectify\models\entities\UserManager.class
 com\objectify\datastore\XMLAdapter.class
 com\objectify\models\items\ShoppingCart.class
@@ -20,7 +21,6 @@ com\objectify\models\entities\User.class
 com\objectify\models\transactions\TransactionHistory.class
 com\objectify\models\entities\Member.class
 com\objectify\datastore\Settings.class
-com\objectify\datastore\enums\JsonType.class
 com\objectify\models\items\CategoryManager.class
 com\objectify\controllers\AboutPage.class
 com\objectify\models\entities\Customer.class

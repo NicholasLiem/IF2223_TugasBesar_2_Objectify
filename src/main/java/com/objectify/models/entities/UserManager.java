@@ -10,9 +10,9 @@ public class UserManager {
 
     private ArrayList<User> listOfUsers;
 
-    public UserManager() throws IOException {
-        JSONAdapter jsonAdapter = JSONAdapter.getInstance();
-        this.listOfUsers = jsonAdapter.readData(JSONType.USERS.getFileName(), User.class);
+    public UserManager() {
+
+        this.listOfUsers = new ArrayList<>();
     }
 
     public void addUser(User user){
@@ -26,5 +26,13 @@ public class UserManager {
     public void printOutUsers(){
         User u = this.listOfUsers.get(0);
         System.out.println(u.toString());
+    }
+
+    public ArrayList<User> getListOfUsers(){
+        return this.listOfUsers;
+    }
+
+    public void setListOfUsers(ArrayList<User> listOfUsers){
+        this.listOfUsers = listOfUsers;
     }
 }

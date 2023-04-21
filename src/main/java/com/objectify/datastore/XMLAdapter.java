@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class XMLAdapter implements DataStore{
     @Override
-    public void writeData(Object data) throws IOException {
+    public <T> void writeData(String xmlFileName, ArrayList<T> data) throws IOException {
 
     }
 
@@ -20,7 +20,7 @@ public class XMLAdapter implements DataStore{
     }
 
     @Override
-    public void saveData() throws IOException{
+    public <T> void saveData(String xmlFileName, ArrayList<T> data) throws IOException{
 
     }
 }

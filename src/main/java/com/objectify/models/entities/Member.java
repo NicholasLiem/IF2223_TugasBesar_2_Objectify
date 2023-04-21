@@ -11,7 +11,7 @@ public class Member extends User{
     private int points;
 
     public Member(){
-
+        super();
     }
 
     public Member(int userID, boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {

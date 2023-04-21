@@ -1,14 +1,12 @@
 package com.objectify.datastore;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class OBJAdapter implements DataStore{
 
     @Override
-    public void writeData(Object data) throws IOException {
+    public <T> void writeData(String objFileName, ArrayList<T> data) throws IOException {
 
     }
 
@@ -23,7 +21,7 @@ public class OBJAdapter implements DataStore{
     }
 
     @Override
-    public void saveData() throws IOException{
+    public <T> void saveData(String objFileName, ArrayList<T> data) throws IOException{
 
     }
     // Kelas ini harus dapat membaca dan menulis data dalam format OBJ dengan menggunakan Java API Serializable.
