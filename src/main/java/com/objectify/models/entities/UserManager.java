@@ -1,7 +1,7 @@
 package com.objectify.models.entities;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.objectify.datastore.JSONAdapter;
+import com.objectify.datastore.enums.JSONType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class UserManager {
 
     public UserManager() throws IOException {
         JSONAdapter jsonAdapter = JSONAdapter.getInstance();
-        this.listOfUsers = jsonAdapter.readData("users.json", User.class);
+        this.listOfUsers = jsonAdapter.readData(JSONType.USERS.getFileName(), User.class);
     }
 
     public void addUser(User user){
