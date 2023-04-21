@@ -1,11 +1,19 @@
 package com.objectify.models.transactions;
 
-import java.util.*;
+import java.util.ArrayList;
+
 public class TransactionHistory {
-    private ArrayList<Transaction> transactionHistory;
+    private ArrayList<Transaction> transactions;
+
 
     public TransactionHistory(){
-        this.transactionHistory = new ArrayList<Transaction>();
     }
 
+    public ArrayList<Transaction> getTransactionHistory() {
+        return transactions;
+    }
+
+    public void setTransactionHistory(ArrayList<Transaction> transactionHistory) {
+        this.transactions = transactionHistory;
+    }
 }

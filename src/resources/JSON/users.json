@@ -1,21 +1,27 @@
 [
   {
-    "name": "Nicholas Liem",
-    "noPenduduk": "777777",
-    "socialCredit": 9999,
-    "daftarKerabat": [
-      {
-        "name": "Moch. Sofyan Firdaus",
-        "noPenduduk": "7777771",
-        "socialCredit": 1111,
-        "daftarKerabat": []
-      },
-      {
-        "name": "Juan Christopher Santoso",
-        "noPenduduk": "7777712",
-        "socialCredit": 9999,
-        "daftarKerabat": []
-      }
-    ]
+    "userID": 1,
+    "activationStatus": true,
+    "transactionHistory": {
+      "transactionHistory":
+      [
+        {
+          "transactionId": 1,
+          "dateTime": "2023-04-21T10:00:00",
+          "description": "Transaction 1",
+          "amount": 100.0
+        },
+        {
+          "transactionId": 2,
+          "dateTime": "2023-04-22T10:00:00",
+          "description": "Transaction 2",
+          "amount": 50.0
+        }
+      ]
+    },
+    "type": "member",
+    "name": "John",
+    "phoneNumber": "555-1234",
+    "points": 100
   }
 ]

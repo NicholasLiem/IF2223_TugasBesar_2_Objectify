@@ -1,14 +1,20 @@
 package com.objectify.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.objectify.models.transactions.TransactionHistory;
 
-public class MemberUser extends User{
+@JsonTypeName("member")
+public class Member extends User{
 
     private String name;
     private String phoneNumber;
     private int points;
 
-    public MemberUser(int userID, boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {
+    public Member(){
+
+    }
+
+    public Member(int userID, boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {
         super(userID, activationStatus, transactionHistory);
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -37,5 +43,14 @@ public class MemberUser extends User{
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", points=" + points +
+                '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.objectify.datastore;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.FileNotFoundException;
@@ -34,14 +35,15 @@ public class JSONAdapter implements DataStore{
     }
 
     @Override
-    public ArrayList<?> readData(String jsonFileName) throws IOException {
-        try{
+    public <T> ArrayList<T> readData(String jsonFileName, Class<T> valueType) throws IOException {
+        try {
             this.initializeJsonData(jsonFileName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(this.jsonData, new TypeReference<ArrayList<?>>() {});
+        JavaType type = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, valueType);
+        return objectMapper.readValue(this.jsonData, type);
     }
 
     @Override

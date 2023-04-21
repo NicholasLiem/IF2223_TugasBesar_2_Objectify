@@ -1,6 +1,7 @@
 package com.objectify;
 
 import com.objectify.datastore.JSONAdapter;
+import com.objectify.models.entities.UserManager;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -21,11 +22,7 @@ public class Main {
 //        System.out.println(Nicholas);
 
         JSONAdapter jdatastore = JSONAdapter.getInstance();
-        JSONAdapter testing = JSONAdapter.getInstance();
-        System.out.println(jdatastore.hashCode() + ":" + testing.hashCode());
-        ArrayList<?> data = jdatastore.readData("users.json");
-        for (Object obj : data) {
-            System.out.println(obj.toString());
-        }
+        UserManager um = new UserManager();
+        um.printOutUsers();
     }
 }

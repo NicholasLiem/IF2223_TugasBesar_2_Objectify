@@ -1,6 +1,9 @@
 package com.objectify.datastore;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class XMLAdapter implements DataStore{
     @Override
@@ -9,7 +12,7 @@ public class XMLAdapter implements DataStore{
     }
 
     @Override
-    public Object readData(String xmlFileName) throws IOException {
+    public <T> ArrayList<T> readData(String xmlFileName, Class<T> valueType) throws IOException {
         return null;
     }
 
