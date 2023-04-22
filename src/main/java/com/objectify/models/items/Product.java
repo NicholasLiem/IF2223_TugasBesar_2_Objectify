@@ -1,6 +1,8 @@
 package com.objectify.models.items;
 
 public class Product {
+    private static int totalProducts = 0;
+    private int idProduct;
     private int productStock;
     private String productName;
     private double productPrice;
@@ -8,7 +10,8 @@ public class Product {
     private Category productCategory;
     private String productImagePath;
 
-    public Product(int productStock, String productName, double productPrice, double productBuyPrice, Category productCategory, String productImagePath) {
+    public Product(int idProduct,int productStock, String productName, double productPrice, double productBuyPrice, Category productCategory, String productImagePath) {
+        this.idProduct = idProduct;
         this.productStock = productStock;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -16,6 +19,8 @@ public class Product {
         this.productCategory = productCategory;
         this.productImagePath = productImagePath;
     }
+
+    public  int getIdProduct(){return this.idProduct;}
 
     public int getProductStock() {
         return productStock;
