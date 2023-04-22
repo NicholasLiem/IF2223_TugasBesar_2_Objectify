@@ -1,0 +1,51 @@
+[ {
+  "type" : "Product",
+  "productStock" : 100,
+  "productName" : "Wooden Desk Organizer",
+  "productPrice" : 29.99,
+  "productBuyPrice" : 15.0,
+  "productCategory" : {
+    "name" : "OFFICE_SUPPLIES"
+  },
+  "productImagePath" : "images/wooden_desk_organizer.jpg"
+}, {
+  "type" : "Product",
+  "productStock" : 50,
+  "productName" : "Bluetooth Headphones",
+  "productPrice" : 89.99,
+  "productBuyPrice" : 50.0,
+  "productCategory" : {
+    "name" : "ELECTRONICS"
+  },
+  "productImagePath" : "images/bluetooth_headphones.jpg"
+}, {
+  "type" : "Product",
+  "productStock" : 200,
+  "productName" : "Yoga Mat",
+  "productPrice" : 39.99,
+  "productBuyPrice" : 25.0,
+  "productCategory" : {
+    "name" : "SPORTS"
+  },
+  "productImagePath" : "images/yoga_mat.jpg"
+}, {
+  "type" : "Product",
+  "productStock" : 500,
+  "productName" : "Coffee Mug",
+  "productPrice" : 12.99,
+  "productBuyPrice" : 6.0,
+  "productCategory" : {
+    "name" : "KITCHENWARE"
+  },
+  "productImagePath" : "images/coffee_mug.jpg"
+}, {
+  "type" : "Product",
+  "productStock" : 100,
+  "productName" : "Fitness Tracker",
+  "productPrice" : 69.99,
+  "productBuyPrice" : 40.0,
+  "productCategory" : {
+    "name" : "ELECTRONICS"
+  },
+  "productImagePath" : "images/fitness_tracker.jpg"
+} ]
