@@ -39,4 +39,11 @@ public class ShoppingCart {
 
         return value;
     }
+
+}
+
+    public void addItem(Product product, Integer quantity) {
+        Integer freq = map.get(product);
+        map.put(product, (freq == null) ? quantity : freq + quantity);
+    }
 }
