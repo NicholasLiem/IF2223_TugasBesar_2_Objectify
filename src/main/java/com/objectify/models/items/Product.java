@@ -10,14 +10,15 @@ public class Product {
     private Category productCategory;
     private String productImagePath;
 
-    public Product(int idProduct,int productStock, String productName, double productPrice, double productBuyPrice, Category productCategory, String productImagePath) {
-        this.idProduct = idProduct;
+    public Product(int productStock, String productName, double productPrice, double productBuyPrice, Category productCategory, String productImagePath) {
+        this.idProduct = totalProducts+1;
         this.productStock = productStock;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productBuyPrice = productBuyPrice;
         this.productCategory = productCategory;
         this.productImagePath = productImagePath;
+        totalProducts++;
     }
 
     public  int getIdProduct(){return this.idProduct;}
