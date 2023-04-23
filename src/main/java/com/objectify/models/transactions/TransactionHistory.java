@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class TransactionHistory {
     private ArrayList<Transaction> transactions;
 
-
-    public TransactionHistory(){
+    public TransactionHistory() {
+        this.transactions = new ArrayList<Transaction>();
     }
 
     public ArrayList<Transaction> getTransactionHistory() {
@@ -14,6 +14,11 @@ public class TransactionHistory {
     }
 
     public void setTransactionHistory(ArrayList<Transaction> transactionHistory) {
-        this.transactions = transactionHistory;
+        this.transactions = new ArrayList<Transaction>();
+        this.transactions = (ArrayList<Transaction>) transactionHistory.clone();
+    }
+
+    public void add(Transaction transaction) {
+        this.transactions.add(transaction);
     }
 }
