@@ -41,9 +41,3 @@ public class ShoppingCart {
     }
 
 }
-
-    public void addItem(Product product, Integer quantity) {
-        Integer freq = map.get(product);
-        map.put(product, (freq == null) ? quantity : freq + quantity);
-    }
-}
