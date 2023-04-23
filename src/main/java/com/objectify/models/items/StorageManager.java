@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 public class StorageManager {
 //    penambahan
-    private ArrayList<Product> list_of_products;
+    private ArrayList<Product> listOfProducts;
     public  StorageManager(){
-        this.list_of_products = new ArrayList<>();
+        this.listOfProducts = new ArrayList<>();
     }
     public void addNewProducts(Product new_items){
-        this.list_of_products.add(new_items);
+        this.listOfProducts.add(new_items);
     }
     public ArrayList<Product> getProducts(){
-        return this.list_of_products;
+        return this.listOfProducts;
     }
     public void editProduct(int product_id, Product new_products){
-        for (Product products : this.list_of_products){
+        for (Product products : this.listOfProducts){
             if(products.getIdProduct() == product_id){
                 products.setProductStock(new_products.getProductStock());
                 products.setProductName(new_products.getProductName());
@@ -32,7 +32,7 @@ public class StorageManager {
 
     public ArrayList<Product> searchItemByName(String name) throws ItemNotFoundException{
         ArrayList<Product>results = new ArrayList<>();
-        for(Product products : this.list_of_products){
+        for(Product products : this.listOfProducts){
             if(products.getProductName().toLowerCase().contains(name.toLowerCase())) {
                 results.add(products);
             }
@@ -47,7 +47,7 @@ public class StorageManager {
 
     public ArrayList<Product> searchByCategory(String category) throws ItemNotFoundException{
         ArrayList<Product> results = new ArrayList<>();
-        for(Product product : this.list_of_products){
+        for(Product product : this.listOfProducts){
             if(product.getProductCategory().getName().toLowerCase().contains(category.toLowerCase())){
                 results.add(product);
             }
@@ -61,7 +61,7 @@ public class StorageManager {
 
     public ArrayList<Product> searchByPrice(String price) throws  ItemNotFoundException{
         ArrayList<Product> results = new ArrayList<>();
-        for(Product product : this.list_of_products){
+        for(Product product : this.listOfProducts){
             if(Double.toString(product.getProductPrice()).toLowerCase().contains(price.toLowerCase())){
                 results.add(product);
             }
@@ -74,7 +74,7 @@ public class StorageManager {
     }
 
     public void showProducts(){
-        for(Product product : this.list_of_products){
+        for(Product product : this.listOfProducts){
             System.out.println("Products : ");
             System.out.println(product.getProductName());
             System.out.println(product.getIdProduct());
