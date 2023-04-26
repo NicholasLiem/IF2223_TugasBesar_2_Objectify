@@ -1,13 +1,8 @@
 package com.objectify;
 
-import com.objectify.datastore.JSONAdapter;
 import com.objectify.datastore.XMLAdapter;
 import com.objectify.datastore.enums.XMLType;
 import com.objectify.models.entities.*;
-import com.objectify.models.transactions.Transaction;
-import com.objectify.models.transactions.TransactionHistory;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
