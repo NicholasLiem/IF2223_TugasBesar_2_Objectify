@@ -1,13 +1,16 @@
 package com.objectify.models.entities;
 
-import com.objectify.datastore.JSONAdapter;
-import com.objectify.datastore.enums.JSONType;
-
-import java.io.IOException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
+@XmlRootElement(name = "UserManager")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class UserManager {
 
+    @XmlElement(name = "Users")
     private ArrayList<User> listOfUsers;
 
     public UserManager() {

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +34,7 @@ public class JSONAdapter implements DataStore{
     @Override
     public <T> void writeData(String jsonFileName, ArrayList<T> data) throws IOException {
         try {
-            this.initializeJSONData(jsonFileName);
+            initializeJSONData(jsonFileName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +54,7 @@ public class JSONAdapter implements DataStore{
     @Override
     public <T> ArrayList<T> readData(String jsonFileName, Class<T> valueType) throws IOException {
         try {
-            this.initializeJSONData(jsonFileName);
+            initializeJSONData(jsonFileName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -67,6 +66,7 @@ public class JSONAdapter implements DataStore{
 
     @Override
     public void deleteData() throws IOException {
+        Files.deleteIfExists(jsonPath);
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode emptyArray = objectMapper.createArrayNode();
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(this.jsonPath.toFile(), emptyArray);
@@ -78,10 +78,16 @@ public class JSONAdapter implements DataStore{
         Files.write(jsonPath, jsonData);
     }
 
-    public void initializeJSONData(String jsonFileName) throws Exception{
+    public void initializeJSONData(String jsonFileName) throws IOException {
         this.jsonPath = Paths.get("src", "resources", "JSON", jsonFileName);
-        if(!Files.exists(jsonPath)){
-            throw new FileNotFoundException("File " + jsonFileName + " does not exist");
+
+        if (!Files.exists(jsonPath)) {
+            try {
+                Files.createFile(jsonPath);
+            } catch (IOException e) {
+                throw new IOException("Failed to create JSON file: " + e.getMessage());
+            }
         }
     }
+
 }

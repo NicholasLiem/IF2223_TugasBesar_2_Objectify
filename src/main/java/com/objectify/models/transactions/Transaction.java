@@ -1,7 +1,12 @@
 package com.objectify.models.transactions;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
 
+@XmlRootElement(name = "Transaction")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Transaction {
     private int transactionId;
     private String dateTime;

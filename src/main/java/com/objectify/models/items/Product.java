@@ -1,19 +1,31 @@
 package com.objectify.models.items;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Product")
+@XmlAccessorType (XmlAccessType.FIELD)
 public class Product {
     private int productStock;
     private String productName;
     private double productPrice;
     private double productBuyPrice;
-    private Category productCategory;
+
+    @XmlElement(name = "ProductCategory")
+    private Category category;
     private String productImagePath;
 
-    public Product(int productStock, String productName, double productPrice, double productBuyPrice, Category productCategory, String productImagePath) {
+    public Product(){
+
+    }
+    public Product(int productStock, String productName, double productPrice, double productBuyPrice, Category category, String productImagePath) {
         this.productStock = productStock;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productBuyPrice = productBuyPrice;
-        this.productCategory = productCategory;
+        this.category = category;
         this.productImagePath = productImagePath;
     }
 
@@ -50,11 +62,11 @@ public class Product {
     }
 
     public Category getProductCategory() {
-        return productCategory;
+        return category;
     }
 
-    public void setProductCategory(Category productCategory) {
-        this.productCategory = productCategory;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getProductImagePath() {

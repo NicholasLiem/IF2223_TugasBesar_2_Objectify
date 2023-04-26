@@ -3,7 +3,13 @@ package com.objectify.models.entities;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.objectify.models.transactions.TransactionHistory;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 @JsonTypeName("Member")
+@XmlRootElement(name = "Member")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Member extends User{
 
     private String name;

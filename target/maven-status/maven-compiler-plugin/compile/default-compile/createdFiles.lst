@@ -1,6 +1,7 @@
 com\objectify\datastore\enums\JSONType.class
 com\objectify\models\entities\UserManager.class
 com\objectify\datastore\XMLAdapter.class
+com\objectify\datastore\XMLAdapter$XMLWrapper.class
 com\objectify\models\items\ShoppingCart.class
 com\objectify\exceptions\CustomException.class
 com\objectify\Main.class
@@ -13,8 +14,8 @@ com\objectify\controllers\App.class
 com\objectify\models\entities\VIP.class
 com\objectify\models\transactions\Transaction.class
 com\objectify\datastore\OBJAdapter.class
+com\objectify\datastore\enums\XMLType.class
 com\objectify\datastore\DataStore.class
-com\objectify\datastore\testing\Orang.class
 com\objectify\models\transactions\Bill.class
 com\objectify\controllers\HomePage.class
 com\objectify\models\entities\User.class
