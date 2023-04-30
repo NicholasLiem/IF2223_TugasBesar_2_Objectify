@@ -1,63 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<XMLWrapper>
-    <Elements xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
-        <userID>1001</userID>
-        <activationStatus>true</activationStatus>
-        <UserTransactionHistory>
-            <Transactions>
-                <transactionId>102</transactionId>
-                <dateTime>now</dateTime>
-                <description>now</description>
-                <amount>10.0</amount>
-            </Transactions>
-        </UserTransactionHistory>
-        <name>Lala</name>
-        <phoneNumber>0812</phoneNumber>
-        <points>1000</points>
-    </Elements>
-    <Elements xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
-        <userID>1001</userID>
-        <activationStatus>true</activationStatus>
-        <UserTransactionHistory>
-            <Transactions>
-                <transactionId>102</transactionId>
-                <dateTime>now</dateTime>
-                <description>now</description>
-                <amount>10.0</amount>
-            </Transactions>
-        </UserTransactionHistory>
-        <name>Lala</name>
-        <phoneNumber>0812</phoneNumber>
-        <points>1000</points>
-    </Elements>
-    <Elements xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
-        <userID>1001</userID>
-        <activationStatus>true</activationStatus>
-        <UserTransactionHistory>
-            <Transactions>
-                <transactionId>102</transactionId>
-                <dateTime>now</dateTime>
-                <description>now</description>
-                <amount>10.0</amount>
-            </Transactions>
-        </UserTransactionHistory>
-        <name>Lala</name>
-        <phoneNumber>0812</phoneNumber>
-        <points>1000</points>
-    </Elements>
-    <Elements xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vip">
-        <userID>1001</userID>
-        <activationStatus>true</activationStatus>
-        <UserTransactionHistory>
-            <Transactions>
-                <transactionId>102</transactionId>
-                <dateTime>now</dateTime>
-                <description>now</description>
-                <amount>10.0</amount>
-            </Transactions>
-        </UserTransactionHistory>
-        <name>Helllo</name>
-        <phoneNumber>000</phoneNumber>
-        <points>1000</points>
-    </Elements>
-</XMLWrapper>
+<UserManager>
+    <Users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="customer">
+        <userID>0</userID>
+        <activationStatus>false</activationStatus>
+    </Users>
+    <Users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
+        <userID>0</userID>
+        <activationStatus>false</activationStatus>
+        <points>0</points>
+    </Users>
+    <Users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vip">
+        <userID>0</userID>
+        <activationStatus>false</activationStatus>
+        <points>0</points>
+    </Users>
+</UserManager>
