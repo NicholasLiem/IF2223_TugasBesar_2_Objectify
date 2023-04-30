@@ -1,17 +1,37 @@
 package com.objectify.datastore;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Optional;
 
-public interface DataStore {
+/**
+ * Data store khusus manager. Bisa dipakai untuk kelas lain, tetapi
+ * mungkin tidak berfungsi untuk collections
+ * 
+ * @param <T> Manager class
+ */
+public abstract class DataStore<T> {
 
+    /**
+     * Data ini akan dipakai untuk method write
+     * sehingga diharapkan berisi objek yang alamatnya
+     * tidak akan berubah
+     */
+    protected T data;
 
-    <T> void writeData(String jsonFileName, ArrayList<T> data) throws IOException;
+    abstract public void write();
+    
+    abstract public Optional<T> read();
+    
+    abstract public void delete();
 
-    <T> ArrayList<T> readData(String jsonFileName, Class<T> valueType) throws IOException;
-
-    void deleteData() throws IOException;
-
-    <T> void saveData(String jsonFileName, ArrayList<T> data) throws IOException;
-
+    /**
+     * Alamat variabel data memang diharapkan tidak berubah,
+     * tetapi jika suatu saat data tersebut harus berubah alamat
+     * maka method ini harus dipanggil untuk mengupdate alamat variabel tersebut
+     * 
+     * @param data variabel baru yang akan dipakai untuk operasi write
+     */
+    public void setData(T data) {
+        this.data = data;
+    }
 }

@@ -4,110 +4,71 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Optional;
 
-public class XMLAdapter implements DataStore {
-
-    private static XMLAdapter xmlAdapterInstance = null;
+public class XMLAdapter<T> extends DataStore<T> {
+    private final Class<T> cls;
     private Path xmlPath;
 
-    private XMLAdapter(){
-
-    }
-
-    public static synchronized XMLAdapter getInstance(){
-        if (xmlAdapterInstance == null){
-            xmlAdapterInstance = new XMLAdapter();
-        }
-        return xmlAdapterInstance;
+    public XMLAdapter(String filename, Class<T> cls) {
+        initializeFile(filename);
+        this.cls = cls;
     }
 
     @Override
-    public <T> void writeData(String xmlFileName, ArrayList<T> data) throws IOException {
+    public void write() {
         try {
-            initializeXMLData(xmlFileName);
-
-            XMLWrapper<T> wrapper = new XMLWrapper<>(data);
-            JAXBContext context = JAXBContext.newInstance(wrapper.getClass(), data.get(0).getClass());
+            JAXBContext context = JAXBContext.newInstance(cls);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(wrapper, new File(xmlPath.toString()));
-        } catch (JAXBException e) {
-            throw new IOException(e);
+            marshaller.marshal(data, new File(xmlPath.toString()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public <T> ArrayList<T> readData(String xmlFileName, Class<T> valueType) throws IOException {
+    public Optional<T> read() {
         try {
-            initializeXMLData(xmlFileName);
-            JAXBContext context = JAXBContext.newInstance(XMLWrapper.class, valueType);
+            JAXBContext context = JAXBContext.newInstance(cls);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            XMLWrapper<T> wrapper = (XMLWrapper<T>) unmarshaller.unmarshal(new File(xmlPath.toString()));
-            return wrapper.getData();
+            T result = (T) unmarshaller.unmarshal(xmlPath.toFile());
+            return Optional.of(result);
         } catch (JAXBException e) {
-            throw new IOException(e);
-        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void delete() {
+        try {
+            Files.deleteIfExists(xmlPath);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public void deleteData() throws IOException {
-        Files.delete(xmlPath);
+    public Path getXmlPath() {
+        return xmlPath;
     }
 
-    @Override
-    public <T> void saveData(String xmlFileName, ArrayList<T> data) throws IOException{
+    private void initializeFile(String filename) {
+        Path resPath = Paths.get("src", "resources", "XML");
         try {
-            ArrayList<T> existingData = readData(xmlFileName, (Class<T>) data.get(0).getClass());
-            existingData.addAll(data);
-            writeData(xmlFileName, existingData);
-        } catch (IOException e) {
-            writeData(xmlFileName, data);
-        }
-    }
-
-    public void initializeXMLData(String xmlFileName) throws Exception {
-        this.xmlPath = Paths.get("src", "resources", "XML", xmlFileName);
-        if(!Files.exists(this.xmlPath)) {
-            try {
-                Files.createFile(this.xmlPath);
-            } catch (IOException e) {
-                throw new IOException("Failed to create file " + xmlFileName);
+            if (!Files.exists(resPath)) {
+                Files.createDirectories(resPath);
             }
-        }
-    }
-
-    @XmlRootElement(name = "XMLWrapper")
-    public static class XMLWrapper<T> {
-
-        private ArrayList<T> data;
-
-        public XMLWrapper() {
-            data = new ArrayList<>();
-        }
-
-        public XMLWrapper(ArrayList<T> data) {
-            this.data = data;
-        }
-
-        @XmlElement(name = "Elements")
-        public ArrayList<T> getData() {
-            return data;
-        }
-
-        public void setData(ArrayList<T> data) {
-            this.data = data;
+            xmlPath = Paths.get(resPath.toString(), filename);
+            if (!Files.exists(xmlPath)) {
+                Files.createFile(xmlPath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create XML file: " + e.getMessage());
         }
     }
 }
