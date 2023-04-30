@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.objectify.models.transactions.TransactionHistory;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
@@ -15,13 +16,16 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso({Member.class, VIP.class, Customer.class})
-public abstract class User {
+public abstract class User implements Serializable {
+    private static final long serialVersionUID = 7695914912555037086L;
+    
     private int userID;
     private String type;
     private boolean activationStatus;
 
     @XmlElement(name = "UserTransactionHistory")
     private TransactionHistory transactionHistory;
+
     public User(int userID, boolean activationStatus, TransactionHistory transactionHistory) {
         this.userID = userID;
         this.activationStatus = activationStatus;

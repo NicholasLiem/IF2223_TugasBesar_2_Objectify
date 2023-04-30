@@ -4,10 +4,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @XmlRootElement(name = "Product")
 @XmlAccessorType (XmlAccessType.FIELD)
-public class Product {
+public class Product implements Serializable {
+    private static final long serialVersionUID = 730501466045521531L;
+    
     private int productStock;
     private String productName;
     private double productPrice;
@@ -75,5 +78,17 @@ public class Product {
 
     public void setProductImagePath(String productImagePath) {
         this.productImagePath = productImagePath;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productStock=" + productStock +
+                ", productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productBuyPrice=" + productBuyPrice +
+                ", category=" + category +
+                ", productImagePath='" + productImagePath + '\'' +
+                '}';
     }
 }

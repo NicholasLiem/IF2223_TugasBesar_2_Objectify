@@ -4,11 +4,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @XmlRootElement(name = "StorageManagerList")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class StorageManager {
+public class StorageManager implements Serializable {
+    private static final long serialVersionUID = 1265615619191872709L;
+    
     @XmlElement(name = "Products")
     private ArrayList<Product> products;
     public StorageManager(){
