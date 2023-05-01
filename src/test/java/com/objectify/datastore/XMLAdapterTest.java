@@ -40,10 +40,10 @@ class XMLAdapterTest {
     void read() throws InterruptedException {
         Thread.sleep(100);
         TransactionHistory writtenUserManager = dataStore.read().orElse(new TransactionHistory());
-        assertEquals(transactionHistory.getTransactionHistory().size(), writtenUserManager.getTransactionHistory().size());
-        for (int i = 0; i < transactionHistory.getTransactionHistory().size(); i++) {
-            String expected = transactionHistory.getTransactionHistory().get(i).toString();
-            String actual = writtenUserManager.getTransactionHistory().get(i).toString();
+        assertEquals(transactionHistory.getTransactions().size(), writtenUserManager.getTransactions().size());
+        for (int i = 0; i < transactionHistory.getTransactions().size(); i++) {
+            String expected = transactionHistory.getTransactions().get(i).toString();
+            String actual = writtenUserManager.getTransactions().get(i).toString();
             assertEquals(expected, actual);
         }
     }

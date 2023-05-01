@@ -1,5 +1,9 @@
 package com.objectify.models.items;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -9,27 +13,16 @@ import java.util.ArrayList;
 
 @XmlRootElement(name = "StorageManagerList")
 @XmlAccessorType(XmlAccessType.FIELD)
+@NoArgsConstructor @Getter @Setter
 public class StorageManager implements Serializable {
     private static final long serialVersionUID = 1265615619191872709L;
     
     @XmlElement(name = "Products")
-    private ArrayList<Product> products;
-    public StorageManager(){
-        this.products = new ArrayList<>();
-    }
-
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-    }
+    private ArrayList<Product> products = new ArrayList<>();
 
     public void addProduct(Product product){
         this.products.add(product);
     }
-
     public void removeProduct(Product product){
         this.products.remove(product);
     }
