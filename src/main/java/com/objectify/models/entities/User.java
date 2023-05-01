@@ -3,6 +3,7 @@ package com.objectify.models.entities;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.objectify.models.transactions.TransactionHistory;
+import lombok.*;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -16,45 +17,17 @@ import java.io.Serializable;
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso({Member.class, VIP.class, Customer.class})
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public abstract class User implements Serializable {
     private static final long serialVersionUID = 7695914912555037086L;
     
-    private int userID;
-    private String type;
-    private boolean activationStatus;
-
+    @Getter
+    protected int userID;
+    @Getter @Setter
+    protected boolean activationStatus;
     @XmlElement(name = "UserTransactionHistory")
-    private TransactionHistory transactionHistory;
-
-    public User(int userID, boolean activationStatus, TransactionHistory transactionHistory) {
-        this.userID = userID;
-        this.activationStatus = activationStatus;
-        this.transactionHistory = transactionHistory;
-    }
-
-    public User() {
-
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public boolean isActivationStatus() {
-        return activationStatus;
-    }
-
-    public void setActivationStatus(boolean activationStatus) {
-        this.activationStatus = activationStatus;
-    }
-
-    public TransactionHistory getTransactionHistory() {
-        return transactionHistory;
-    }
-
-    public void setTransactionHistory(TransactionHistory transactionHistory) {
-        this.transactionHistory = transactionHistory;
-    }
-
-    public abstract String toString();
+    @Getter @Setter
+    protected TransactionHistory transactionHistory;
 }
