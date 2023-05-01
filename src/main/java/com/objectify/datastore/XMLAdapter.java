@@ -1,26 +1,74 @@
 package com.objectify.datastore;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 
-public class XMLAdapter implements DataStore{
-    @Override
-    public <T> void writeData(String xmlFileName, ArrayList<T> data) throws IOException {
+public class XMLAdapter<T> implements DataStore<T> {
+    private final Class<T> cls;
+    private Path xmlPath;
 
+    public XMLAdapter(String filename, Class<T> cls) {
+        initializeFile(filename);
+        this.cls = cls;
     }
 
     @Override
-    public <T> ArrayList<T> readData(String xmlFileName, Class<T> valueType) throws IOException {
-        return null;
+    public void write(T data) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(cls);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(data, new File(xmlPath.toString()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void deleteData() throws IOException {
-
+    public Optional<T> read() {
+        try {
+            JAXBContext context = JAXBContext.newInstance(cls);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            T result = (T) unmarshaller.unmarshal(xmlPath.toFile());
+            return Optional.of(result);
+        } catch (JAXBException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public <T> void saveData(String xmlFileName, ArrayList<T> data) throws IOException{
+    public void delete() {
+        try {
+            Files.deleteIfExists(xmlPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public Path getXmlPath() {
+        return xmlPath;
+    }
+
+    private void initializeFile(String filename) {
+        Path resPath = Paths.get("src", "resources", "XML");
+        try {
+            if (!Files.exists(resPath)) {
+                Files.createDirectories(resPath);
+            }
+            xmlPath = Paths.get(resPath.toString(), filename);
+            if (!Files.exists(xmlPath)) {
+                Files.createFile(xmlPath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create XML file: " + e.getMessage());
+        }
     }
 }

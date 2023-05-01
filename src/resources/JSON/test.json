@@ -1,0 +1,24 @@
+{
+  "listOfUsers" : [ {
+    "type" : "Customer",
+    "userID" : 0,
+    "activationStatus" : false,
+    "transactionHistory" : null
+  }, {
+    "type" : "Member",
+    "userID" : 0,
+    "activationStatus" : false,
+    "transactionHistory" : null,
+    "name" : null,
+    "phoneNumber" : null,
+    "points" : 0
+  }, {
+    "type" : "VIP",
+    "userID" : 0,
+    "activationStatus" : false,
+    "transactionHistory" : null,
+    "name" : null,
+    "phoneNumber" : null,
+    "points" : 0
+  } ]
+}

@@ -2,14 +2,23 @@ package com.objectify.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.objectify.models.transactions.TransactionHistory;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+
 @JsonTypeName("VIP")
-public class VIP extends User{
+@XmlRootElement(name = "VIP")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class VIP extends User implements Serializable {
+    private static final long serialVersionUID = -7078300799080787479L;
 
     private String name;
     private String phoneNumber;
     private int points;
 
-    public VIP(){
+    public VIP() {
         super();
     }
 

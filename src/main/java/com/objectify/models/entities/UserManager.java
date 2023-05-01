@@ -1,13 +1,18 @@
 package com.objectify.models.entities;
 
-import com.objectify.datastore.JSONAdapter;
-import com.objectify.datastore.enums.JSONType;
-
-import java.io.IOException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserManager {
+@XmlRootElement(name = "UserManager")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class UserManager implements Serializable {
+    private static final long serialVersionUID = 1082101602017142362L;
 
+    @XmlElement(name = "Users")
     private ArrayList<User> listOfUsers;
 
     public UserManager() {

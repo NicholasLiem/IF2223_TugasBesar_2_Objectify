@@ -3,6 +3,7 @@ C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesa
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\items\ShoppingCart.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\DataStore.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\entities\VIP.java
+C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\enums\XMLType.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\Settings.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\OBJAdapter.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\items\Product.java
@@ -15,7 +16,6 @@ C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesa
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\enums\JSONType.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\items\StorageManager.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\entities\User.java
-C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\testing\Orang.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\XMLAdapter.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\controllers\App.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\SystemPointOfSales.java
