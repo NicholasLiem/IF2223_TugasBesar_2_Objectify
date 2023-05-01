@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-public class OBJAdapter<T> extends DataStore<T> {
+public class OBJAdapter<T> implements DataStore<T> {
     private Path objPath;
     
     public OBJAdapter(String filename) {
@@ -14,7 +14,7 @@ public class OBJAdapter<T> extends DataStore<T> {
     }
     
     @Override
-    public void write() {
+    public void write(T data) {
         try (OutputStream outputStream = Files.newOutputStream(objPath)) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(data);

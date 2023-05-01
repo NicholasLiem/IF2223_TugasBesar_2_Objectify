@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-public class XMLAdapter<T> extends DataStore<T> {
+public class XMLAdapter<T> implements DataStore<T> {
     private final Class<T> cls;
     private Path xmlPath;
 
@@ -21,7 +21,7 @@ public class XMLAdapter<T> extends DataStore<T> {
     }
 
     @Override
-    public void write() {
+    public void write(T data) {
         try {
             JAXBContext context = JAXBContext.newInstance(cls);
             Marshaller marshaller = context.createMarshaller();

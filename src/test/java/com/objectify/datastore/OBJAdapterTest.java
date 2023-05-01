@@ -23,8 +23,7 @@ class OBJAdapterTest {
     @Test
     @Order(1)
     void write() {
-        dataStore.setData(storageManager);
-        dataStore.write();
+        dataStore.write(storageManager);
 
         try {
             String contents = new String(Files.readAllBytes(dataStore.getObjPath()));

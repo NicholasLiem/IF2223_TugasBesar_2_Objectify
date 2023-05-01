@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class XMLAdapterTest {
 
-    private final TransactionHistory storageManager = new TransactionHistory();
+    private final TransactionHistory transactionHistory = new TransactionHistory();
 
     {
-        storageManager.addTransaction(new Transaction());
-        storageManager.addTransaction(new Transaction());
-        storageManager.addTransaction(new Transaction());
+        transactionHistory.addTransaction(new Transaction());
+        transactionHistory.addTransaction(new Transaction());
+        transactionHistory.addTransaction(new Transaction());
     }
 
     private final XMLAdapter<TransactionHistory> dataStore = new XMLAdapter<>("test.xml", TransactionHistory.class);
@@ -25,8 +25,7 @@ class XMLAdapterTest {
     @Test
     @Order(1)
     void write() {
-        dataStore.setData(storageManager);
-        dataStore.write();
+        dataStore.write(transactionHistory);
 
         try {
             String contents = new String(Files.readAllBytes(dataStore.getXmlPath()));
@@ -41,9 +40,9 @@ class XMLAdapterTest {
     void read() throws InterruptedException {
         Thread.sleep(100);
         TransactionHistory writtenUserManager = dataStore.read().orElse(new TransactionHistory());
-        assertEquals(storageManager.getTransactionHistory().size(), writtenUserManager.getTransactionHistory().size());
-        for (int i = 0; i < storageManager.getTransactionHistory().size(); i++) {
-            String expected = storageManager.getTransactionHistory().get(i).toString();
+        assertEquals(transactionHistory.getTransactionHistory().size(), writtenUserManager.getTransactionHistory().size());
+        for (int i = 0; i < transactionHistory.getTransactionHistory().size(); i++) {
+            String expected = transactionHistory.getTransactionHistory().get(i).toString();
             String actual = writtenUserManager.getTransactionHistory().get(i).toString();
             assertEquals(expected, actual);
         }

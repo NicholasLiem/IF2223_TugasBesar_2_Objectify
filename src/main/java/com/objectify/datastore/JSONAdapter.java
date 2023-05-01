@@ -1,7 +1,5 @@
 package com.objectify.datastore;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
@@ -12,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-public class JSONAdapter<T> extends DataStore<T> {
+public class JSONAdapter<T> implements DataStore<T> {
 
     private Path jsonPath;
     private final ObjectMapper mapper;
@@ -25,7 +23,7 @@ public class JSONAdapter<T> extends DataStore<T> {
     }
 
     @Override
-    public void write() {
+    public void write(T data) {
         assert(data.getClass().equals(cls));
         try {
             mapper.writeValue(jsonPath.toFile(), data);
