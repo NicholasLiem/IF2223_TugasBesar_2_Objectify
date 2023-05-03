@@ -1,8 +1,10 @@
 package com.objectify;
 
-import java.io.IOException;
+import com.objectify.controllers.App;
+import javafx.application.Application;
 
 public class Main {
     public static void main(String[] args) {
+        Application.launch(App.class, args);
     }
 }

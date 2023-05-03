@@ -1,32 +1,44 @@
 package com.objectify.controllers;
 
+import com.objectify.controllers.components.menubar.MenuBarManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
-
-    private Map<String, Scene> scenes = new HashMap<>();
-
     @Override
     public void start(Stage primaryStage) {
-        // Create instances of each scene with the appropriate root node and dimensions
-        StackPane homeRoot = new StackPane(); // Example root node for the home page scene
-        HomePage homePage = new HomePage(homeRoot, 800, 600, scenes);
-        StackPane aboutRoot = new StackPane(); // Example root node for the about page scene
-        AboutPage aboutPage = new AboutPage(aboutRoot, 800, 600);
-        scenes.put("home", homePage);
-        scenes.put("about", aboutPage);
+        TabPane tabPane = new TabPane();
+        MenuBarManager mbManager = new MenuBarManager(tabPane);
+        // Membuat objek TabPane
 
-        // Set the initial scene to the home page
-        primaryStage.setScene(homePage);
+
+        // Membuat objek MenuBar
+        MenuBar menuBar = mbManager.getMenuBar();
+
+        // Membuat objek BorderPane sebagai root node
+        BorderPane root = new BorderPane();
+
+        // Menambahkan TabPane dan MenuBar ke BorderPane
+        root.setCenter(tabPane);
+        root.setTop(menuBar);
+
+        // Membuat objek Scene dengan BorderPane sebagai root node
+        Scene scene = new Scene(root, 800, 600);
+
+        // Menampilkan Scene di dalam Stage
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Objectify Manager");
+        //  primaryStage.getIcons().add(new Image("myIcon.png"));
         primaryStage.show();
     }
 
