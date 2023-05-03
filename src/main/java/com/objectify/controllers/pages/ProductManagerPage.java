@@ -90,21 +90,34 @@ public class ProductManagerPage extends GridPane {
 
         Button submitButton = new Button("Add Product");
         submitButton.setOnAction(event -> {
-            StorageManager storageManager = StorageManager.getInstance();
+            StorageManager productManager = StorageManager.getInstance();
 
             // Parse input fields
             String name = nameField.getText();
-            int stock = Integer.parseInt(stockField.getText());
-            double price = Double.parseDouble(priceField.getText());
-            double buyPrice = Double.parseDouble(buyPriceField.getText());
+            int stock = 0;
+            double price = 0.0;
+            double buyPrice = 0.0;
             Category category = categoryComboBox.getValue();
             String imagePath = imagePathField.getText();
+
+            try {
+                stock = Integer.parseInt(stockField.getText());
+                price = Double.parseDouble(priceField.getText());
+                buyPrice = Double.parseDouble(buyPriceField.getText());
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Invalid input");
+                alert.setContentText("Stock, price, and buy price must be numbers");
+                alert.showAndWait();
+                return;
+            }
 
             // Create new product
             Product product = new Product(stock, name, price, buyPrice, category, imagePath);
 
             // Add product to product manager
-            storageManager.addProduct(product);
+            productManager.addProduct(product);
 
             // Clear input fields
             clearFields();
