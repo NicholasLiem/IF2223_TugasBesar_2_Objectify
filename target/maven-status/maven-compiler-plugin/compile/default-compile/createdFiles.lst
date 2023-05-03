@@ -18,7 +18,9 @@ com\objectify\models\entities\VIP.class
 com\objectify\models\transactions\Transaction.class
 com\objectify\controllers\pages\CashierPage.class
 com\objectify\datastore\OBJAdapter.class
+com\objectify\controllers\scenes\LandingScene.class
 com\objectify\datastore\DataStore.class
+com\objectify\controllers\scenes\MainScene.class
 com\objectify\controllers\components\menubar\MenuBarManager.class
 com\objectify\models\transactions\Bill.class
 com\objectify\controllers\pages\RegisterMemberPage.class

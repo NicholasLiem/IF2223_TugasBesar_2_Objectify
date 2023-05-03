@@ -14,35 +14,41 @@ public class FileMenu extends Menu {
         super("File");
         Menu newTab = new Menu("New Tab");
         MenuItem cashierTab = new MenuItem("Cashier Tab");
-//        MenuItem productTab =  new MenuItem("Product Manager Tab");
         MenuItem registerMemberTab = new MenuItem("Register Member Tab");
-//        MenuItem memberManagerTab = new MenuItem("Member Manager Tab");
         MenuItem billHistoryTab = new MenuItem("Bill History Tab");
         newTab.getItems().addAll(cashierTab, registerMemberTab, billHistoryTab);
 
         this.getItems().addAll(newTab);
         cashierTab.setOnAction(event -> {
             Pane newPage = new Pane();
-            Tab newPaneTab = new Tab("Cashier Tab", newPage);
+            Tab newPaneTab = new Tab("Cashier", newPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);
         });
 
         registerMemberTab.setOnAction(event -> {
             GridPane rmPage = new RegisterMemberPage();
-            Tab newPaneTab = new Tab("Register Member Tab", rmPage);
+            Tab newPaneTab = new Tab("Register Member", rmPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);
         });
 
         billHistoryTab.setOnAction(event -> {
             Pane newPage = new Pane();
-            Tab newPaneTab = new Tab("Bill History Tab", newPage);
+            Tab newPaneTab = new Tab("Bill History", newPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);
         });
 
-        // add event handler for openMenuItem if needed
+        MenuItem settingsTab = new MenuItem("Settings");
+        this.getItems().add(settingsTab);
+        settingsTab.setOnAction(event -> {
+            Pane newPage = new Pane();
+            Tab newPaneTab = new Tab("Settings", newPage);
+            tabPane.getTabs().add(newPaneTab);
+            tabPane.getSelectionModel().select(newPaneTab);
+        });
+
     }
 }
 
