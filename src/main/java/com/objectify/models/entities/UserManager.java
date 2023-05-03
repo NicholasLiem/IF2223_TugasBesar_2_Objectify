@@ -11,13 +11,19 @@ import java.util.ArrayList;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserManager implements Serializable {
     private static final long serialVersionUID = 1082101602017142362L;
-
+    private static UserManager instance;
     @XmlElement(name = "Users")
     private ArrayList<User> listOfUsers;
 
-    public UserManager() {
-
+    private UserManager() {
         this.listOfUsers = new ArrayList<>();
+    }
+
+    public static synchronized UserManager getInstance() {
+        if (instance == null) {
+            instance = new UserManager();
+        }
+        return instance;
     }
 
     public void addUser(User user){
@@ -41,3 +47,4 @@ public class UserManager implements Serializable {
         this.listOfUsers = listOfUsers;
     }
 }
+

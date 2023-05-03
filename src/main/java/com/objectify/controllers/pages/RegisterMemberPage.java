@@ -1,8 +1,6 @@
 package com.objectify.controllers.pages;
 
-import com.objectify.models.entities.Customer;
-import com.objectify.models.entities.Member;
-import com.objectify.models.entities.VIP;
+import com.objectify.models.entities.*;
 import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -83,13 +81,14 @@ public class RegisterMemberPage extends GridPane {
         Button submitButton = new Button("Create Member");
         submitButton.setOnAction(event -> {
             String selectedMembership = membershipComboBox.getValue();
+            UserManager userManager = UserManager.getInstance();
 
             switch (selectedMembership) {
                 case "Customer":
                     Customer customer = new Customer();
                     customer.setActivationStatus(true);
 
-                    // TODO: Simpan data customer ke database
+                    userManager.addUser(customer);
                     break;
                 case "Member":
                     TransactionHistory th = new TransactionHistory();
@@ -99,7 +98,7 @@ public class RegisterMemberPage extends GridPane {
                     }
                     Member member = new Member(123, true, th, nameField.getText(), phoneNumberField.getText(), points);
 
-                    // TODO: Simpan data member ke database
+                    userManager.addUser(member);
                     break;
                 case "VIP":
                     TransactionHistory thNew = new TransactionHistory();
@@ -109,10 +108,12 @@ public class RegisterMemberPage extends GridPane {
                     }
                     VIP vip = new VIP(123, true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
 
-                    // TODO: Simpan data VIP ke database
+                    userManager.addUser(vip);
                     break;
             }
-
+            for (User u: userManager.getListOfUsers()){
+                System.out.println(u.toString());
+            }
             clearFields();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");

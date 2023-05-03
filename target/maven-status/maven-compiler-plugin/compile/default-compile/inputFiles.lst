@@ -3,7 +3,6 @@ C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesa
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\items\ShoppingCart.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\DataStore.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\entities\VIP.java
-C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\enums\XMLType.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\Settings.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\OBJAdapter.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\items\Product.java
@@ -16,7 +15,6 @@ C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesa
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\transactions\TransactionHistory.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\enums\TransactionsDataStore.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\entities\Customer.java
-C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\enums\JSONType.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\items\StorageManager.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\controllers\pages\RegisterMemberPage.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\controllers\components\menus\AdminMenu.java
@@ -25,6 +23,7 @@ C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesa
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\controllers\App.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\SystemPointOfSales.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\Main.java
+C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\controllers\pages\CashierPage.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\models\items\CategoryManager.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\enums\ProductDataStore.java
 C:\Users\nicho\Desktop\Programming Repository\GitHub Repository\IF2223_TugasBesar_2_Objectify\src\main\java\com\objectify\datastore\enums\UserDataStore.java

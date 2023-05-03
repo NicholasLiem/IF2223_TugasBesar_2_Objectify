@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OBJAdapterTest {
 
-    private final StorageManager storageManager = new StorageManager();
+    StorageManager storageManager = StorageManager.getInstance();
     {
         storageManager.addProduct(new Product());
         storageManager.addProduct(new Product());
@@ -37,7 +37,7 @@ class OBJAdapterTest {
     @Order(2)
     void read() throws InterruptedException {
         Thread.sleep(100);
-        StorageManager writtenUserManager = dataStore.read().orElse(new StorageManager());
+        StorageManager writtenUserManager = dataStore.read().orElse(StorageManager.getInstance());
         assertEquals(storageManager.getProducts().size(), writtenUserManager.getProducts().size());
         for (int i = 0; i < storageManager.getProducts().size(); i++) {
             String expected = storageManager.getProducts().get(i).toString();

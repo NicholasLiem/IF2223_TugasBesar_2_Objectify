@@ -1,9 +1,6 @@
 package com.objectify.datastore;
 
-import com.objectify.models.entities.Customer;
-import com.objectify.models.entities.Member;
-import com.objectify.models.entities.UserManager;
-import com.objectify.models.entities.VIP;
+import com.objectify.models.entities.*;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JSONAdapterTest {
 
-    private final UserManager userManager = new UserManager();
+    UserManager userManager = UserManager.getInstance();
     {
         userManager.addUser(new Customer());
         userManager.addUser(new Member());
@@ -40,7 +37,7 @@ class JSONAdapterTest {
     @Order(2)
     void read() throws InterruptedException {
         Thread.sleep(100);
-        UserManager writtenUserManager = dataStore.read().orElse(new UserManager());
+        UserManager writtenUserManager = dataStore.read().orElse(UserManager.getInstance());
         assertEquals(userManager.getListOfUsers().size(), writtenUserManager.getListOfUsers().size());
         for (int i = 0; i < userManager.getListOfUsers().size(); i++) {
             String expected = userManager.getListOfUsers().get(i).toString();
