@@ -1,4 +1,5 @@
 com\objectify\models\entities\UserManager.class
+com\objectify\controllers\pages\DashboardPane.class
 com\objectify\datastore\XMLAdapter.class
 com\objectify\datastore\enums\ProductDataStore.class
 com\objectify\models\items\ShoppingCart.class
