@@ -1,13 +1,19 @@
 package com.objectify.datastore;
 
 import java.io.IOException;
+import java.util.Optional;
 
-public interface DataStore {
+/**
+ * Data store khusus manager. Bisa dipakai untuk kelas lain, tetapi
+ * mungkin tidak berfungsi untuk collections
+ * 
+ * @param <T> non-collection class
+ */
+public interface DataStore<T> {
 
-    void writeData(Object data) throws IOException;
-
-    Object readData() throws IOException;
-
-    void deleteData() throws IOException;
-
+    void write(T data);
+    
+    Optional<T> read();
+    
+    void delete();
 }

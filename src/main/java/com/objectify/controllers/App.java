@@ -1,49 +1,29 @@
 package com.objectify.controllers;
 
+import com.objectify.controllers.components.menubar.MenuBarManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class App extends Application {
 
+/**
+ * JavaFX App
+ */
+public class App extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // Membuat objek TabPane
+    public void start(Stage primaryStage) {
         TabPane tabPane = new TabPane();
+        MenuBarManager mbManager = new MenuBarManager(tabPane);
+        // Membuat objek TabPane
+
 
         // Membuat objek MenuBar
-        MenuBar menuBar = new MenuBar();
-
-        // Membuat objek Menu
-        Menu fileMenu = new Menu("File");
-
-        // Membuat objek MenuItem
-        MenuItem newMenuItem = new MenuItem("New");
-        MenuItem openMenuItem = new MenuItem("Open");
-
-        // Menambahkan MenuItem ke Menu
-        fileMenu.getItems().addAll(newMenuItem, openMenuItem);
-
-        // Menambahkan Menu ke MenuBar
-        menuBar.getMenus().add(fileMenu);
-
-        // Membuat objek Page
-        Pane page1 = new Pane();
-        Pane page2 = new Pane();
-
-        // Membuat objek Tab
-        Tab tab1 = new Tab("Tab 1", page1);
-        Tab tab2 = new Tab("Tab 2", page2);
-
-        // Menambahkan Tab ke TabPane
-        tabPane.getTabs().addAll(tab1, tab2);
+        MenuBar menuBar = mbManager.getMenuBar();
 
         // Membuat objek BorderPane sebagai root node
         BorderPane root = new BorderPane();
@@ -57,6 +37,12 @@ public class App extends Application {
 
         // Menampilkan Scene di dalam Stage
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Objectify Manager");
+        //  primaryStage.getIcons().add(new Image("myIcon.png"));
         primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
     }
 }
