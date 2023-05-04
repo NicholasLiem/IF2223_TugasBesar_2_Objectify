@@ -1,3 +1,4 @@
+com\objectify\exceptions\ItemNotFoundException.class
 com\objectify\models\entities\UserManager.class
 com\objectify\controllers\pages\DashboardPane.class
 com\objectify\datastore\XMLAdapter.class
