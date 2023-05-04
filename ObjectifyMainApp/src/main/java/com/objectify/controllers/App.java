@@ -6,6 +6,7 @@ import com.objectify.models.entities.User;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.StorageManager;
+import com.objectify.models.transactions.TransactionManager;
 import javafx.application.Application;
 import com.objectify.controllers.scenes.MainScene;
 import javafx.stage.Stage;
@@ -17,6 +18,8 @@ public class App extends Application {
     private CategoryManager categoryManager = CategoryManager.getInstance();
     private StorageManager storageManager = StorageManager.getInstance();
 
+    private TransactionManager transactionManager = TransactionManager.getInstance();
+    private MainScene mainScene = new MainScene();
     @Override
     public void start(Stage primaryStage) {
         MainScene mainScene = new MainScene();
