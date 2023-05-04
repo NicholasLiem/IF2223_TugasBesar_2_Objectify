@@ -7,6 +7,15 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/BasePlugin/pom.xml" />
+        <option value="$PROJECT_DIR$/EPSPlugin/pom.xml" />
+        <option value="$PROJECT_DIR$/LineBarChartPlugin/pom.xml" />
+        <option value="$PROJECT_DIR$/ObjectifySPI/pom.xml" />
+        <option value="$PROJECT_DIR$/PieChartPlugin/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="PWA">
     <option name="enabled" value="true" />

@@ -8,6 +8,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class RegisterMemberPage extends GridPane {
 
     private Label nameLabel;
@@ -19,9 +23,14 @@ public class RegisterMemberPage extends GridPane {
     private TextField pointsField;
 
     public RegisterMemberPage() {
+        this.getStyleClass().add("background");
         this.setPadding(new Insets(10));
         this.setHgap(10);
         this.setVgap(10);
+
+        Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
+        String cssUrl = cssPath.toUri().toString();
+        this.getStylesheets().add(cssUrl);
 
 
         // Create radio buttons for membership types

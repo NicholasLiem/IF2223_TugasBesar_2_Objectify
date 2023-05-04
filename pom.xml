@@ -12,12 +12,7 @@
 
     <modules>
         <module>ObjectifyMainApp</module>
-        <module>ObjectifySPI</module>
         <module>CurrencyPlugin</module>
-        <module>EPSPlugin</module>
-        <module>BasePlugin</module>
-        <module>LineBarChartPlugin</module>
-        <module>PieChartPlugin</module>
     </modules>
 
 </project>

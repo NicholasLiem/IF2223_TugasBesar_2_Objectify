@@ -2,10 +2,12 @@ package com.objectify.controllers.components.menubar;
 
 import com.objectify.controllers.components.menus.AdminMenu;
 import com.objectify.controllers.components.menus.FileMenu;
+import com.objectify.controllers.components.menus.PluginMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
+import jdk.tools.jlink.plugin.Plugin;
 
 public class MenuBarManager {
     private MenuBar menuBar;
@@ -40,6 +42,7 @@ public class MenuBarManager {
     public void initialiseMenus(){
         FileMenu fm = new FileMenu(this.tabPane);
         AdminMenu am = new AdminMenu(this.tabPane);
-        menuBar.getMenus().addAll(fm, am);
+        PluginMenu pm = new PluginMenu(this.tabPane);
+        menuBar.getMenus().addAll(fm, am, pm);
     }
 }
