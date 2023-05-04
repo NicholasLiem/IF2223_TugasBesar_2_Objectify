@@ -1,26 +1,103 @@
 package com.objectify.models.items;
+import com.objectify.exceptions.ItemNotFoundException;
 
+import com.objectify.models.entities.UserManager;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StorageManager {
+@XmlRootElement(name = "StorageManagerList")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class StorageManager implements Serializable {
+    private static final long serialVersionUID = 1265615619191872709L;
+    private static StorageManager instance;
+    @XmlElement(name = "Products")
     private ArrayList<Product> products;
-    public StorageManager(){
+
+    public static synchronized StorageManager getInstance() {
+        if (instance == null) {
+            instance = new StorageManager();
+        }
+        return instance;
+    }
+
+    private StorageManager(){
         this.products = new ArrayList<>();
     }
-
-    public ArrayList<Product> getProducts() {
-        return products;
+    private ArrayList<Product> listOfProducts;
+    public void addNewProducts(Product new_items){
+        this.listOfProducts.add(new_items);
+    }
+    public ArrayList<Product> getProducts(){
+        return this.listOfProducts;
+    }
+    public void editProduct(int product_id, Product new_products){
+        for (Product products : this.listOfProducts){
+            if(products.getIdProduct() == product_id){
+                products.setProductStock(new_products.getProductStock());
+                products.setProductName(new_products.getProductName());
+                products.setProductPrice(new_products.getProductPrice());
+                products.setProductBuyPrice(new_products.getProductBuyPrice());
+                products.setCategory(new_products.getProductCategory());
+                products.setProductImagePath(new_products.getProductImagePath());
+            }
+        }
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
+
+    public ArrayList<Product> searchItemByName(String name) throws ItemNotFoundException{
+        ArrayList<Product>results = new ArrayList<>();
+        for(Product products : this.listOfProducts){
+            if(products.getProductName().toLowerCase().contains(name.toLowerCase())) {
+                results.add(products);
+            }
+        }
+        if(results.size() != 0){
+            return results;
+        }else{
+//            Throw error kalau tidak terdapat item yang dicari
+            throw new ItemNotFoundException();
+        }
+    };
+
+    public ArrayList<Product> searchByCategory(String category) throws ItemNotFoundException{
+        ArrayList<Product> results = new ArrayList<>();
+        for(Product product : this.listOfProducts){
+            if(product.getProductCategory().getName().toLowerCase().contains(category.toLowerCase())){
+                results.add(product);
+            }
+        }
+        if(results.size() != 0){
+            return results;
+        }else{
+            throw new ItemNotFoundException();
+        }
+    };
+
+    public ArrayList<Product> searchByPrice(String price) throws  ItemNotFoundException{
+        ArrayList<Product> results = new ArrayList<>();
+        for(Product product : this.listOfProducts){
+            if(Double.toString(product.getProductPrice()).toLowerCase().contains(price.toLowerCase())){
+                results.add(product);
+            }
+        }
+        if(results.size() != 0){
+            return results;
+        }else{
+            throw new ItemNotFoundException();
+        }
     }
 
-    public void addProduct(Product product){
-        this.products.add(product);
-    }
-
-    public void removeProduct(Product product){
-        this.products.remove(product);
+    public void showProducts(){
+        for(Product product : this.listOfProducts){
+            System.out.println("Products : ");
+            System.out.println(product.getProductName());
+            System.out.println(product.getIdProduct());
+            System.out.println(product.getProductStock());
+        }
     }
 }

@@ -1,21 +1,42 @@
 package com.objectify.models.items;
 
-public class Product {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+
+@XmlRootElement(name = "Product")
+@XmlAccessorType (XmlAccessType.FIELD)
+public class Product implements Serializable {
+    private static final long serialVersionUID = 730501466045521531L;
+    
+    private static int totalProducts = 0;
+    private int idProduct;
     private int productStock;
     private String productName;
     private double productPrice;
     private double productBuyPrice;
-    private Category productCategory;
+
+    @XmlElement(name = "ProductCategory")
+    private Category category;
     private String productImagePath;
 
+    public Product(){
+
+    }
     public Product(int productStock, String productName, double productPrice, double productBuyPrice, Category productCategory, String productImagePath) {
+        this.idProduct = totalProducts+1;
         this.productStock = productStock;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productBuyPrice = productBuyPrice;
-        this.productCategory = productCategory;
+        this.category = productCategory;
         this.productImagePath = productImagePath;
+        totalProducts++;
     }
+
+    public  int getIdProduct(){return this.idProduct;}
 
     public int getProductStock() {
         return productStock;
@@ -50,11 +71,11 @@ public class Product {
     }
 
     public Category getProductCategory() {
-        return productCategory;
+        return category;
     }
 
-    public void setProductCategory(Category productCategory) {
-        this.productCategory = productCategory;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getProductImagePath() {
@@ -63,5 +84,17 @@ public class Product {
 
     public void setProductImagePath(String productImagePath) {
         this.productImagePath = productImagePath;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productStock=" + productStock +
+                ", productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productBuyPrice=" + productBuyPrice +
+                ", category=" + category +
+                ", productImagePath='" + productImagePath + '\'' +
+                '}';
     }
 }
