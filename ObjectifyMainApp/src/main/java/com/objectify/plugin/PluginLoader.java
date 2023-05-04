@@ -20,6 +20,5 @@ public class PluginLoader {
         Object spiInstance = spiClass.newInstance();
 
         Method loadMethod = pluginClass.getDeclaredMethod("load", Settings.class, spiClass);
-        loadMethod.invoke(pluginInstance, settings, spiInstance);
-    }
+        loadMethod.invoke(pluginInstance, settings, spiInstance);    }
 }
