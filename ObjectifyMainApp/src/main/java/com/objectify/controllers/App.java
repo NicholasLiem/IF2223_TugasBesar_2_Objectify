@@ -2,11 +2,11 @@ package com.objectify.controllers;
 
 import com.objectify.controllers.scenes.LandingScene;
 import com.objectify.datastore.Settings;
-import com.objectify.models.entities.User;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.TransactionManager;
+import com.objectify.plugin.PluginLoader;
 import javafx.application.Application;
 import com.objectify.controllers.scenes.MainScene;
 import javafx.stage.Stage;
@@ -21,16 +21,18 @@ public class App extends Application {
     private TransactionManager transactionManager = TransactionManager.getInstance();
     private MainScene mainScene = new MainScene();
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
+        PluginLoader pluginLoader = new PluginLoader(this);
+        String pluginName = "CurrencyPlugin-v1.0.jar";
+        String currentWorkingDirectory = System.getProperty("user.dir");
+        String pluginJarFilePath = currentWorkingDirectory + "\\CurrencyPlugin\\target\\" + pluginName;
+
+        pluginLoader.loadPlugin(pluginJarFilePath);
         MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 
         primaryStage.setScene(landingScene);
         primaryStage.setTitle("Objectify Manager");
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

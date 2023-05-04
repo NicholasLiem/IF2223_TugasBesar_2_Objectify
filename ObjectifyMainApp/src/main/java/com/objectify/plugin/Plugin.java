@@ -9,7 +9,7 @@ public abstract class Plugin {
         this.name = name;
     }
 
-    abstract public void onLoad(App appContext);
+    abstract public void onEnable(App appContext);
     abstract public void onDisable();
 
 }

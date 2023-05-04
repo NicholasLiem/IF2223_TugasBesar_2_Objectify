@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <groupId>com.objectify</groupId>
+    <groupId>com.objectifyCurrencyPlugin</groupId>
     <artifactId>CurrencyPlugin</artifactId>
     <version>v1.0</version>
 
@@ -20,6 +20,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.objectifyMainApp</groupId>
+            <artifactId>ObjectifyMainApp</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>
