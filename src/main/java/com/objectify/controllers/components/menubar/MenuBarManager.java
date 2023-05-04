@@ -2,12 +2,12 @@ package com.objectify.controllers.components.menubar;
 
 import com.objectify.controllers.components.menus.AdminMenu;
 import com.objectify.controllers.components.menus.FileMenu;
+import com.objectify.controllers.scenes.LandingScene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
-
-import java.io.File;
+import javafx.stage.Stage;
 
 public class MenuBarManager {
     private MenuBar menuBar;
