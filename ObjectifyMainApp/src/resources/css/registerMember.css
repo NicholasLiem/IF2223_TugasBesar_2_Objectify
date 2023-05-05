@@ -29,4 +29,14 @@
     -fx-background-radius: 20px;
 }
 
+.submit-btn{
+    -fx-padding : 8px;
+    -fx-background-radius: 20px;
+    -fx-background-color : "#6B62B9";
+    -fx-text-fill : "#FFFCFF";
+    -fx-cursor : pointer;
+ }
 
+.submit-btn:hover{
+    -fx-opacity : 0.5;
+}

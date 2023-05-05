@@ -5,6 +5,7 @@ import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -46,41 +47,44 @@ public class RegisterMemberPage extends Pane {
         title.getStyleClass().add("title");
         titleContainer.getChildren().add(title);
 
-//        Row untuk select membertype
-        HBox firstLine = new HBox();
-        firstLine.setSpacing(20);
-        firstLine.setMaxWidth(Double.MAX_VALUE);
+        HBox container = new HBox();
+        container.setMaxWidth(Double.MAX_VALUE);
+        container.setSpacing(30);
+        container.setPadding(new Insets(30,0,0,80));
+
+        VBox labelCol = new VBox();
+        labelCol.setSpacing(40);
+        labelCol.setMaxHeight(Double.MAX_VALUE);
+        Label membership = new Label("Membership Type: ");
+        this.nameLabel = new Label("Name:");
+        this.phoneNumberLabel = new Label("Phone Number:");
+        this.pointsLabel = new Label("Points:");
+        this.nameLabel.getStyleClass().add("sub-title");
+        phoneNumberLabel.getStyleClass().add("sub-title");
+        pointsLabel.getStyleClass().add("sub-title");
+        labelCol.getChildren().addAll(membership,nameLabel,phoneNumberLabel,pointsLabel);
+
+        VBox fieldCol = new VBox();
+        fieldCol.setSpacing(40);
+        fieldCol.setMaxHeight(Double.MAX_VALUE);
         ComboBox<String> membershipComboBox = new ComboBox<>();
         membershipComboBox.getItems().addAll("Customer", "Member", "VIP");
         membershipComboBox.setValue("Customer");
-        Label membership = new Label("Membership Type: ");
         membership.getStyleClass().add("sub-title");
-        firstLine.setAlignment(Pos.CENTER_LEFT);
         membershipComboBox.setPadding(new Insets(3));
         membershipComboBox.getStyleClass().add("combo-box");
-        firstLine.setPadding(new Insets(20,0,0,50));
-        firstLine.getChildren().addAll(membership,membershipComboBox);
-        HBox.setHgrow(firstLine, Priority.ALWAYS); // tambahkan baris ini
+        this.nameField = new TextField();
+        this.phoneNumberField = new TextField();
+        this.pointsField = new TextField();
+        nameField.setPrefWidth(400);
+        fieldCol.getChildren().addAll(membershipComboBox,nameField,phoneNumberField,pointsField);
 
-//        Row kedua
-        HBox secondLine = new HBox();
-        secondLine.setSpacing(110);
-        secondLine.setMaxWidth(Double.MAX_VALUE);
+        container.getChildren().addAll(labelCol,fieldCol);
 
-        Label nameLabel = new Label("Name:");
-        nameLabel.getStyleClass().add("sub-title");
-        secondLine.setAlignment(Pos.CENTER_LEFT);
-        secondLine.setPadding(new Insets(20,0,0,50));
-        TextField nameField = new TextField();
-        secondLine.getChildren().addAll(nameLabel,nameField);
-        nameField.setPrefWidth(450);
-        HBox.setHgrow(secondLine, Priority.ALWAYS); // tambahkan baris ini
-
-//        Masukin semua element ke dalam forms
-        forms.getChildren().addAll(titleContainer,firstLine,secondLine);
+        forms.getChildren().addAll(titleContainer,container);
         forms.getStyleClass().add("forms");
         forms.setPadding(new Insets(20,0,0,30));
-        forms.setPrefWidth(0.5*Region.USE_COMPUTED_SIZE); // 60% width
+        forms.setPrefWidth(0.6*Region.USE_COMPUTED_SIZE); // 60% width
 
         VBox userPicture = new VBox();
         userPicture.getStyleClass().add("pict-container");
@@ -88,7 +92,7 @@ public class RegisterMemberPage extends Pane {
         userPicture.setAlignment(Pos.TOP_CENTER);
         userPicture.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         userPicture.getChildren().add(new Label("Hello"));
-        userPicture.setPrefWidth(0.5*Region.USE_COMPUTED_SIZE); // 40% width
+        userPicture.setPrefWidth(0.4*Region.USE_COMPUTED_SIZE); // 40% width
 
         // Set the grow priority for the userPicture VBox to Priority.ALWAYS
         HBox.setHgrow(forms, Priority.ALWAYS);
@@ -108,100 +112,70 @@ public class RegisterMemberPage extends Pane {
         row.setMaxWidth(Double.MAX_VALUE);
 
         this.getChildren().addAll(mainContainer);
-//
-        // Create labels for member fields
+        membershipComboBox.setOnAction(event -> {
+            String membershipType = membershipComboBox.getValue();
+            if (membershipType.equals("Customer")) {
+                nameField.setDisable(true);
+                phoneNumberField.setDisable(true);
+                pointsField.setDisable(true);
+            } else {
+                nameField.setDisable(false);
+                phoneNumberField.setDisable(false);
+                pointsField.setDisable(false);
+            }
+        });
+        Button submitButton = new Button("Create Member");
+        submitButton.getStyleClass().add("submit-btn");
+        submitButton.setOnAction(event -> {
+            String selectedMembership = membershipComboBox.getValue();
+            UserManager userManager = UserManager.getInstance();
 
-        Label phoneNumberLabel = new Label("Phone Number:");
-        Label pointsLabel = new Label("Points:");
-//
-//        // Create text fields for member fields
-        TextField phoneNumberField = new TextField();
-        TextField pointsField = new TextField();
-//
-//        // Add member fields to grid pane
-//        add(nameLabel, 0, 1);
-//        add(nameField, 1, 1);
-//        add(phoneNumberLabel, 0, 2);
-//        add(phoneNumberField, 1, 2);
-//        add(pointsLabel, 0, 3);
-//        add(pointsField, 1, 3);
-//
-//        // Set font size for labels and fields
-//        nameLabel.setFont(Font.font(12));
-//        phoneNumberLabel.setFont(Font.font(12));
-//        pointsLabel.setFont(Font.font(12));
-//        nameField.setFont(Font.font(12));
-//        phoneNumberField.setFont(Font.font(12));
-//        pointsField.setFont(Font.font(12));
+            switch (selectedMembership) {
+                case "Customer":
+                    Customer customer = new Customer();
+                    customer.setActivationStatus(true);
+                    System.out.println("Masuk ke customer");
+                    System.out.println(customer);
+                    userManager.addUser(customer);
+                    break;
+                case "Member":
+                    TransactionHistory th = new TransactionHistory();
+                    int points = parsePointsField();
+                    if (points == -1) {
+                        return;
+                    }
+                    Member member = new Member(123, true, th, nameField.getText(), phoneNumberField.getText(), points);
 
-        // Set fixed row heights
-//        this.getRowConstraints().clear();
-//        RowConstraints row1 = new RowConstraints(30);
-//        RowConstraints row2 = new RowConstraints(30);
-//        RowConstraints row3 = new RowConstraints(30);
-//        RowConstraints row4 = new RowConstraints(30);
-//        this.getRowConstraints().addAll(row1, row2, row3, row4);
+                    userManager.addUser(member);
+                    break;
+                case "VIP":
+                    TransactionHistory thNew = new TransactionHistory();
+                    int pointsNew = parsePointsField();
+                    if (pointsNew == -1) {
+                        return;
+                    }
+                    VIP vip = new VIP(123, true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
 
-//        membershipComboBox.setOnAction(event -> {
-//            String membershipType = membershipComboBox.getValue();
-//            if (membershipType.equals("Customer")) {
-//                nameField.setDisable(true);
-//                phoneNumberField.setDisable(true);
-//                pointsField.setDisable(true);
-//            } else {
-//                nameField.setDisable(false);
-//                phoneNumberField.setDisable(false);
-//                pointsField.setDisable(false);
-//            }
-//        });
-//
-//        Button submitButton = new Button("Create Member");
-//        submitButton.setOnAction(event -> {
-//            String selectedMembership = membershipComboBox.getValue();
-//            UserManager userManager = UserManager.getInstance();
-//
-//            switch (selectedMembership) {
-//                case "Customer":
-//                    Customer customer = new Customer();
-//                    customer.setActivationStatus(true);
-//
-//                    userManager.addUser(customer);
-//                    break;
-//                case "Member":
-//                    TransactionHistory th = new TransactionHistory();
-//                    int points = parsePointsField();
-//                    if (points == -1) {
-//                        return;
-//                    }
-//                    Member member = new Member(123, true, th, nameField.getText(), phoneNumberField.getText(), points);
-//
-//                    userManager.addUser(member);
-//                    break;
-//                case "VIP":
-//                    TransactionHistory thNew = new TransactionHistory();
-//                    int pointsNew = parsePointsField();
-//                    if (pointsNew == -1) {
-//                        return;
-//                    }
-//                    VIP vip = new VIP(123, true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
-//
-//                    userManager.addUser(vip);
-//                    break;
-//            }
-//            for (User u: userManager.getListOfUsers()){
-//                System.out.println(u.toString());
-//            }
-//            clearFields();
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setTitle("Success");
-//            alert.setHeaderText("Member created");
-//            alert.setContentText("The new member has been created successfully");
-//            alert.showAndWait();
-//        });
-
-//        this.add(submitButton, 0, 4, 3, 1);
+                    userManager.addUser(vip);
+                    break;
+            }
+            for (User u: userManager.getListOfUsers()){
+                System.out.println(u.toString());
+            }
+            clearFields();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Member created");
+            alert.setContentText("The new member has been created successfully");
+            alert.showAndWait();
+        });
+        HBox buttonBox = new HBox();
+        buttonBox.setPrefWidth(Double.MAX_VALUE);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(30,0,0,0));
+        buttonBox.getChildren().add(submitButton);
+        forms.getChildren().add(buttonBox);
     }
-
     // Helper method to clear input fields
     private void clearFields() {
         nameField.clear();
