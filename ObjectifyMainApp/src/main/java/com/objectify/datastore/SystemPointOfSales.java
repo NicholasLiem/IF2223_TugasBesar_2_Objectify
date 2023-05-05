@@ -2,7 +2,6 @@ package com.objectify.datastore;
 
 import com.objectify.controllers.App;
 import com.objectify.exceptions.AppNotFoundException;
-import com.objectify.exceptions.CustomException;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.StorageManager;
@@ -10,10 +9,6 @@ import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.TransactionManager;
 
 public class SystemPointOfSales {
-    // Berfungsi sebagai penghubung antara GUI/Komponen lain dengan Data Store.
-    // Kelas ini harus dapat membaca pengaturan dari kelas "Settings" dan menggunakan implementasi "DataStore" yang sesuai untuk membaca dan menulis data.
-    // Pastikan bahwa GUI/Komponen lain hanya dapat mengakses Data Store melalui "SystemPointOfSales". File hanya boleh dibaca/ditulis oleh Data Store,
-    // sehingga GUI/Komponen lain harus menggunakan "SystemPointOfSales" untuk membaca/menulis data.
     private Settings settings;
     private UserManager userManager;
     private CategoryManager categoryManager;
@@ -69,5 +64,9 @@ public class SystemPointOfSales {
 
     public TransactionManager getTransactionManager() {
         return transactionManager;
+    }
+
+    public BillManager getBillManager(){
+        return billManager;
     }
 }
