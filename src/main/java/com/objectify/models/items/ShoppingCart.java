@@ -40,4 +40,20 @@ public class ShoppingCart {
         return value;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Entry<Product, Integer> entry : cartItems.entrySet()) {
+            sb.append(entry.getValue());
+            sb.append(" ");
+            sb.append(entry.getKey().getProductName());
+            sb.append(" ");
+            sb.append(entry.getKey().getProductPrice());
+            sb.append(" ");
+            sb.append(entry.getKey().getProductPrice() * entry.getValue());
+            sb.append("\n");
+        }
+        sb.append("Subtotal: " + value() + "\n");
+        return sb.toString();
+    }
 }

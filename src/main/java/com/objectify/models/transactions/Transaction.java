@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 import com.objectify.models.items.ShoppingCart;
 
-public class Transaction {
 @XmlRootElement(name = "Transaction")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Transaction implements Serializable {
@@ -55,18 +54,12 @@ public class Transaction implements Serializable {
         return "Transaction{" +
                 "transactionId=" + transactionId +
                 ", dateTime='" + dateTime + '\'' +
-                ", description='" + description + '\'' +
                 ", amount=" + amount +
                 '}';
     }
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "transactionId=" + transactionId +
-                ", dateTime='" + dateTime + '\'' +
-                ", description='" + description + '\'' +
-                ", amount=" + amount +
-                '}';
-    }
+    public void printToPDF() {
+        Thread thread = new TransactionPDFGenerator(this);
+        thread.start();
+    }    
 }

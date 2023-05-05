@@ -17,7 +17,6 @@ public class TransactionHistory implements Serializable {
 
     public TransactionHistory() {
         this.transactions = new ArrayList<Transaction>();
-        this.transactions = new ArrayList<>();
     }
 
     public TransactionHistory(ArrayList<Transaction> transactions){
