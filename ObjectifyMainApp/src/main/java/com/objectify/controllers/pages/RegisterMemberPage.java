@@ -31,7 +31,6 @@ public class RegisterMemberPage extends GridPane {
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
 
-
         // Create radio buttons for membership types
         ComboBox<String> membershipComboBox = new ComboBox<>();
         membershipComboBox.getItems().addAll("Customer", "Member", "VIP");
