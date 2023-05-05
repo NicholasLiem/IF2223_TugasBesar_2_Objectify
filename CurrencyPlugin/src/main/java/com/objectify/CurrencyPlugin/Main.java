@@ -1,6 +1,7 @@
 package com.objectify.CurrencyPlugin;
 
 import com.objectify.controllers.App;
+import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
 
 public class Main extends Plugin {
@@ -10,8 +11,8 @@ public class Main extends Plugin {
     }
 
     @Override
-    public void onEnable(App appContext) {
-        appContext.getSettings().setCurrency("USD");
+    public void onEnable(SystemPointOfSales spos) {
+        spos.getSettings().setCurrency("USD");
         System.out.println("Enabled");
     }
 

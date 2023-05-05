@@ -1,6 +1,7 @@
 package com.objectify.plugin;
 
 import com.objectify.controllers.App;
+import com.objectify.datastore.SystemPointOfSales;
 
 public abstract class Plugin {
 
@@ -9,7 +10,7 @@ public abstract class Plugin {
         this.name = name;
     }
 
-    abstract public void onEnable(App appContext);
+    abstract public void onEnable(SystemPointOfSales systemPOS);
     abstract public void onDisable();
 
 }
