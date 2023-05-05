@@ -1,1 +1,1 @@
-java -cp target/ObjectifyApp-v1.0-shaded.jar com.objectify.Main
+java -cp ObjectifyMainApp/target/ObjectifyMainApp-v1.0-shaded.jar com.objectify.Main

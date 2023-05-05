@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="CurrencyPlugin" />
       </profile>
       <profile name="Annotation profile for ObjectifyApp" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -14,8 +15,15 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar" />
         </processorPath>
-        <module name="ObjectifyApp" />
+        <module name="ObjectifyMainApp" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="BasePlugin" target="18" />
+      <module name="EPSPlugin" target="18" />
+      <module name="LineBarChartPlugin" target="18" />
+      <module name="ObjectifySPI" target="18" />
+      <module name="PieChartPlugin" target="18" />
+    </bytecodeTargetLevel>
   </component>
 </project>
