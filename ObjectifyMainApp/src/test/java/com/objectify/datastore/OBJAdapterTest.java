@@ -14,9 +14,9 @@ class OBJAdapterTest {
 
     StorageManager storageManager = StorageManager.getInstance();
     {
-        storageManager.addProduct(new Product());
-        storageManager.addProduct(new Product());
-        storageManager.addProduct(new Product());
+        storageManager.addNewProducts(new Product());
+        storageManager.addNewProducts(new Product());
+        storageManager.addNewProducts(new Product());
     }
     private final OBJAdapter<StorageManager> dataStore = new OBJAdapter<>("test.obj");
 
