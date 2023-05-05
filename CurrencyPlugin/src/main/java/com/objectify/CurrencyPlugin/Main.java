@@ -18,10 +18,10 @@ public class Main extends Plugin {
     @Override
     public void onEnable(SystemPointOfSales spos) {
         loadCurrencies();
-        for(Currency c : currencies){
-            System.out.println(c.getName() + " : " + c.getExchangeRate());
+        for(Currency c: currencies){
+            spos.getSettings().addCurrency(c.getName(), c.getExchangeRate());
         }
-        spos.getSettings().setCurrency("JPY");
+
         System.out.println(this.getName() + " has been enabled!");
 
         // Register a shutdown hook to run the onDisable method when the program closes

@@ -1,43 +1,40 @@
 package com.objectify.datastore;
 
-public class Settings {
-    private String currency;
-    private double tax;
+import java.util.HashMap;
+import java.util.Map;
 
-    private double discount;
-    private double serviceCharge;
+public class Settings {
+    private HashMap<String, Double> currencies;
+    private String currentCurrency;
 
     public Settings() {
-        this.currency = "IDR";
-        this.tax = 0.1;
-        this.serviceCharge = 0.05;
+        this.currencies = new HashMap<>();
+        // Set default currency
+        this.addCurrency("IDR", 1.0);
+        this.setCurrentCurrency("IDR");
     }
 
-    public String getCurrency() {
-        return currency;
+    public HashMap<String, Double> getCurrencies() {
+        return currencies;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void addCurrency(String currency, double exchangeRate) {
+        currencies.put(currency, exchangeRate);
     }
 
-    public double getTax() {
-        return tax;
+    public double getExchangeRate(String currency) {
+        Double exchangeRate = currencies.get(currency);
+        if (exchangeRate == null) {
+            throw new IllegalArgumentException("Currency not found: " + currency);
+        }
+        return exchangeRate;
     }
 
-    public void setTax(double tax) {
-        this.tax = tax;
+    public void setCurrentCurrency(String currencyName){
+        this.currentCurrency = currencyName;
     }
 
-    public double getServiceCharge() {
-        return serviceCharge;
-    }
-
-    public void setServiceCharge(double serviceCharge) {
-        this.serviceCharge = serviceCharge;
-    }
-
-    public void setDiscount(float discount) {
-        this.discount = discount;
+    public String getCurrentCurrency(){
+        return this.currentCurrency;
     }
 }

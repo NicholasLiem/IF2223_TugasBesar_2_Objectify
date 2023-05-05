@@ -5,12 +5,13 @@ public class Currency {
     private double exchangeRate;
 
     public Currency(){
-
     }
 
     public Currency(String name, double exchangeRate) {
         this.name = name;
         this.exchangeRate = exchangeRate;
+    }
+
     public String getName() {
         return name;
     }
