@@ -1,5 +1,6 @@
 package com.objectify.controllers.pages;
 
+import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
 import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
@@ -89,7 +90,7 @@ public class RegisterMemberPage extends GridPane {
         Button submitButton = new Button("Create Member");
         submitButton.setOnAction(event -> {
             String selectedMembership = membershipComboBox.getValue();
-            UserManager userManager = UserManager.getInstance();
+            UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
 
             switch (selectedMembership) {
                 case "Customer":

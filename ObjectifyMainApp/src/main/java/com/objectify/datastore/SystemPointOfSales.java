@@ -11,16 +11,20 @@ public class SystemPointOfSales {
     // Kelas ini harus dapat membaca pengaturan dari kelas "Settings" dan menggunakan implementasi "DataStore" yang sesuai untuk membaca dan menulis data.
     // Pastikan bahwa GUI/Komponen lain hanya dapat mengakses Data Store melalui "SystemPointOfSales". File hanya boleh dibaca/ditulis oleh Data Store,
     // sehingga GUI/Komponen lain harus menggunakan "SystemPointOfSales" untuk membaca/menulis data.
-    private Settings settings = Settings.getInstance();
-    private UserManager userManager = UserManager.getInstance();
-    private CategoryManager categoryManager = CategoryManager.getInstance();
-    private StorageManager storageManager = StorageManager.getInstance();
+    private Settings settings;
+    private UserManager userManager;
+    private CategoryManager categoryManager;
+    private StorageManager storageManager;
 
-    private TransactionManager transactionManager = TransactionManager.getInstance();
+    private TransactionManager transactionManager;
     private App app;
 
     private SystemPointOfSales(){
-
+        this.settings = new Settings();
+        this.userManager = new UserManager();
+        this.categoryManager = new CategoryManager();
+        this.storageManager = new StorageManager();
+        this.transactionManager = new TransactionManager();
     }
 
     private static SystemPointOfSales instance;

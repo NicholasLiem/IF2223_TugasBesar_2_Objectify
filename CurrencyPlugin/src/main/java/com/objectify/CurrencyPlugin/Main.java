@@ -11,11 +11,11 @@ public class Main extends Plugin {
     @Override
     public void onEnable(SystemPointOfSales spos) {
         spos.getSettings().setCurrency("USD");
-        System.out.println("Enabled");
+        System.out.println(this.getName() + "has been enabled!");
     }
 
     @Override
     public void onDisable() {
-        System.out.println("Disabled");
+        System.out.println(this.getName() + "has been disabled!");
     }
 }

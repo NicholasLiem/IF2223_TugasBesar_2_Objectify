@@ -17,8 +17,7 @@ public class App extends Application {
     private MainScene mainScene = new MainScene();
     @Override
     public void start(Stage primaryStage) throws Exception {
-        SystemPointOfSales systemPointOfSales = SystemPointOfSales.getInstance();
-        systemPointOfSales.setApp(this);
+        SystemPointOfSales.getInstance().setApp(this);
 
         PluginLoader pluginLoader = new PluginLoader();
         String pluginName = "CurrencyPlugin-v1.0.jar";

@@ -1,24 +1,16 @@
 package com.objectify.datastore;
 
 public class Settings {
-    private static Settings instance = null;
     private String currency;
     private double tax;
 
     private double discount;
     private double serviceCharge;
 
-    private Settings() {
+    public Settings() {
         this.currency = "IDR";
         this.tax = 0.1;
         this.serviceCharge = 0.05;
-    }
-
-    public static synchronized Settings getInstance() {
-        if (instance == null) {
-            instance = new Settings();
-        }
-        return instance;
     }
 
     public String getCurrency() {

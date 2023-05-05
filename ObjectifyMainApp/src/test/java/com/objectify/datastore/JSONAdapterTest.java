@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JSONAdapterTest {
 
-    UserManager userManager = UserManager.getInstance();
+    UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
     {
         userManager.addUser(new Customer());
         userManager.addUser(new Member());
@@ -37,7 +37,7 @@ class JSONAdapterTest {
     @Order(2)
     void read() throws InterruptedException {
         Thread.sleep(100);
-        UserManager writtenUserManager = dataStore.read().orElse(UserManager.getInstance());
+        UserManager writtenUserManager = dataStore.read().orElse(SystemPointOfSales.getInstance().getUserManager());
         assertEquals(userManager.getListOfUsers().size(), writtenUserManager.getListOfUsers().size());
         for (int i = 0; i < userManager.getListOfUsers().size(); i++) {
             String expected = userManager.getListOfUsers().get(i).toString();

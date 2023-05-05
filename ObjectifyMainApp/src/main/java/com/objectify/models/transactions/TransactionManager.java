@@ -9,19 +9,11 @@ import java.util.ArrayList;
 @XmlRootElement(name = "TransactionManager")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TransactionManager {
-    private static TransactionManager instance;
     @XmlElement(name = "Transactions")
     private ArrayList<Transaction> listOfTransactions;
 
-    private TransactionManager() {
+    public TransactionManager() {
         this.listOfTransactions = new ArrayList<>();
-    }
-
-    public static synchronized TransactionManager getInstance() {
-        if (instance == null) {
-            instance = new TransactionManager();
-        }
-        return instance;
     }
 
     public void addTransaction(Transaction transaction){
