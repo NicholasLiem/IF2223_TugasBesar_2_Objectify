@@ -27,12 +27,36 @@ public class App extends Application {
         String currentWorkingDirectory = System.getProperty("user.dir");
         String pluginJarFilePath = currentWorkingDirectory + "\\CurrencyPlugin\\target\\" + pluginName;
 
-        pluginLoader.loadPlugin(pluginJarFilePath);
+        pluginLoader.loadPlugin(pluginJarFilePath, "com.objectify.CurrencyPlugin.Main");
         MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 
         primaryStage.setScene(landingScene);
         primaryStage.setTitle("Objectify Manager");
         primaryStage.show();
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public UserManager getUserManager() {
+        return userManager;
+    }
+
+    public CategoryManager getCategoryManager() {
+        return categoryManager;
+    }
+
+    public StorageManager getStorageManager() {
+        return storageManager;
+    }
+
+    public TransactionManager getTransactionManager() {
+        return transactionManager;
+    }
+
+    public MainScene getMainScene() {
+        return mainScene;
     }
 }

@@ -12,13 +12,13 @@ public class PluginLoader {
     public PluginLoader(App app){
         this.app = app;
     }
-    public void loadPlugin(String jarFilePath) throws Exception {
+    public void loadPlugin(String jarFilePath, String mainClass) throws Exception {
         URL jarUrl = new File(jarFilePath).toURI().toURL();
         URLClassLoader classLoader = new URLClassLoader(new URL[] {jarUrl});
 
-        Class<?> pluginClass = classLoader.loadClass("com.objectify.CurrencyPlugin.Main");
+        Class<?> pluginClass = classLoader.loadClass(mainClass);
         Constructor<?> pluginConstructor = pluginClass.getConstructor(String.class);
-        Object pluginInstance = pluginConstructor.newInstance("Currency Plugin");
+        Object pluginInstance = pluginConstructor.newInstance("Plugin");
 
         Plugin plugin = (Plugin) pluginInstance;
         plugin.onEnable(this.app);
