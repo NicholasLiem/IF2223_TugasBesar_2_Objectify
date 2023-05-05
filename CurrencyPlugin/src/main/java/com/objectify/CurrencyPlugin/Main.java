@@ -1,13 +1,11 @@
 package com.objectify.CurrencyPlugin;
 
-import com.objectify.controllers.App;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
 
 public class Main extends Plugin {
-
-    public Main(String name) {
-        super(name);
+    public Main() {
+        super("Currency Plugin", "com.objectify.CurrencyPlugin.Main");
     }
 
     @Override

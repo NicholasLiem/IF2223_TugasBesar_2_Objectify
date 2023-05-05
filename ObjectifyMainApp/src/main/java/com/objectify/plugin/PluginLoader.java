@@ -1,6 +1,5 @@
 package com.objectify.plugin;
 
-import com.objectify.controllers.App;
 import com.objectify.datastore.SystemPointOfSales;
 
 import java.io.File;
@@ -18,10 +17,11 @@ public class PluginLoader {
         URLClassLoader classLoader = new URLClassLoader(new URL[] {jarUrl});
 
         Class<?> pluginClass = classLoader.loadClass(mainClass);
-        Constructor<?> pluginConstructor = pluginClass.getConstructor(String.class);
-        Object pluginInstance = pluginConstructor.newInstance("Plugin");
+        Constructor<?> pluginConstructor = pluginClass.getConstructor();
+        Object pluginInstance = pluginConstructor.newInstance();
 
         Plugin plugin = (Plugin) pluginInstance;
+        System.out.println("Plugin " + plugin.getName() + " has been successfully loaded!");
         plugin.onEnable(systemPOS);
     }
 
