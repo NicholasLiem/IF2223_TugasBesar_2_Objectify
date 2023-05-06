@@ -15,7 +15,7 @@ import java.io.Serializable;
 })
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso({Member.class, VIP.class, Customer.class})
+@XmlSeeAlso({ Member.class, VIP.class, Customer.class })
 
 public abstract class User implements Serializable {
     private static final long serialVersionUID = 7695914912555037086L;
@@ -28,14 +28,15 @@ public abstract class User implements Serializable {
     private TransactionHistory transactionHistory;
 
     public User(boolean activationStatus, TransactionHistory transactionHistory) {
-        this.userID = totalUser+1;
+        this.userID = totalUser + 1;
         this.activationStatus = activationStatus;
         this.transactionHistory = transactionHistory;
         totalUser++;
     }
 
     public User() {
-        this.userID = totalUser+1;
+        this.userID = totalUser + 1;
+        this.transactionHistory = new TransactionHistory();
         totalUser++;
     }
 
@@ -63,8 +64,10 @@ public abstract class User implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         return ((User) o).getUserID() == this.getUserID();
     }
 }

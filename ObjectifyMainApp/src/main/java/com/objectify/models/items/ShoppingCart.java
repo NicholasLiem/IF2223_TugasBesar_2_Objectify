@@ -16,6 +16,10 @@ public class ShoppingCart {
         this.cartItems = cart;
     }
 
+    public Map<Product, Integer> getItems() {
+        return this.cartItems;
+    }
+
     public void addCartItem(Product product, Integer quantity) {
         cartItems.putIfAbsent(product, quantity);
     }
