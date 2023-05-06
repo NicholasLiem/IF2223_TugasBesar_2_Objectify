@@ -10,20 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.FileChooser;
+
 
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -36,14 +28,23 @@ public class RegisterMemberPage extends Pane {
     private Label pointsLabel;
 
     private Label imageLabel;
+    private ComboBox<String> membershipComboBox;
 
     private TextField nameField;
     private TextField phoneNumberField;
     private TextField pointsField;
 
+    private ComboBox<String> updatedMembershipComboBox;
+
+    private TextField updatedNameField;
+    private TextField updatedPhoneNumberField;
+    private TextField updatedPointsField;
     private ArrayList<User> listOfUsers;
 
+    private VBox userPicture;
 
+    private  ScrollPane scrollPane;
+    private Label userTitle;
     public RegisterMemberPage() {
 //        Dummy data doank
         UserManager um = UserManager.getInstance();
@@ -87,13 +88,13 @@ public class RegisterMemberPage extends Pane {
         title.getStyleClass().add("title");
         titleContainer.getChildren().add(title);
 
-        VBox userPicture = new VBox();
+        this.userPicture = new VBox();
         userPicture.setSpacing(30);
         userPicture.setPadding(new Insets(20,0,0,30));
         userPicture.getStyleClass().add("pict-container");
         userPicture.setAlignment(Pos.TOP_CENTER);
         userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.4).subtract(30));
-        Label userTitle = new Label("Our users");
+        this.userTitle = new Label("Our users");
         userTitle.getStyleClass().add("title");
 
 //        Container untuk menampung semua nama atau id member
@@ -127,7 +128,7 @@ public class RegisterMemberPage extends Pane {
         customerContainer.getChildren().add(customerLabel);
 
 //        Scroll pane untuk membuat semua member jadi bisa discroll
-        ScrollPane scrollPane = new ScrollPane();
+        this.scrollPane = new ScrollPane();
         scrollPane.setContent(allMembers);
         scrollPane.setPadding(new Insets(12));
         scrollPane.setFitToWidth(true);
@@ -143,119 +144,28 @@ public class RegisterMemberPage extends Pane {
                 String name = ((Member)user).getName();
                 Text userName = new Text(name);
                 userName.getStyleClass().add("member-name");
-
-//                Ketika pengguna ingin melihat informasi detail dari sebuah Member + edit
-                userName.setOnMouseClicked(event ->{
-//                    VBox untuk spesific user
-                    VBox spesificUser = new VBox();
-                    spesificUser.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
-                    spesificUser.setAlignment(Pos.CENTER);
-
-//                    Nama username
-                    Text titleUserName = new Text(name);
-
-                    HBox containAll = new HBox();
-                    containAll.setSpacing(30);
-                    containAll.setMaxWidth(Double.MAX_VALUE);
-                    containAll.setPadding(new Insets(20,0,0,50));
-
-                    VBox labelCol = new VBox();
-                    labelCol.setMaxHeight(Double.MAX_VALUE);
-                    labelCol.setSpacing(20);
-
-                    VBox userValue = new VBox();
-                    userValue.setMaxHeight(Double.MAX_VALUE);
-                    userValue.setSpacing(20);
-
-                    Label phoneNumber = new Label("Phone Number : ");
-                    phoneNumber.getStyleClass().add("sub-title");
-                    Text phoneNumberValue = new Text(((Member) user).getPhoneNumber());
-                    phoneNumberValue.getStyleClass().add("user-data");
-
-                    Label userPoints = new Label("Points : ");
-                    userPoints.getStyleClass().add("sub-title");
-                    String points = ((Member) user).getPhoneNumber().toString();                    Text userPointsValue = new Text(points);
-                    userPointsValue.getStyleClass().add("user-data");
-
-                    labelCol.getChildren().addAll(phoneNumber,userPoints);
-                    userValue.getChildren().addAll(phoneNumberValue,userPointsValue);
-
-                    titleUserName.getStyleClass().add("member-name-title");
-
-
-                    Button returnBack = new Button("Back");
-                    returnBack.setOnAction(backToPage ->{
-                        userPicture.getChildren().clear();
-                        userPicture.getChildren().add(scrollPane);
-                    });
-                    labelCol.getChildren().add(returnBack);
-                    spesificUser.getChildren().addAll(titleUserName,containAll);
-                    containAll.getChildren().addAll(labelCol,userValue);
-
-                    userPicture.getChildren().clear();
-                    userPicture.getChildren().add(spesificUser);
-                });
+                String number = ((Member)user).getPhoneNumber();
+                String points = Integer.toString(((Member)user).getPoints());
                 dataUser.getChildren().add(userName);
                 memberContainer.getChildren().add(dataUser);
+                userName.setOnMouseClicked(event ->{
+                    this.userPicture.getChildren().clear();
+                    this.userPicture.getChildren().add(selectedUser(name,"Member",number,points));
+                });
+
             }
             if (user instanceof VIP){
                 String name = ((VIP)user).getName();
                 Text userName = new Text(name);
+                String number = ((VIP)user).getPhoneNumber();
+                String points = Integer.toString(((VIP)user).getPoints());
                 userName.getStyleClass().add("member-name");
-//                Ketika pengguna mau melihat spesific detail dari sebuah VIP user
-                userName.setOnMouseClicked(event ->{
-//                    VBox untuk spesific user
-                    VBox spesificUser = new VBox();
-                    spesificUser.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
-                    spesificUser.setAlignment(Pos.CENTER);
-
-//                    Nama username
-                    Text titleUserName = new Text(name);
-                    HBox containAll = new HBox();
-                    containAll.setSpacing(30);
-                    containAll.setMaxWidth(Double.MAX_VALUE);
-                    containAll.setPadding(new Insets(20,0,0,50));
-
-                    VBox labelCol = new VBox();
-                    labelCol.setMaxHeight(Double.MAX_VALUE);
-                    labelCol.setSpacing(20);
-
-                    VBox userValue = new VBox();
-                    userValue.setMaxHeight(Double.MAX_VALUE);
-                    userValue.setSpacing(20);
-
-                    Label phoneNumber = new Label("Phone Number : ");
-                    phoneNumber.getStyleClass().add("sub-title");
-                    Text phoneNumberValue = new Text(((VIP) user).getPhoneNumber());
-                    phoneNumberValue.getStyleClass().add("user-data");
-
-                    Label userPoints = new Label("Points : ");
-                    userPoints.getStyleClass().add("sub-title");
-                    String points = ((VIP) user).getPhoneNumber().toString();
-                    Text userPointsValue = new Text(points);
-                    userPointsValue.getStyleClass().add("user-data");
-
-                    labelCol.getChildren().addAll(phoneNumber,userPoints);
-                    userValue.getChildren().addAll(phoneNumberValue,userPointsValue);
-
-                    titleUserName.getStyleClass().add("member-name-title");
-
-                    Button returnBack = new Button("Back");
-                    returnBack.setOnAction(backToPage ->{
-                        userPicture.getChildren().clear();
-                        userPicture.getChildren().add(scrollPane);
-                    });
-                    returnBack.getStyleClass().add("back-btn");
-                    returnBack.setPrefWidth(100);
-                    labelCol.getChildren().add(returnBack);
-                    containAll.getChildren().addAll(labelCol,userValue);
-
-                    spesificUser.getChildren().addAll(titleUserName,containAll);
-                    userPicture.getChildren().clear();
-                    userPicture.getChildren().add(spesificUser);
-                });
                 dataUser.getChildren().add(userName);
                 vipContainer.getChildren().add(dataUser);
+                userName.setOnMouseClicked(event ->{
+                    this.userPicture.getChildren().clear();
+                    this.userPicture.getChildren().addAll(selectedUser(name,"VIP",number,points));
+                });
             }
 
             if(user instanceof Customer){
@@ -265,28 +175,9 @@ public class RegisterMemberPage extends Pane {
                 dataUser.getChildren().add(user_id);
                 customerContainer.getChildren().add(dataUser);
                 user_id.setOnMouseClicked(event -> {
-                    VBox spesificUser = new VBox();
-                    spesificUser.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
-                    spesificUser.setAlignment(Pos.CENTER);
-                    Text titleUserName = new Text("User");
-
-                    HBox containAll = new HBox();
-                    containAll.setMaxWidth(Double.MAX_VALUE);
-                    containAll.getChildren().add(titleUserName);
-
-                    VBox labelCol = new VBox();
-                    labelCol.setMaxHeight(Double.MAX_VALUE);
-
-
-                    VBox valueCol = new VBox();
-                    valueCol.setMaxHeight(Double.MAX_VALUE);
-
-                    containAll.getChildren().addAll(labelCol,valueCol);
-                    spesificUser.getChildren().add(containAll);
                     userPicture.getChildren().clear();
-                    userPicture.getChildren().add(spesificUser);
+                    userPicture.getChildren().addAll(selectedUser(" ","Customer"," "," "));
                 });
-
 
             }
         }
@@ -319,7 +210,7 @@ public class RegisterMemberPage extends Pane {
         VBox fieldCol = new VBox();
         fieldCol.setSpacing(40);
         fieldCol.setMaxHeight(Double.MAX_VALUE);
-        ComboBox<String> membershipComboBox = new ComboBox<>();
+        this.membershipComboBox = new ComboBox<>();
         membershipComboBox.getItems().addAll("Customer", "Member", "VIP");
         membershipComboBox.setValue("Customer");
         membership.getStyleClass().add("sub-title");
@@ -347,7 +238,6 @@ public class RegisterMemberPage extends Pane {
         mainContainer.setCenter(row);
         mainContainer.prefWidthProperty().bind(this.widthProperty());
         mainContainer.prefHeightProperty().bind(this.heightProperty());
-        // set row width to 100% so that forms and userPicture split 60-40
         row.setPrefWidth(Region.USE_COMPUTED_SIZE);
         row.setMaxWidth(Double.MAX_VALUE);
 
@@ -364,9 +254,38 @@ public class RegisterMemberPage extends Pane {
                 pointsField.setDisable(false);
             }
         });
-        Button submitButton = new Button("Create Member");
-        submitButton.getStyleClass().add("submit-btn");
-        submitButton.setOnAction(event -> {
+        forms.getChildren().add(submitButton());
+    }
+    // Helper method to clear input fields
+    private void clearFields() {
+        nameField.clear();
+        phoneNumberField.clear();
+        pointsField.clear();
+    }
+
+    private int parsePointsField() {
+        int points = 0;
+        try {
+            points = Integer.parseInt(pointsField.getText());
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid input");
+            alert.setContentText("Points must be a number");
+            alert.showAndWait();
+            return -1;
+        }
+        return points;
+    }
+
+    private HBox submitButton(){
+        HBox buttonBox = new HBox();
+        buttonBox.setPrefWidth(Double.MAX_VALUE);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(30,0,0,0));
+        Button button = new Button("Create Member");
+        button.getStyleClass().add("submit-btn");
+        button.setOnAction(event -> {
             String selectedMembership = membershipComboBox.getValue();
             UserManager userManager = UserManager.getInstance();
 
@@ -403,39 +322,129 @@ public class RegisterMemberPage extends Pane {
                 System.out.println(u.toString());
             }
             clearFields();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Member created");
-            alert.setContentText("The new member has been created successfully");
-            alert.showAndWait();
+            setAlert();
         });
-        HBox buttonBox = new HBox();
-        buttonBox.setPrefWidth(Double.MAX_VALUE);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setPadding(new Insets(30,0,0,0));
-        buttonBox.getChildren().add(submitButton);
-        forms.getChildren().add(buttonBox);
+        buttonBox.getChildren().add(button);
+        return buttonBox;
     }
-    // Helper method to clear input fields
-    private void clearFields() {
-        nameField.clear();
-        phoneNumberField.clear();
-        pointsField.clear();
+    private void setAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Member created");
+        alert.setContentText("The new member has been created successfully");
+        alert.showAndWait();
     }
 
-    private int parsePointsField() {
-        int points = 0;
-        try {
-            points = Integer.parseInt(pointsField.getText());
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Invalid input");
-            alert.setContentText("Points must be a number");
-            alert.showAndWait();
-            return -1;
+    private VBox selectedUser(String oldName, String type, String oldNumber, String oldPoints){
+
+        this.updatedNameField = new TextField();
+        this.updatedPhoneNumberField = new TextField();
+        this.updatedPointsField = new TextField();
+        this.updatedMembershipComboBox = new ComboBox<>();
+        this.updatedMembershipComboBox.getItems().addAll("Customer", "Member", "VIP");
+
+        this.updatedNameField.setText(oldName);
+        this.updatedPhoneNumberField.setText(oldNumber);
+        this.updatedPointsField.setText(oldPoints);
+        this.updatedMembershipComboBox.setValue(type);
+
+        VBox spesificUser = new VBox();
+        spesificUser.setSpacing(20);
+        spesificUser.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        spesificUser.setAlignment(Pos.CENTER);
+
+        HBox containAll = new HBox();
+        containAll.setSpacing(30);
+        containAll.setMaxWidth(Double.MAX_VALUE);
+        containAll.setPadding(new Insets(20,0,0,50));
+        if(oldName == " "){
+            Text titleUserName = new Text("User");
+            titleUserName.getStyleClass().add("title");
+            spesificUser.getChildren().add(titleUserName);
+
+        }else{
+            Text titleUserName = new Text(oldName);
+            titleUserName.getStyleClass().add("title");
+            spesificUser.getChildren().add(titleUserName);
         }
-        return points;
+
+        VBox labelCol = new VBox();
+        labelCol.setMaxHeight(Double.MAX_VALUE);
+        labelCol.setSpacing(20);
+
+        Label membershipLabel = new Label("Membership Type : ");
+        Label nameLabel = new Label("Name : ");
+        Label phoneNumberLabel = new Label("Phone Number : ");
+        Label pointsLabel = new Label("Points : ");
+        membershipLabel.getStyleClass().add("sub-title");
+        phoneNumberLabel.getStyleClass().add("sub-title");
+        nameLabel.getStyleClass().add("sub-title");
+        pointsLabel.getStyleClass().add("sub-title");
+        labelCol.getChildren().addAll(membershipLabel,nameLabel,phoneNumberLabel,pointsLabel);
+
+        VBox valueCol = new VBox();
+        valueCol.setSpacing(20);
+        valueCol.setMaxHeight(Double.MAX_VALUE);
+        valueCol.getChildren().addAll(this.updatedMembershipComboBox,this.updatedNameField,this.updatedPhoneNumberField,this.updatedPointsField);
+        Button returnBack = new Button("Back");
+        returnBack.setOnAction(backToPage ->{
+            userPicture.getChildren().clear();
+            userPicture.getChildren().addAll(this.userTitle,this.scrollPane);
+        });
+
+        HBox boxContainer = new HBox();
+        boxContainer.setSpacing(20);
+        boxContainer.setMaxWidth(Double.MAX_VALUE);
+        boxContainer.setPadding(new Insets(20,0,0,50));
+        boxContainer.getChildren().addAll(updateButton(),returnBack);
+        returnBack.getStyleClass().add("submit-btn");
+        returnBack.setPrefWidth(100);
+        containAll.getChildren().addAll(labelCol,valueCol);
+        spesificUser.getChildren().addAll(containAll,boxContainer);
+        return spesificUser;
     }
 
+    private  Button updateButton(){
+        Button button = new Button("Update");
+        button.getStyleClass().add("submit-btn");
+        button.setPrefWidth(100);
+        button.setOnAction(event -> {
+            String selectedMembership = this.updatedMembershipComboBox.getValue();
+            UserManager userManager = UserManager.getInstance();
+
+            switch (selectedMembership) {
+                case "Customer":
+                    Customer customer = new Customer();
+                    customer.setActivationStatus(true);
+                    userManager.addUser(customer);
+                    break;
+                case "Member":
+                    TransactionHistory th = new TransactionHistory();
+                    int points = parsePointsField();
+                    if (points == -1) {
+                        return;
+                    }
+                    Member member = new Member(true, th, nameField.getText(), phoneNumberField.getText(), points);
+
+                    userManager.addUser(member);
+                    break;
+                case "VIP":
+                    TransactionHistory thNew = new TransactionHistory();
+                    int pointsNew = parsePointsField();
+                    if (pointsNew == -1) {
+                        return;
+                    }
+                    VIP vip = new VIP(true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
+
+                    userManager.addUser(vip);
+                    break;
+            }
+            for (User u: userManager.getListOfUsers()){
+                System.out.println(u.toString());
+            }
+            clearFields();
+            setAlert();
+        });
+        return button;
+    }
 }
