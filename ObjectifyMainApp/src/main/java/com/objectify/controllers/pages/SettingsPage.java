@@ -2,20 +2,17 @@ package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SettingBuilder;
 import com.objectify.datastore.SystemPointOfSales;
-import com.objectify.plugin.Plugin;
 import com.objectify.plugin.PluginLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.List;
 
 
 public class SettingsPage extends GridPane {
