@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 
 import java.awt.*;
@@ -26,6 +27,7 @@ import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
 
 public class RegisterMemberPage extends Pane {
 
@@ -86,9 +88,10 @@ public class RegisterMemberPage extends Pane {
 
         VBox userPicture = new VBox();
         userPicture.setSpacing(30);
+        userPicture.setPadding(new Insets(20,0,0,30));
         userPicture.getStyleClass().add("pict-container");
         userPicture.setAlignment(Pos.TOP_CENTER);
-        userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.5).subtract(30));
+        userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.4).subtract(30));
         Label userTitle = new Label("Our users");
         userTitle.getStyleClass().add("title");
         userPicture.getChildren().add(userTitle);
@@ -110,6 +113,14 @@ public class RegisterMemberPage extends Pane {
         memberLabel.getStyleClass().add("title");
         memberContainer.getChildren().add(memberLabel);
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.getStyleClass().add("background");
+        scrollPane.setContent(allMembers);
+        scrollPane.setPadding(new Insets(12));
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
+        scrollPane.setPrefWidth(userPicture.getPrefWidth());
+        scrollPane.setPrefHeight(userPicture.getPrefHeight());
         Integer i = 0;
         for(User user : this.listOfUsers){
             if(i > 8){
@@ -120,28 +131,119 @@ public class RegisterMemberPage extends Pane {
                 String name = ((Member)user).getName();
                 Text userName = new Text(name);
                 userName.getStyleClass().add("member-name");
+                userName.setOnMouseClicked(event ->{
+//                    VBox untuk spesific user
+                    VBox spesificUser = new VBox();
+                    spesificUser.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+                    spesificUser.setAlignment(Pos.CENTER);
+
+//                    Nama username
+                    Text titleUserName = new Text(name);
+
+                    HBox containAll = new HBox();
+                    containAll.setSpacing(30);
+                    containAll.setMaxWidth(Double.MAX_VALUE);
+                    containAll.setPadding(new Insets(20,0,0,50));
+
+                    VBox labelCol = new VBox();
+                    labelCol.setMaxHeight(Double.MAX_VALUE);
+                    labelCol.setSpacing(20);
+
+                    VBox userValue = new VBox();
+                    userValue.setMaxHeight(Double.MAX_VALUE);
+                    userValue.setSpacing(20);
+
+                    Label phoneNumber = new Label("Phone Number : ");
+                    phoneNumber.getStyleClass().add("sub-title");
+                    Text phoneNumberValue = new Text(((Member) user).getPhoneNumber());
+                    phoneNumberValue.getStyleClass().add("user-data");
+
+                    Label userPoints = new Label("Points : ");
+                    userPoints.getStyleClass().add("sub-title");
+                    String points = ((Member) user).getPhoneNumber().toString();                    Text userPointsValue = new Text(points);
+                    userPointsValue.getStyleClass().add("user-data");
+
+                    labelCol.getChildren().addAll(phoneNumber,userPoints);
+                    userValue.getChildren().addAll(phoneNumberValue,userPointsValue);
+
+                    titleUserName.getStyleClass().add("member-name-title");
+                    containAll.getChildren().addAll(labelCol,userValue);
+
+                    Button returnBack = new Button("Back");
+                    returnBack.setOnAction(backToPage ->{
+                        userPicture.getChildren().clear();
+                        userPicture.getChildren().add(scrollPane);
+                    });
+
+                    spesificUser.getChildren().addAll(titleUserName,containAll,returnBack);
+                    userPicture.getChildren().clear();
+                    userPicture.getChildren().add(spesificUser);
+                });
                 dataUser.getChildren().add(userName);
-                memberContainer.getChildren().add(dataUser);
+                vipContainer.getChildren().add(dataUser);
             }
             if (user instanceof VIP){
                 String name = ((VIP)user).getName();
                 Text userName = new Text(name);
                 userName.getStyleClass().add("member-name");
+                userName.setOnMouseClicked(event ->{
+//                    VBox untuk spesific user
+                    VBox spesificUser = new VBox();
+                    spesificUser.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+                    spesificUser.setAlignment(Pos.CENTER);
+
+//                    Nama username
+                    Text titleUserName = new Text(name);
+
+                    HBox containAll = new HBox();
+                    containAll.setSpacing(30);
+                    containAll.setMaxWidth(Double.MAX_VALUE);
+                    containAll.setPadding(new Insets(20,0,0,50));
+
+                    VBox labelCol = new VBox();
+                    labelCol.setMaxHeight(Double.MAX_VALUE);
+                    labelCol.setSpacing(20);
+
+                    VBox userValue = new VBox();
+                    userValue.setMaxHeight(Double.MAX_VALUE);
+                    userValue.setSpacing(20);
+
+                    Label phoneNumber = new Label("Phone Number : ");
+                    phoneNumber.getStyleClass().add("sub-title");
+                    Text phoneNumberValue = new Text(((VIP) user).getPhoneNumber());
+                    phoneNumberValue.getStyleClass().add("user-data");
+
+                    Label userPoints = new Label("Points : ");
+                    userPoints.getStyleClass().add("sub-title");
+                    String points = ((VIP) user).getPhoneNumber().toString();
+                    Text userPointsValue = new Text(points);
+                    userPointsValue.getStyleClass().add("user-data");
+
+                    labelCol.getChildren().addAll(phoneNumber,userPoints);
+                    userValue.getChildren().addAll(phoneNumberValue,userPointsValue);
+
+                    titleUserName.getStyleClass().add("member-name-title");
+                    containAll.getChildren().addAll(labelCol,userValue);
+
+                    Button returnBack = new Button("Back");
+                    returnBack.setOnAction(backToPage ->{
+                        userPicture.getChildren().clear();
+                        userPicture.getChildren().add(scrollPane);
+                    });
+
+                    spesificUser.getChildren().addAll(titleUserName,containAll,returnBack);
+                    userPicture.getChildren().clear();
+                    userPicture.getChildren().add(spesificUser);
+                });
                 dataUser.getChildren().add(userName);
                 vipContainer.getChildren().add(dataUser);
             }
         }
+
         allMembers.getChildren().addAll(vipContainer,memberContainer);
         allMembers.setPadding(new Insets(10));
         allMembers.setStyle("-fx-background-color: #E9EFFD;");
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.getStyleClass().add("background");
-        scrollPane.setContent(allMembers);
-        scrollPane.setPadding(new Insets(12));
-        scrollPane.setFitToWidth(true);
-        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
-        scrollPane.setPrefWidth(userPicture.getPrefWidth());
-        scrollPane.setPrefHeight(userPicture.getPrefHeight());
+
         userPicture.getChildren().addAll(scrollPane);
 
         HBox container = new HBox();
@@ -176,41 +278,12 @@ public class RegisterMemberPage extends Pane {
         this.phoneNumberField = new TextField();
         this.pointsField = new TextField();
         nameField.setPrefWidth(400);
-        Button button = new Button("Pilih File");
-        button.setOnAction(e -> {
-            if(this.userImage != null){
-                userPicture.getChildren().clear();
-            }
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Pilih File");
-            File selectedFile = fileChooser.showOpenDialog(null);
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg")
-            );
-            if (selectedFile != null && isImageFile(selectedFile)) {
-                try {
-                    // Load the image from the selected file using ImageIO
-                    javafx.scene.image.Image image = new javafx.scene.image.Image(selectedFile.toURI().toURL().toString());
-
-                    // Create an image view to display the image
-                    javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(image);
-                    imageView.setFitHeight(500);
-                    imageView.setFitWidth(300);
-                    this.userImage = imageView;
-                    userPicture.getChildren().add(this.userImage);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        fieldCol.getChildren().addAll(membershipComboBox,this.nameField,this.phoneNumberField,this.pointsField,button);
+        fieldCol.getChildren().addAll(membershipComboBox,this.nameField,this.phoneNumberField,this.pointsField);
         container.getChildren().addAll(labelCol,fieldCol);
-
         forms.getChildren().addAll(titleContainer,container);
         forms.getStyleClass().add("forms");
         forms.setPadding(new Insets(20,0,0,30));
         forms.prefWidthProperty().bind(row.widthProperty().multiply(0.6));
-
         // Set the grow priority for the userPicture VBox to Priority.ALWAYS
         HBox.setHgrow(forms, Priority.ALWAYS);
         HBox.setHgrow(userPicture, Priority.ALWAYS);
