@@ -22,9 +22,9 @@ public class App extends Application {
         PluginLoader pluginLoader = new PluginLoader();
         String pluginName = "CurrencyPlugin-v1.0.jar";
         String currentWorkingDirectory = System.getProperty("user.dir");
-        String pluginJarFilePath = currentWorkingDirectory + "\\CurrencyPlugin\\target\\" + pluginName;
+        String pluginJarFilePath = currentWorkingDirectory + "\\CurrencyPlugin\\target\\";
 
-        pluginLoader.loadPlugin(pluginJarFilePath, "com.objectify.CurrencyPlugin.Main");
+        pluginLoader.loadPlugins(pluginJarFilePath);
         MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 

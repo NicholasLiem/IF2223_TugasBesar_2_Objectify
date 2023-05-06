@@ -1,7 +1,6 @@
 package com.objectify.CurrencyPlugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
 
 import java.io.IOException;
@@ -11,15 +10,15 @@ import java.util.List;
 public class Main extends Plugin {
     private List<Currency> currencies;
 
-    public Main() {
-        super("Currency Plugin", "com.objectify.CurrencyPlugin.Main");
+    public Main(String name) {
+        super(name);
     }
 
     @Override
-    public void onEnable(SystemPointOfSales spos) {
+    public void onEnable() {
         loadCurrencies();
         for(Currency c: currencies){
-            spos.getSettings().addCurrency(c.getName(), c.getExchangeRate());
+//            spos.getSettings().addCurrency(c.getName(), c.getExchangeRate());
         }
 
         System.out.println(this.getName() + " has been enabled!");
