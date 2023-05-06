@@ -1,11 +1,8 @@
 {
   "settingsPath" : "ObjectifyMainApp/src/resources/settings/",
-  "metadata" : { },
   "additionalProperties" : {
-    "CurrencySystem" : {
-      "CurrencySettings" : "ObjectifyMainApp/src/resources/settings/Currency.json",
-      "CurrencyDefault" : "IDR",
-      "CurrencyExchangeRate" : 1
+    "PaymentSystem" : {
+      "PaymentSettings" : "ObjectifyMainApp\\src\\resources\\settings\\Payment.json"
     }
   }
 }

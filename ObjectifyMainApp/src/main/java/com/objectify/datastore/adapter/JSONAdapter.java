@@ -1,8 +1,9 @@
-package com.objectify.datastore;
+package com.objectify.datastore.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.objectify.datastore.enums.DataStore;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,5 +1,6 @@
 package com.objectify.datastore;
 
+import com.objectify.datastore.adapter.OBJAdapter;
 import com.objectify.models.items.Product;
 import com.objectify.models.items.StorageManager;
 import org.junit.jupiter.api.Order;

@@ -1,4 +1,6 @@
-package com.objectify.datastore;
+package com.objectify.datastore.adapter;
+
+import com.objectify.datastore.enums.DataStore;
 
 import java.io.*;
 import java.nio.file.Files;

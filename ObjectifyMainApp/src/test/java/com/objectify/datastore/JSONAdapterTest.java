@@ -1,5 +1,6 @@
 package com.objectify.datastore;
 
+import com.objectify.datastore.adapter.JSONAdapter;
 import com.objectify.models.entities.*;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

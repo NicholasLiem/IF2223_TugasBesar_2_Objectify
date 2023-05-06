@@ -11,17 +11,8 @@ public class App extends Application {
     private final MainScene mainScene = new MainScene();
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         SystemPointOfSales.getInstance().setApp(this);
-
-//        PluginLoader pluginLoader = new PluginLoader();
-//        String currentWorkingDirectory = System.getProperty("user.dir");
-//        String pluginJarFilePath = Paths.get(currentWorkingDirectory, "PaymentPlugin", "target").toString();
-//        pluginLoader.loadPlugins(pluginJarFilePath);
-//
-//        pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
-//        pluginLoader.loadPlugins(pluginJarFilePath);
-
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 
         primaryStage.setScene(landingScene);

@@ -6,31 +6,43 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.objectify.datastore.enums.BillCalculator;
+import com.objectify.datastore.enums.InputControl;
 
 public class Settings {
     private final String settingsPath = "ObjectifyMainApp/src/resources/settings/";
-    private final Map<String, Object> metadata;
     private Map<String, Object> additionalProperties;
 
     @JsonIgnore
-    private BillCalculator calculator;
+    private final HashMap<String, BillCalculator> calculators;
     
     @JsonIgnore
-    private final List<SettingComponentProvider> components;
+    private final List<InputControl> components;
 
     public Settings(){
         this.additionalProperties = new HashMap<>();
         this.components = new ArrayList<>();
-        this.metadata = new HashMap<>();
-        this.calculator = value -> value;
+        this.calculators = new HashMap<>();
+        this.calculators.put("Default", value -> value);
     }
 
-    public void setCalculator(BillCalculator calculator) {
-        this.calculator = calculator;
-    }
+    @JsonIgnore
 
     public BillCalculator getCalculator() {
+        BillCalculator calculator = calculators.get("Default");
+        for (final Map.Entry<String, BillCalculator> entry : calculators.entrySet()) {
+            final BillCalculator temp = calculator;
+            calculator = value -> entry.getValue().calculate(temp.calculate(value));
+        }
         return calculator;
+    }
+
+    public void addCalculator(String s, BillCalculator bc){
+        this.calculators.put(s, bc);
+    }
+
+    public void removeCalculator(String s){
+        this.calculators.remove(s);
     }
 
     public String getSettingsPath(){
@@ -41,15 +53,11 @@ public class Settings {
         return additionalProperties;
     }
 
-    public Map<String, Object> getMetadata() {
-        return metadata;
-    }
-
     public void setAdditionalProperties(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
     }
 
-    public List<SettingComponentProvider> getComponents() {
+    public List<InputControl> getComponents() {
         return components;
     }
 }

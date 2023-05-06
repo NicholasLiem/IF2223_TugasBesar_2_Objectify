@@ -1,9 +1,9 @@
-package com.objectify.datastore;
+package com.objectify.datastore.enums;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 
-public interface SettingComponentProvider {
+public interface InputControl {
     Label getLabel();
     Node getInputControl();
 }

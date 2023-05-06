@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.objectify.datastore.Settings;
-import com.objectify.datastore.BillCalculator;
-import com.objectify.datastore.SettingComponentProvider;
+import com.objectify.datastore.enums.InputControl;
 import com.objectify.datastore.SystemPointOfSales;
-import com.objectify.datastore.ComboBoxBuilder;
 import com.objectify.plugin.Plugin;
 
 import javafx.scene.Node;
@@ -56,7 +54,7 @@ public class CurrencyPlugin extends Plugin {
                     .put("CurrencyDefault", currencies.get(0).getName())
                     .put("CurrencyExchangeRate", 1));
 
-            settings.getComponents().add(new SettingComponentProvider() {
+            settings.getComponents().add(new InputControl() {
                 @Override
                 public Label getLabel() {
                     return new Label("Currency");
@@ -66,14 +64,14 @@ public class CurrencyPlugin extends Plugin {
                     ComboBox<String> comboBox = new ComboBox<>();
                     comboBox.setValue("IDR");
                     final Currency curr = currencies.stream().filter(item -> item.getName().equals("IDR")).findFirst().orElse(currencies.get(0));
-                    spos.getSettings().setCalculator(value -> value * curr.getExchangeRate());
+                    spos.getSettings().addCalculator("CurrencyCalculator", value -> value * curr.getExchangeRate());
                     for (Currency c : currencies) {
                         comboBox.getItems().add(c.getName());
                     }
                     comboBox.setOnAction(event -> {
                         final String name = comboBox.getValue();
                         final Currency c = currencies.stream().filter(item -> item.getName().equals(name)).findFirst().orElse(currencies.get(0));
-                        spos.getSettings().setCalculator(value -> value * c.getExchangeRate());
+                        spos.getSettings().addCalculator("CurrencyCalculator", value -> value * c.getExchangeRate());
                     });
                     return comboBox;
                 }
@@ -100,6 +98,7 @@ public class CurrencyPlugin extends Plugin {
 
     @Override
     public void onDisable(SystemPointOfSales spos) {
+        spos.getSettings().removeCalculator("CurrencyCalculator");
         System.out.println("Currencies Plugin" + " has been disabled!");
     }
 
