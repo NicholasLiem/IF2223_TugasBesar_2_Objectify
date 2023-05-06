@@ -8,7 +8,6 @@ import com.objectify.datastore.ComboBoxBuilder;
 import com.objectify.plugin.Plugin;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -16,8 +15,8 @@ import java.util.List;
 public class Main extends Plugin {
     private List<Currency> currencies;
 
-    public Main(String name) {
-        super(name);
+    public Main() {
+        super("Currency Plugin");
     }
 
     @Override
