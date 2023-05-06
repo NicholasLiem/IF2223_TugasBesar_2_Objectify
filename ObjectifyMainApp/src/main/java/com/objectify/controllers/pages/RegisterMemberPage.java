@@ -12,8 +12,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-
-
 import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
