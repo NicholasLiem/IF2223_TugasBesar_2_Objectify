@@ -22,13 +22,13 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         SystemPointOfSales.getInstance().setApp(this);
 
-        PluginLoader pluginLoader = new PluginLoader();
-        String currentWorkingDirectory = System.getProperty("user.dir");
-        String pluginJarFilePath = Paths.get(currentWorkingDirectory, "PaymentPlugin", "target").toString();
-        pluginLoader.loadPlugins(pluginJarFilePath);
-
-        pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
-        pluginLoader.loadPlugins(pluginJarFilePath);
+//        PluginLoader pluginLoader = new PluginLoader();
+//        String currentWorkingDirectory = System.getProperty("user.dir");
+//        String pluginJarFilePath = Paths.get(currentWorkingDirectory, "PaymentPlugin", "target").toString();
+//        pluginLoader.loadPlugins(pluginJarFilePath);
+//
+//        pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
+//        pluginLoader.loadPlugins(pluginJarFilePath);
 
         MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);

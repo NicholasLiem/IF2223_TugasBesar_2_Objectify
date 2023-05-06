@@ -11,13 +11,10 @@ import java.util.HashSet;
 import java.util.jar.JarFile;
 
 public class PluginLoader {
-    public static HashSet<Plugin> plugins = new HashSet<>();
-    private SystemPointOfSales spos = SystemPointOfSales.getInstance();
+    private static HashSet<Plugin> plugins = new HashSet<>();
+    private static HashSet<String> loadedPlugins = new HashSet<>();
 
-    public PluginLoader(){
-    }
-
-    public void loadPlugins(String pluginsFolder) throws Exception {
+    public static void loadPlugins(String pluginsFolder) throws Exception {
         File pluginDirectory = new File(pluginsFolder);
         File[] files = pluginDirectory.listFiles((dir, name) -> name.endsWith(".jar"));
 
@@ -29,6 +26,10 @@ public class PluginLoader {
             }
             URLClassLoader urlClassLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
             for (File file : files){
+                if (loadedPlugins.contains(file.getName())) {
+                    continue;
+                }
+
                 JarFile jar = new JarFile(file);
                 jar.stream().forEach(jarEntry -> {
                     if(jarEntry.getName().endsWith(".class")){
@@ -39,6 +40,7 @@ public class PluginLoader {
                                 Plugin plugin = (Plugin) constructor.newInstance();
                                 plugins.add(plugin);
                                 plugin.onEnable(SystemPointOfSales.getInstance());
+                                loadedPlugins.add(file.getName());
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -47,5 +49,37 @@ public class PluginLoader {
                 });
             }
         }
+    }
+
+    public static void loadPlugin(String pluginFileJar) throws Exception {
+        File file = new File(pluginFileJar);
+        if (loadedPlugins.contains(file.getName())) {
+            // Plugin already loaded, skip
+            return;
+        }
+
+        URL url = file.toURI().toURL();
+        URLClassLoader urlClassLoader = new URLClassLoader(new URL[] {url});
+        JarFile jar = new JarFile(file);
+        jar.stream().forEach(jarEntry -> {
+            if(jarEntry.getName().endsWith(".class")){
+                try {
+                    Class<?> cls = urlClassLoader.loadClass(jarEntry.getName().replaceAll("/", ".").replace(".class", ""));
+                    if(Plugin.class.isAssignableFrom(cls)){
+                        Constructor<?> constructor = cls.getConstructor();
+                        Plugin plugin = (Plugin) constructor.newInstance();
+                        plugins.add(plugin);
+                        plugin.onEnable(SystemPointOfSales.getInstance());
+                        loadedPlugins.add(file.getName());
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
+    public static HashSet<Plugin> getPlugins() {
+        return plugins;
     }
 }
