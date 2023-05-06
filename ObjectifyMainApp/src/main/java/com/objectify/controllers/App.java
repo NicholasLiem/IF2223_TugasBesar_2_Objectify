@@ -24,7 +24,8 @@ public class App extends Application {
         String currentWorkingDirectory = System.getProperty("user.dir");
         String pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
 
-        SystemPointOfSales.getInstance().getPluginLoader().loadPlugins(pluginJarFilePath);
+        PluginLoader pluginLoader = new PluginLoader();
+        pluginLoader.loadPlugins(pluginJarFilePath);
         MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 

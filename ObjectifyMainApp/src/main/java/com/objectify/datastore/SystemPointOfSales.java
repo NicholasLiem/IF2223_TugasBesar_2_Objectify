@@ -23,7 +23,6 @@ public class SystemPointOfSales {
     private final TransactionManager transactionManager;
     private final PluginLoader pluginLoader;
 
-    private PluginLoader pluginLoader;
     private App app;
 
     private SystemPointOfSales(){
@@ -79,7 +78,4 @@ public class SystemPointOfSales {
         return billManager;
     }
 
-    public PluginLoader getPluginLoader() {
-        return pluginLoader;
-    }
 }
