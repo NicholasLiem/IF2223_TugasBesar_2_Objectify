@@ -19,7 +19,9 @@ public class PluginLoader {
     public static void loadPlugins(String pluginsFolder) throws Exception {
         File pluginDirectory = new File(pluginsFolder);
         File[] files = pluginDirectory.listFiles((dir, name) -> name.endsWith(".jar"));
-        Arrays.sort(files, Comparator.comparing(File::getName));
+        if (files != null) {
+            Arrays.sort(files, Comparator.comparing(File::getName));
+        }
 
         if (files != null && files.length > 0){
             ArrayList<URL> urls = new ArrayList<>(files.length);

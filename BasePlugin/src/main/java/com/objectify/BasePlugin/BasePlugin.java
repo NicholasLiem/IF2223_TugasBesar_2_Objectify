@@ -10,12 +10,11 @@ import com.objectify.plugin.Plugin;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 
-public class Main extends Plugin {
+public class BasePlugin extends Plugin {
 
     private final Command newMenuItem;
 
-    public Main() {
-        super("Base Plugin");
+    public BasePlugin() {
         newMenuItem = (spos, args) -> {
             String menuName = null;
             try {
@@ -41,11 +40,11 @@ public class Main extends Plugin {
     public void onEnable(SystemPointOfSales spos) {
         spos.registerCommand("BasePlugin.NewMenuItem", newMenuItem);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(this::onDisable));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> onDisable(spos)));
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(SystemPointOfSales spos) {
 
     }
 }

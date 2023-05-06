@@ -8,8 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="CurrencyPlugin" />
         <module name="BasePlugin" />
-        <module name="Chart1" />
         <module name="PaymentPlugin" />
+        <module name="LineBarChartPlugin" />
       </profile>
       <profile name="Annotation profile for ObjectifyApp" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -22,10 +22,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="BasePlugin" target="18" />
-      <module name="Chart1" target="19" />
       <module name="EPSPlugin" target="18" />
-      <module name="LineBarChartPlugin" target="18" />
       <module name="ObjectifySPI" target="18" />
       <module name="PieChartPlugin" target="18" />
     </bytecodeTargetLevel>

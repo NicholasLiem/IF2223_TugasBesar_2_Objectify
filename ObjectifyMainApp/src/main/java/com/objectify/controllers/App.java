@@ -22,7 +22,6 @@ public class App extends Application {
 //        pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
 //        pluginLoader.loadPlugins(pluginJarFilePath);
 
-        MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 
         primaryStage.setScene(landingScene);
