@@ -11,6 +11,8 @@ import javafx.application.Application;
 import com.objectify.controllers.scenes.MainScene;
 import javafx.stage.Stage;
 
+import java.nio.file.Paths;
+
 public class App extends Application {
 
     private Settings settings = Settings.getInstance();
@@ -20,12 +22,13 @@ public class App extends Application {
 
     private TransactionManager transactionManager = TransactionManager.getInstance();
     private MainScene mainScene = new MainScene();
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         PluginLoader pluginLoader = new PluginLoader(this);
         String pluginName = "CurrencyPlugin-v1.0.jar";
         String currentWorkingDirectory = System.getProperty("user.dir");
-        String pluginJarFilePath = currentWorkingDirectory + "\\CurrencyPlugin\\target\\" + pluginName;
+        String pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target", pluginName).toString();
 
         pluginLoader.loadPlugin(pluginJarFilePath, "com.objectify.CurrencyPlugin.Main");
         MainScene mainScene = new MainScene();
