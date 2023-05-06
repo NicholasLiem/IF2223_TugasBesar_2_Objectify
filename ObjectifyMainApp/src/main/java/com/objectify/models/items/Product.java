@@ -11,6 +11,8 @@ import java.io.Serializable;
 public class Product implements Serializable {
     private static final long serialVersionUID = 730501466045521531L;
     
+    private static int totalProducts = 0;
+    private int idProduct;
     private int productStock;
     private String productName;
     private double productPrice;
@@ -23,14 +25,18 @@ public class Product implements Serializable {
     public Product(){
 
     }
-    public Product(int productStock, String productName, double productPrice, double productBuyPrice, Category category, String productImagePath) {
+    public Product(int productStock, String productName, double productPrice, double productBuyPrice, Category productCategory, String productImagePath) {
+        this.idProduct = totalProducts+1;
         this.productStock = productStock;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productBuyPrice = productBuyPrice;
-        this.category = category;
+        this.category = productCategory;
         this.productImagePath = productImagePath;
+        totalProducts++;
     }
+
+    public  int getIdProduct(){return this.idProduct;}
 
     public int getProductStock() {
         return productStock;

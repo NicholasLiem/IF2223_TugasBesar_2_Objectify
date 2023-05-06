@@ -156,7 +156,6 @@ public class ProductManagerPage extends GridPane {
     private void updateProductsScrollPane() {
         StorageManager pManager = StorageManager.getInstance();
         int n = pManager.getProducts().size();
-        
         FlowPane productsFlowPane = new FlowPane();
         productsFlowPane.setPadding(new Insets(10));
         productsFlowPane.setHgap(10);
@@ -179,7 +178,6 @@ public class ProductManagerPage extends GridPane {
             imageBox.setSpacing(10);
             imageBox.setAlignment(Pos.CENTER);
             imageBox.setOnMouseClicked(event -> {
-                System.out.println("Clicked");
                 nameField.setText(productName);
                 stockField.setText(String.valueOf(product.getProductStock()));
                 priceField.setText(String.valueOf(product.getProductPrice()));
@@ -241,8 +239,7 @@ public class ProductManagerPage extends GridPane {
             Product product = new Product(stock, name, price, buyPrice, category, imagePath);
     
             // Add product to product manager
-            productManager.addProduct(product);
-    
+            productManager.addNewProducts(product);
             // Clear input fields
             clearFields();
     
@@ -302,7 +299,7 @@ public class ProductManagerPage extends GridPane {
             product.setProductImagePath(imagePath);
             
             // Add product to product manager
-            pManager.addProduct(product);
+            pManager.addNewProducts(product);
             
             // Clear input fields
             clearFields();
