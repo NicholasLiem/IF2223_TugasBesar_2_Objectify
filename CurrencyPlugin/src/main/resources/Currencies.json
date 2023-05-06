@@ -1,6 +1,10 @@
 {
   "currencies": [
     {
+      "name": "IDR",
+      "exchangeRate": 1
+    },
+    {
       "name": "USD",
       "exchangeRate": 0.000069
     },
