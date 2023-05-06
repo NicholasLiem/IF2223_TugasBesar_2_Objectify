@@ -1,0 +1,23 @@
+.mainFrame {
+    -fx-background-color: black;
+}
+
+.cashier-page{
+    -fx-background-color : "#E9EFFD";
+    -fx-border-color : black;
+}
+
+.list-bill{
+    -fx-background-color : "#E9EFFD";
+    -fx-border-color : black;
+}
+
+.billButtons{
+    -fx-background-color: lightblue;
+    -fx-border-color: black;
+}
+
+.mainBoxes{
+    -fx-background-color: white;
+    -fx-border-color: black;
+}
