@@ -18,8 +18,8 @@ public class Customer extends User implements Serializable {
         super();
     }
 
-    public Customer(int userID, boolean activationStatus, TransactionHistory transactionHistory){
-        super(userID, activationStatus, transactionHistory);
+    public Customer(boolean activationStatus, TransactionHistory transactionHistory){
+        super(activationStatus, transactionHistory);
     }
 
     @Override

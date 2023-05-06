@@ -2,7 +2,6 @@ package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
-import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,22 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
+
 
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
 
 public class RegisterMemberPage extends Pane {
 
@@ -35,41 +27,25 @@ public class RegisterMemberPage extends Pane {
     private Label pointsLabel;
 
     private Label imageLabel;
+    private ComboBox<String> membershipComboBox;
 
     private TextField nameField;
     private TextField phoneNumberField;
     private TextField pointsField;
 
-    private ImageView userImage;
+    private ComboBox<String> updatedMembershipComboBox;
 
+    private TextField updatedNameField;
+    private TextField updatedPhoneNumberField;
+    private TextField updatedPointsField;
     private ArrayList<User> listOfUsers;
 
+    private VBox userPicture;
 
+    private  ScrollPane scrollPane;
+    private Label userTitle;
     public RegisterMemberPage() {
 //        Dummy data doank
-        SystemPointOfSales spos = SystemPointOfSales.getInstance();
-        UserManager um = spos.getUserManager();
-        Member customer1 = new Member(1,false,new TransactionHistory(),"Nathania","08129",12);
-
-        Member customer3 = new Member(3,false,new TransactionHistory(),"Sofyan","08129",12);
-        Member customer2 = new Member(2,false,new TransactionHistory(),"Nicholas","08129",13);
-        Member customer4 = new Member(4,false, new TransactionHistory(),"Hosea","0818",20);
-        Member customer5 = new Member(5,false, new TransactionHistory(),"cust5","0818",20);
-        Member customer6 = new Member(6,false,new TransactionHistory(),"member6","21123",20);
-
-        TransactionHistory th1 = new TransactionHistory();
-        VIP vip1 = new VIP(100,true,th1, "Hahaha","0812",12);
-        VIP vip2 = new VIP(99,true,th1, "heheheh","0812",20);
-        VIP vip3 = new VIP(98,true,th1, "vip3","0811",13);
-        VIP vip4 = new VIP(97,true,th1, "vip4","0810",12);
-        VIP vip5 = new VIP(101,true,th1,"Hahahaha","08128",12);
-        VIP vip6 = new VIP(102,true,th1,"hhehehehehehheh","08123123",12);
-
-        um.addUser(customer1);
-        um.addUser(vip1);um.addUser(vip3);um.addUser(vip4);um.addUser(customer4);um.addUser(customer5);um.addUser(customer6);
-        um.addUser(vip2);um.addUser(customer1);um.addUser(customer2);um.addUser(customer3);um.addUser(vip5);um.addUser(vip6);
-        this.listOfUsers = um.getListOfUsers();
-
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
@@ -86,66 +62,16 @@ public class RegisterMemberPage extends Pane {
         title.getStyleClass().add("title");
         titleContainer.getChildren().add(title);
 
-        VBox userPicture = new VBox();
+        this.userPicture = new VBox();
         userPicture.setSpacing(30);
+        userPicture.setPadding(new Insets(20,0,0,30));
         userPicture.getStyleClass().add("pict-container");
         userPicture.setAlignment(Pos.TOP_CENTER);
-        userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.5).subtract(30));
-        Label userTitle = new Label("Our users");
+        userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.4).subtract(30));
+        this.userTitle = new Label("Our users");
         userTitle.getStyleClass().add("title");
-        userPicture.getChildren().add(userTitle);
-
-        VBox allMembers = new VBox();
-        allMembers.setMaxHeight(Double.MAX_VALUE);
-        allMembers.setSpacing(20);
-        VBox vipContainer = new VBox();
-        vipContainer.setMaxWidth(Double.MAX_VALUE);
-        vipContainer.setSpacing(20);
-        Label vipLabel = new Label("VIP");
-        vipLabel.getStyleClass().add("title");
-        vipContainer.getChildren().add(vipLabel);
-
-        VBox memberContainer = new VBox();
-        memberContainer.setMaxWidth(Double.MAX_VALUE);
-        memberContainer.setSpacing(20);
-        Label memberLabel = new Label("Member");
-        memberLabel.getStyleClass().add("title");
-        memberContainer.getChildren().add(memberLabel);
-
-        Integer i = 0;
-        for(User user : this.listOfUsers){
-            if(i > 8){
-                break;
-            }
-            HBox dataUser = new HBox();
-            if(user instanceof  Member){
-                String name = ((Member)user).getName();
-                Text userName = new Text(name);
-                userName.getStyleClass().add("member-name");
-                dataUser.getChildren().add(userName);
-                memberContainer.getChildren().add(dataUser);
-            }
-            if (user instanceof VIP){
-                String name = ((VIP)user).getName();
-                Text userName = new Text(name);
-                userName.getStyleClass().add("member-name");
-                dataUser.getChildren().add(userName);
-                vipContainer.getChildren().add(dataUser);
-            }
-        }
-        allMembers.getChildren().addAll(vipContainer,memberContainer);
-        allMembers.setPadding(new Insets(10));
-        allMembers.setStyle("-fx-background-color: #E9EFFD;");
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.getStyleClass().add("background");
-        scrollPane.setContent(allMembers);
-        scrollPane.setPadding(new Insets(12));
-        scrollPane.setFitToWidth(true);
-        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
-        scrollPane.setPrefWidth(userPicture.getPrefWidth());
-        scrollPane.setPrefHeight(userPicture.getPrefHeight());
-        userPicture.getChildren().addAll(scrollPane);
-
+        updateScroll();
+//        Forms di sebelah kiri
         HBox container = new HBox();
         container.setMaxWidth(Double.MAX_VALUE);
         container.setSpacing(30);
@@ -168,7 +94,7 @@ public class RegisterMemberPage extends Pane {
         VBox fieldCol = new VBox();
         fieldCol.setSpacing(40);
         fieldCol.setMaxHeight(Double.MAX_VALUE);
-        ComboBox<String> membershipComboBox = new ComboBox<>();
+        this.membershipComboBox = new ComboBox<>();
         membershipComboBox.getItems().addAll("Customer", "Member", "VIP");
         membershipComboBox.setValue("Customer");
         membership.getStyleClass().add("sub-title");
@@ -178,45 +104,16 @@ public class RegisterMemberPage extends Pane {
         this.phoneNumberField = new TextField();
         this.pointsField = new TextField();
         nameField.setPrefWidth(400);
-        Button button = new Button("Pilih File");
-        button.setOnAction(e -> {
-            if(this.userImage != null){
-                userPicture.getChildren().clear();
-            }
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Pilih File");
-            File selectedFile = fileChooser.showOpenDialog(null);
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg")
-            );
-            if (selectedFile != null && isImageFile(selectedFile)) {
-                try {
-                    // Load the image from the selected file using ImageIO
-                    javafx.scene.image.Image image = new javafx.scene.image.Image(selectedFile.toURI().toURL().toString());
-
-                    // Create an image view to display the image
-                    javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(image);
-                    imageView.setFitHeight(500);
-                    imageView.setFitWidth(300);
-                    this.userImage = imageView;
-                    userPicture.getChildren().add(this.userImage);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        fieldCol.getChildren().addAll(membershipComboBox,this.nameField,this.phoneNumberField,this.pointsField,button);
+        fieldCol.getChildren().addAll(membershipComboBox,this.nameField,this.phoneNumberField,this.pointsField);
         container.getChildren().addAll(labelCol,fieldCol);
-
         forms.getChildren().addAll(titleContainer,container);
         forms.getStyleClass().add("forms");
         forms.setPadding(new Insets(20,0,0,30));
         forms.prefWidthProperty().bind(row.widthProperty().multiply(0.6));
-
-        // Set the grow priority for the userPicture VBox to Priority.ALWAYS
         HBox.setHgrow(forms, Priority.ALWAYS);
         HBox.setHgrow(userPicture, Priority.ALWAYS);
 
+//        Parent dari forms dan userPicture
         row.getChildren().addAll(forms,userPicture);
         row.getStyleClass().add("forms");
 
@@ -226,7 +123,6 @@ public class RegisterMemberPage extends Pane {
         mainContainer.setCenter(row);
         mainContainer.prefWidthProperty().bind(this.widthProperty());
         mainContainer.prefHeightProperty().bind(this.heightProperty());
-        // set row width to 100% so that forms and userPicture split 60-40
         row.setPrefWidth(Region.USE_COMPUTED_SIZE);
         row.setMaxWidth(Double.MAX_VALUE);
 
@@ -243,67 +139,13 @@ public class RegisterMemberPage extends Pane {
                 pointsField.setDisable(false);
             }
         });
-        Button submitButton = new Button("Create Member");
-        submitButton.getStyleClass().add("submit-btn");
-        submitButton.setOnAction(event -> {
-            String selectedMembership = membershipComboBox.getValue();
-            UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
-
-            switch (selectedMembership) {
-                case "Customer":
-                    Customer customer = new Customer();
-                    customer.setActivationStatus(true);
-                    System.out.println("Masuk ke customer");
-                    System.out.println(customer);
-                    userManager.addUser(customer);
-                    break;
-                case "Member":
-                    TransactionHistory th = new TransactionHistory();
-                    int points = parsePointsField();
-                    if (points == -1) {
-                        return;
-                    }
-                    Member member = new Member(123, true, th, nameField.getText(), phoneNumberField.getText(), points);
-
-                    userManager.addUser(member);
-                    break;
-                case "VIP":
-                    TransactionHistory thNew = new TransactionHistory();
-                    int pointsNew = parsePointsField();
-                    if (pointsNew == -1) {
-                        return;
-                    }
-                    VIP vip = new VIP(123, true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
-
-                    userManager.addUser(vip);
-                    break;
-            }
-            for (User u: userManager.getListOfUsers()){
-                System.out.println(u.toString());
-            }
-            clearFields();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Member created");
-            alert.setContentText("The new member has been created successfully");
-            alert.showAndWait();
-        });
-        HBox buttonBox = new HBox();
-        buttonBox.setPrefWidth(Double.MAX_VALUE);
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setPadding(new Insets(30,0,0,0));
-        buttonBox.getChildren().add(submitButton);
-        forms.getChildren().add(buttonBox);
+        forms.getChildren().add(submitButton());
     }
     // Helper method to clear input fields
     private void clearFields() {
         nameField.clear();
         phoneNumberField.clear();
         pointsField.clear();
-    }
-    private boolean isImageFile(File file) {
-        String name = file.getName().toLowerCase();
-        return name.endsWith(".png") || name.endsWith(".jpg");
     }
 
     private int parsePointsField() {
@@ -321,4 +163,259 @@ public class RegisterMemberPage extends Pane {
         return points;
     }
 
+    private HBox submitButton(){
+        HBox buttonBox = new HBox();
+        buttonBox.setPrefWidth(Double.MAX_VALUE);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(30,0,0,0));
+        Button button = new Button("Create Member");
+        button.getStyleClass().add("submit-btn");
+        button.setOnAction(event -> {
+            String selectedMembership = membershipComboBox.getValue();
+            UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
+
+            switch (selectedMembership) {
+                case "Customer":
+                    Customer customer = new Customer();
+                    customer.setActivationStatus(true);
+                    userManager.addUser(customer);
+                    break;
+                case "Member":
+                    TransactionHistory th = new TransactionHistory();
+                    int points = parsePointsField();
+                    if (points == -1) {
+                        return;
+                    }
+                    Member member = new Member(true, th, nameField.getText(), phoneNumberField.getText(), points);
+                    userManager.addUser(member);
+                    break;
+                case "VIP":
+                    TransactionHistory thNew = new TransactionHistory();
+                    int pointsNew = parsePointsField();
+                    if (pointsNew == -1) {
+                        return;
+                    }
+                    VIP vip = new VIP(true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
+                    userManager.addUser(vip);
+                    break;
+            }
+
+            clearFields();
+            updateScroll();
+            setAlert();
+        });
+        buttonBox.getChildren().add(button);
+        return buttonBox;
+    }
+
+    private void updateScroll(){
+        this.userPicture.getChildren().clear();
+        VBox allMembers = new VBox();
+        allMembers.setMaxHeight(Double.MAX_VALUE);
+        allMembers.setSpacing(20);
+
+//        Container untuk menampung semua VIP user
+        VBox vipContainer = new VBox();
+        vipContainer.setMaxWidth(Double.MAX_VALUE);
+        vipContainer.setSpacing(20);
+        Label vipLabel = new Label("VIP");
+        vipLabel.getStyleClass().add("title");
+        vipContainer.getChildren().add(vipLabel);
+
+//        Container untuk menampung semua Member user
+        VBox memberContainer = new VBox();
+        memberContainer.setMaxWidth(Double.MAX_VALUE);
+        memberContainer.setSpacing(20);
+        Label memberLabel = new Label("Member");
+        memberLabel.getStyleClass().add("title");
+        memberContainer.getChildren().add(memberLabel);
+
+//        Container untuk menampung semua Customer User
+
+        VBox customerContainer = new VBox();
+        customerContainer.setMaxWidth(Double.MAX_VALUE);
+        customerContainer.setSpacing(20);
+        Label customerLabel = new Label("User");
+        customerLabel.getStyleClass().add("title");
+        customerContainer.getChildren().add(customerLabel);
+
+        UserManager um = SystemPointOfSales.getInstance().getUserManager();
+        this.listOfUsers = um.getListOfUsers();
+        this.scrollPane = new ScrollPane();
+        scrollPane.setContent(allMembers);
+        scrollPane.setPadding(new Insets(12));
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
+        scrollPane.setPrefWidth(userPicture.getPrefWidth());
+        scrollPane.setPrefHeight(userPicture.getPrefHeight());
+
+        for(User user : this.listOfUsers){
+//            Container untuk menampung data sebuah User
+            HBox dataUser = new HBox();
+            if(user instanceof  Member){
+                String name = ((Member)user).getName();
+                Text userName = new Text(name);
+                userName.getStyleClass().add("member-name");
+                String number = ((Member)user).getPhoneNumber();
+                String points = Integer.toString(((Member)user).getPoints());
+                dataUser.getChildren().add(userName);
+                memberContainer.getChildren().add(dataUser);
+                userName.setOnMouseClicked(event ->{
+                    this.userPicture.getChildren().clear();
+                    this.userPicture.getChildren().add(selectedUser(name,"Member",number,points));
+                });
+
+            }
+            if (user instanceof VIP){
+                String name = ((VIP)user).getName();
+                Text userName = new Text(name);
+                String number = ((VIP)user).getPhoneNumber();
+                String points = Integer.toString(((VIP)user).getPoints());
+                userName.getStyleClass().add("member-name");
+                dataUser.getChildren().add(userName);
+                vipContainer.getChildren().add(dataUser);
+                userName.setOnMouseClicked(event ->{
+                    this.userPicture.getChildren().clear();
+                    this.userPicture.getChildren().addAll(selectedUser(name,"VIP",number,points));
+                });
+            }
+
+            if(user instanceof Customer){
+                Integer id = user.getUserID();
+                Text user_id = new Text(id.toString());
+                user_id.getStyleClass().add("member-name");
+                dataUser.getChildren().add(user_id);
+                customerContainer.getChildren().add(dataUser);
+                user_id.setOnMouseClicked(event -> {
+                    userPicture.getChildren().clear();
+                    userPicture.getChildren().addAll(selectedUser(" ","Customer"," "," "));
+                });
+            }
+        }
+
+        allMembers.getChildren().addAll(vipContainer,memberContainer,customerContainer);
+        allMembers.setPadding(new Insets(10));
+        allMembers.setStyle("-fx-background-color: #E9EFFD;");
+
+        userPicture.getChildren().addAll(userTitle,scrollPane);
+    }
+
+    private void setAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Member created");
+        alert.setContentText("The new member has been created successfully");
+        alert.showAndWait();
+    }
+
+    private VBox selectedUser(String oldName, String type, String oldNumber, String oldPoints){
+
+        this.updatedNameField = new TextField();
+        this.updatedPhoneNumberField = new TextField();
+        this.updatedPointsField = new TextField();
+        this.updatedMembershipComboBox = new ComboBox<>();
+        this.updatedMembershipComboBox.getItems().addAll("Customer", "Member", "VIP");
+
+        this.updatedNameField.setText(oldName);
+        this.updatedPhoneNumberField.setText(oldNumber);
+        this.updatedPointsField.setText(oldPoints);
+        this.updatedMembershipComboBox.setValue(type);
+
+        VBox spesificUser = new VBox();
+        spesificUser.setSpacing(20);
+        spesificUser.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+        spesificUser.setAlignment(Pos.CENTER);
+
+        HBox containAll = new HBox();
+        containAll.setSpacing(30);
+        containAll.setMaxWidth(Double.MAX_VALUE);
+        containAll.setPadding(new Insets(20,0,0,50));
+        if(oldName == " "){
+            Text titleUserName = new Text("User");
+            titleUserName.getStyleClass().add("title");
+            spesificUser.getChildren().add(titleUserName);
+
+        }else{
+            Text titleUserName = new Text(oldName);
+            titleUserName.getStyleClass().add("title");
+            spesificUser.getChildren().add(titleUserName);
+        }
+
+        VBox labelCol = new VBox();
+        labelCol.setMaxHeight(Double.MAX_VALUE);
+        labelCol.setSpacing(20);
+
+        Label membershipLabel = new Label("Membership Type : ");
+        Label nameLabel = new Label("Name : ");
+        Label phoneNumberLabel = new Label("Phone Number : ");
+        Label pointsLabel = new Label("Points : ");
+        membershipLabel.getStyleClass().add("sub-title");
+        phoneNumberLabel.getStyleClass().add("sub-title");
+        nameLabel.getStyleClass().add("sub-title");
+        pointsLabel.getStyleClass().add("sub-title");
+        labelCol.getChildren().addAll(membershipLabel,nameLabel,phoneNumberLabel,pointsLabel);
+
+        VBox valueCol = new VBox();
+        valueCol.setSpacing(20);
+        valueCol.setMaxHeight(Double.MAX_VALUE);
+        valueCol.getChildren().addAll(this.updatedMembershipComboBox,this.updatedNameField,this.updatedPhoneNumberField,this.updatedPointsField);
+        Button returnBack = new Button("Back");
+        returnBack.setOnAction(backToPage ->{
+            userPicture.getChildren().clear();
+            userPicture.getChildren().addAll(this.userTitle,this.scrollPane);
+        });
+        HBox boxContainer = new HBox();
+        boxContainer.setSpacing(20);
+        boxContainer.setMaxWidth(Double.MAX_VALUE);
+        boxContainer.setPadding(new Insets(20,0,0,50));
+        boxContainer.getChildren().addAll(updateButton(),returnBack);
+        returnBack.getStyleClass().add("submit-btn");
+        returnBack.setPrefWidth(100);
+        containAll.getChildren().addAll(labelCol,valueCol);
+        spesificUser.getChildren().addAll(containAll,boxContainer);
+        return spesificUser;
+    }
+
+    private  Button updateButton(){
+        Button button = new Button("Update");
+        button.getStyleClass().add("submit-btn");
+        button.setPrefWidth(100);
+        button.setOnAction(event -> {
+            String selectedMembership = this.updatedMembershipComboBox.getValue();
+            UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
+            switch (selectedMembership) {
+                case "Customer":
+                    Customer customer = new Customer();
+                    customer.setActivationStatus(true);
+                    userManager.addUser(customer);
+                    break;
+                case "Member":
+                    TransactionHistory th = new TransactionHistory();
+                    int points = parsePointsField();
+                    if (points == -1) {
+                        return;
+                    }
+                    Member member = new Member(true, th, nameField.getText(), phoneNumberField.getText(), points);
+
+                    userManager.addUser(member);
+                    break;
+                case "VIP":
+                    TransactionHistory thNew = new TransactionHistory();
+                    int pointsNew = parsePointsField();
+                    if (pointsNew == -1) {
+                        return;
+                    }
+                    VIP vip = new VIP(true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
+
+                    userManager.addUser(vip);
+                    break;
+            }
+            for (User u: userManager.getListOfUsers()){
+                System.out.println(u.toString());
+            }
+            clearFields();
+            setAlert();
+        });
+        return button;
+    }
 }

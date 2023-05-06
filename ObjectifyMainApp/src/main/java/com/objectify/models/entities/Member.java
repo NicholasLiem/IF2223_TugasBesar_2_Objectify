@@ -22,8 +22,8 @@ public class Member extends User implements Serializable {
         super();
     }
 
-    public Member(int userID, boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {
-        super(userID, activationStatus, transactionHistory);
+    public Member(boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {
+        super(activationStatus, transactionHistory);
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.points = points;

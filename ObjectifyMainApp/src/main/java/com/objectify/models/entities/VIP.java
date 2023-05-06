@@ -22,8 +22,8 @@ public class VIP extends User implements Serializable {
         super();
     }
 
-    public VIP(int userID, boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {
-        super(userID, activationStatus, transactionHistory);
+    public VIP(boolean activationStatus, TransactionHistory transactionHistory, String name, String phoneNumber, int points) {
+        super(activationStatus, transactionHistory);
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.points = points;

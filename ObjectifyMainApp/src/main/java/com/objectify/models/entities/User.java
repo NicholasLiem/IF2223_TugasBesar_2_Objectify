@@ -16,9 +16,10 @@ import java.io.Serializable;
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso({Member.class, VIP.class, Customer.class})
+
 public abstract class User implements Serializable {
     private static final long serialVersionUID = 7695914912555037086L;
-    
+    private static int totalUser = 0;
     private int userID;
     private String type;
     private boolean activationStatus;
@@ -26,14 +27,16 @@ public abstract class User implements Serializable {
     @XmlElement(name = "UserTransactionHistory")
     private TransactionHistory transactionHistory;
 
-    public User(int userID, boolean activationStatus, TransactionHistory transactionHistory) {
-        this.userID = userID;
+    public User(boolean activationStatus, TransactionHistory transactionHistory) {
+        this.userID = totalUser+1;
         this.activationStatus = activationStatus;
         this.transactionHistory = transactionHistory;
+        totalUser++;
     }
 
     public User() {
-
+        this.userID = totalUser+1;
+        totalUser++;
     }
 
     public int getUserID() {
