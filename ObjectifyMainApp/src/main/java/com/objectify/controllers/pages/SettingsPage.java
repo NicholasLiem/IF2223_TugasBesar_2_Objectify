@@ -19,8 +19,6 @@ import java.util.List;
 
 
 public class SettingsPage extends GridPane {
-    private ComboBox<String> currencyComboBox;
-
     public SettingsPage() {
         setPadding(new Insets(10));
         setHgap(10);
