@@ -10,9 +10,8 @@ import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Member.class, name = "Member"),
-        @JsonSubTypes.Type(value = VIP.class, name = "VIP"),
-        @JsonSubTypes.Type(value = Customer.class, name = "Customer")
+        @JsonSubTypes.Type(value = ComboBoxBuilder.class, name = "ComboBox"),
+        @JsonSubTypes.Type(value = TextFieldBuilder.class, name = "Text"),
 })
 public abstract class SettingBuilder<T> {
 

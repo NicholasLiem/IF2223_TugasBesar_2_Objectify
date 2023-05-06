@@ -1,7 +1,9 @@
 package com.objectify.datastore;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.scene.control.ComboBox;
 
+@JsonTypeName("ComboBox")
 public class ComboBoxBuilder extends SettingBuilder<ComboBox<String>> {
     
     private final String[] options;

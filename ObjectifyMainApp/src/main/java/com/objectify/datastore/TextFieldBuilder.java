@@ -1,7 +1,9 @@
 package com.objectify.datastore;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.scene.control.TextField;
 
+@JsonTypeName("Text")
 public class TextFieldBuilder extends SettingBuilder<TextField> {
     
     private String value;
