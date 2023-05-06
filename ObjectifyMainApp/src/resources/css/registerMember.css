@@ -58,3 +58,11 @@
 .user-data{
     -fx-font-size : 16
 }
+
+.back-btn{
+    -fx-padding : 5px;
+    -fx-background-radius: 20px;
+    -fx-background-color : "#6B62B9";
+    -fx-text-fill : "#FFFCFF";
+    -fx-width : 30;
+}
