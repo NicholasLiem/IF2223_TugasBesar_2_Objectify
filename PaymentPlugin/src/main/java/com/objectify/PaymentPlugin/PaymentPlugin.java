@@ -10,7 +10,6 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 public class PaymentPlugin extends Plugin {
     private static final String PAYMENT_SETTINGS_PATH = "Payment.json";
     private static final String SETTINGS_PATH = "Settings.json";
@@ -61,22 +60,19 @@ public class PaymentPlugin extends Plugin {
         }));
     }
 
-
-
-
     @Override
     public void onDisable(SystemPointOfSales spos) {
         System.out.println("Payment Plugin" + " has been disabled!");
 
         // Write the current Payment object to the JSON file
-//        try {
-//            ObjectMapper mapper = new ObjectMapper();
-//            Path paymentPath = Paths.get(spos.getSettings().getSettingsPath(), PAYMENT_SETTINGS_PATH);
-//            OutputStream output = new FileOutputStream(paymentPath.toFile());
-//            mapper.writerWithDefaultPrettyPrinter().writeValue(output, payment);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Path paymentPath = Paths.get(spos.getSettings().getSettingsPath(), PAYMENT_SETTINGS_PATH);
+            OutputStream output = new FileOutputStream(paymentPath.toFile());
+            mapper.writerWithDefaultPrettyPrinter().writeValue(output, payment);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
