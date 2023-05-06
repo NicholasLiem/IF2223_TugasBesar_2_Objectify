@@ -22,10 +22,15 @@ public class Test {
 
         // Create a transaction from the cart
         double amount = cart.value();
-        Transaction transaction = new Transaction(1,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), amount, cart);
+        // Transaction transaction = new Transaction(1,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), amount, cart);
+
+        TransactionHistory transactions = new TransactionHistory();
+        for (int i = 0; i < 10; i++) {
+            transactions.add(new Transaction(i+1,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), amount, cart));
+        }
 
         // Generate a PDF bill for the transaction
-        TransactionPDFGenerator pdfGenerator = new TransactionPDFGenerator(transaction);
+        TransactionHistoryPDFGenerator pdfGenerator = new TransactionHistoryPDFGenerator(transactions);
         pdfGenerator.start(); // This will run the PDF generation in a separate thread
     }
 }
