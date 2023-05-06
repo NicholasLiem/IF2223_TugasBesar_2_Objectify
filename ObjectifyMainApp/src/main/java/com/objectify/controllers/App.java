@@ -21,13 +21,12 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         SystemPointOfSales.getInstance().setApp(this);
-
-        PluginLoader pluginLoader = new PluginLoader();
+        
         String pluginName = "CurrencyPlugin-v1.0.jar";
         String currentWorkingDirectory = System.getProperty("user.dir");
         String pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
 
-        pluginLoader.loadPlugins(pluginJarFilePath);
+        SystemPointOfSales.getInstance().getPluginLoader().loadPlugins(pluginJarFilePath);
         MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 
