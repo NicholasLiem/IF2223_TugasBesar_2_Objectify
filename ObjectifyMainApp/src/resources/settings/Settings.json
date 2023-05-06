@@ -1,21 +1,10 @@
 {
-  "settingsPath" : "ObjectifyMainApp/src/resources/settings/Settings.json",
+  "settingsPath" : "ObjectifyMainApp/src/resources/settings/",
   "additionalProperties" : {
-    "JPY" : {
-      "currencies" : "JPY",
-      "exchange_rate" : 0.0076
-    },
-    "EUR" : {
-      "currencies" : "EUR",
-      "exchange_rate" : 5.8E-5
-    },
-    "USD" : {
-      "currencies" : "USD",
-      "exchange_rate" : 6.9E-5
-    },
-    "IDR" : {
-      "currencies" : "IDR",
-      "exchange_rate" : 1.0
+    "Currencies" : {
+      "CurrencySettings" : "ObjectifyMainApp/src/resources/settings/Currency.json",
+      "CurrencyDefault" : "USD",
+      "CurrencyExchangeRate" : 1
     }
   },
   "uiConfig" : [ ]

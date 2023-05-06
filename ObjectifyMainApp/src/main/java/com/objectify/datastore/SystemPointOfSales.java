@@ -32,7 +32,6 @@ public class SystemPointOfSales {
         this.categoryManager = new CategoryManager();
         this.storageManager = new StorageManager();
         this.transactionManager = new TransactionManager();
-        this.pluginLoader = new PluginLoader();
     }
 
     private static SystemPointOfSales instance;

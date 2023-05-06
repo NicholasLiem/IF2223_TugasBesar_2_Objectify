@@ -12,6 +12,10 @@ import java.util.jar.JarFile;
 
 public class PluginLoader {
     public static HashSet<Plugin> plugins = new HashSet<>();
+    private SystemPointOfSales spos = SystemPointOfSales.getInstance();
+
+    public PluginLoader(){
+    }
 
     public void loadPlugins(String pluginsFolder) throws Exception {
         File pluginDirectory = new File(pluginsFolder);
@@ -31,8 +35,8 @@ public class PluginLoader {
                         try {
                             Class<?> cls = urlClassLoader.loadClass(jarEntry.getName().replaceAll("/", ".").replace(".class", ""));
                             if(Plugin.class.isAssignableFrom(cls)){
-                                Constructor<?> constructor = cls.getConstructor(String.class);
-                                Plugin plugin = (Plugin) constructor.newInstance("Plugin");
+                                Constructor<?> constructor = cls.getConstructor();
+                                Plugin plugin = (Plugin) constructor.newInstance();
                                 plugins.add(plugin);
                                 plugin.onEnable(SystemPointOfSales.getInstance());
                             }
