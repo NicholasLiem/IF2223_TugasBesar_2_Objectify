@@ -1,4 +1,4 @@
-package com.objectify.datastore;
+package com.objectify.datastore.enums;
 
 import java.util.Optional;
 

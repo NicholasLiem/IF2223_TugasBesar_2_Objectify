@@ -1,21 +1,17 @@
 package com.objectify.controllers.pages;
 
-import com.objectify.datastore.SettingBuilder;
+import com.objectify.datastore.enums.InputControl;
 import com.objectify.datastore.SystemPointOfSales;
-import com.objectify.plugin.Plugin;
 import com.objectify.plugin.PluginLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.List;
 
 
 public class SettingsPage extends GridPane {
@@ -85,9 +81,11 @@ public class SettingsPage extends GridPane {
             add(dirChooserBtn, 2, 0);
             add(loadPluginBtn, 3, 0);
 
-            for (SettingBuilder<?> ui : SystemPointOfSales.getInstance().getSettings().getUiConfig()) {
-                add(new Label(ui.getLabel()), 0, 2);
-                add((Node) ui.build(), 1, 2);
+            int count = 2;
+            for (InputControl ui : SystemPointOfSales.getInstance().getSettings().getComponents()) {
+                add(ui.getLabel(), 0, count);
+                add(ui.getInputControl(), 1, count);
+                count++;
             }
         });
 
@@ -96,10 +94,11 @@ public class SettingsPage extends GridPane {
         add(dirChooserBtn, 2, 0);
         add(loadPluginBtn, 3, 0);
 
-
-        for (SettingBuilder<?> ui : SystemPointOfSales.getInstance().getSettings().getUiConfig()) {
-            add(new Label(ui.getLabel()), 0, 2);
-            add((Node) ui.build(), 1, 2);
+        int count = 2;
+        for (InputControl ui : SystemPointOfSales.getInstance().getSettings().getComponents()) {
+            add(ui.getLabel(), 0, count);
+            add(ui.getInputControl(), 1, count);
+            count++;
         }
     }
 }

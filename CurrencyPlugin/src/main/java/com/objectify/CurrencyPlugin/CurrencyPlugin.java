@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.objectify.datastore.Settings;
+import com.objectify.datastore.enums.InputControl;
 import com.objectify.datastore.SystemPointOfSales;
-import com.objectify.datastore.ComboBoxBuilder;
 import com.objectify.plugin.Plugin;
+
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -22,9 +26,11 @@ public class CurrencyPlugin extends Plugin {
     private static final String CURRENCY_SETTINGS_PATH = "Currency.json";
     private static final String SETTINGS_PATH = "Settings.json";
     private static final ObjectMapper mapper = new ObjectMapper();
-    private List<Currency> currencies;
+    private final List<Currency> currencies;
 
-    public CurrencyPlugin() {};
+    public CurrencyPlugin() {
+        currencies = new ArrayList<>();
+    };
 
     @Override
     public void onEnable(SystemPointOfSales spos) {
@@ -48,11 +54,28 @@ public class CurrencyPlugin extends Plugin {
                     .put("CurrencyDefault", currencies.get(0).getName())
                     .put("CurrencyExchangeRate", 1));
 
-            String[] options = new String[currencies.size()];
-            for (int i = 0; i < options.length; i++) {
-                options[i] = currencies.get(i).getName();
-            }
-            settings.getUiConfig().add(new ComboBoxBuilder("currency", "Currency", options, options[0]));
+            settings.getComponents().add(new InputControl() {
+                @Override
+                public Label getLabel() {
+                    return new Label("Currency");
+                }
+                @Override
+                public Node getInputControl() {
+                    ComboBox<String> comboBox = new ComboBox<>();
+                    comboBox.setValue("IDR");
+                    final Currency curr = currencies.stream().filter(item -> item.getName().equals("IDR")).findFirst().orElse(currencies.get(0));
+                    spos.getSettings().addCalculator("CurrencyCalculator", value -> value * curr.getExchangeRate());
+                    for (Currency c : currencies) {
+                        comboBox.getItems().add(c.getName());
+                    }
+                    comboBox.setOnAction(event -> {
+                        final String name = comboBox.getValue();
+                        final Currency c = currencies.stream().filter(item -> item.getName().equals(name)).findFirst().orElse(currencies.get(0));
+                        spos.getSettings().addCalculator("CurrencyCalculator", value -> value * c.getExchangeRate());
+                    });
+                    return comboBox;
+                }
+            });
 
             Path settingsPath = Paths.get(settings.getSettingsPath() + SETTINGS_PATH);
             OutputStream output = new FileOutputStream(settingsPath.toFile());
@@ -75,6 +98,7 @@ public class CurrencyPlugin extends Plugin {
 
     @Override
     public void onDisable(SystemPointOfSales spos) {
+        spos.getSettings().removeCalculator("CurrencyCalculator");
         System.out.println("Currencies Plugin" + " has been disabled!");
     }
 
@@ -92,10 +116,11 @@ public class CurrencyPlugin extends Plugin {
                 }
                 OutputStream currencyOutput = new FileOutputStream(currencyPath.toFile());
                 mapper.writerWithDefaultPrettyPrinter().writeValue(currencyOutput, currencyNode);
-                currencies = currencyList;
+                currencies.clear();
+                currencies.addAll(currencyList);
             } catch (IOException e) {
                 e.printStackTrace();
-                currencies = null;
+                currencies.clear();
             }
             return;
         }
@@ -112,10 +137,11 @@ public class CurrencyPlugin extends Plugin {
                 Currency currency = new Currency(name, exchangeRate);
                 currencyList.add(currency);
             }
-            currencies = currencyList;
+            currencies.clear();
+            currencies.addAll(currencyList);
         } catch (IOException e) {
             e.printStackTrace();
-            currencies = null;
+            currencies.clear();
         }
     }
 
@@ -129,7 +155,8 @@ public class CurrencyPlugin extends Plugin {
         }
 
         public void setCurrencies(List<Currency> currencies) {
-            this.currencies = currencies;
+            this.currencies.clear();
+            this.currencies.addAll(currencies);
         }
     }
 }

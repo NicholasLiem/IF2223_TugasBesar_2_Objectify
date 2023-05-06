@@ -1,3 +1,5 @@
 {
-
+  "discount": 0.1,
+  "tax": 0.1,
+  "serviceCharge": 0.1
 }
