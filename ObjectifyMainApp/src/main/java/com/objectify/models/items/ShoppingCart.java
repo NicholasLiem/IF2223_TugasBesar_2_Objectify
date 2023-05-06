@@ -34,10 +34,14 @@ public class ShoppingCart {
         int value = 0;
         while (iterator.hasNext()) {
             Entry<Product, Integer> entry = iterator.next();
-            value += entry.getValue();
+            value += entry.getKey().getProductPrice() * entry.getValue();
         }
 
         return value;
+    }
+
+    public Map<Product, Integer> getItems() {
+        return cartItems;
     }
 
     @Override
