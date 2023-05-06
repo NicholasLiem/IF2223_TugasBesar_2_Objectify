@@ -21,9 +21,9 @@ public class SystemPointOfSales {
 
     private final BillManager billManager;
     private final TransactionManager transactionManager;
-    private final PluginLoader pluginLoader;
 
     private App app;
+//    private final PluginLoader pluginLoader;
 
     private SystemPointOfSales(){
         this.billManager = new BillManager();
@@ -32,6 +32,7 @@ public class SystemPointOfSales {
         this.categoryManager = new CategoryManager();
         this.storageManager = new StorageManager();
         this.transactionManager = new TransactionManager();
+//        this.pluginLoader = new PluginLoader();
     }
 
     private static SystemPointOfSales instance;
@@ -76,5 +77,9 @@ public class SystemPointOfSales {
     public BillManager getBillManager(){
         return billManager;
     }
+
+//    public PluginLoader getPluginLoader() {
+//        return pluginLoader;
+//    }
 
 }

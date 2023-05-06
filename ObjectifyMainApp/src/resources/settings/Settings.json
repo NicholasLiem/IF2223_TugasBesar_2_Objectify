@@ -3,7 +3,7 @@
   "additionalProperties" : {
     "Currencies" : {
       "CurrencySettings" : "ObjectifyMainApp/src/resources/settings/Currency.json",
-      "CurrencyDefault" : "USD",
+      "CurrencyDefault" : "IDR",
       "CurrencyExchangeRate" : 1
     }
   },
