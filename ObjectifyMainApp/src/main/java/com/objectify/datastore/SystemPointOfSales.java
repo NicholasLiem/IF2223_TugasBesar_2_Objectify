@@ -7,6 +7,7 @@ import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.TransactionManager;
+import com.objectify.plugin.PluginLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,7 @@ public class SystemPointOfSales {
     private BillManager billManager;
     private TransactionManager transactionManager;
 
+    private PluginLoader pluginLoader;
     private App app;
 
     private SystemPointOfSales(){
@@ -30,6 +32,7 @@ public class SystemPointOfSales {
         this.categoryManager = new CategoryManager();
         this.storageManager = new StorageManager();
         this.transactionManager = new TransactionManager();
+        this.pluginLoader = new PluginLoader();
     }
 
     private static SystemPointOfSales instance;
@@ -73,5 +76,9 @@ public class SystemPointOfSales {
 
     public BillManager getBillManager(){
         return billManager;
+    }
+
+    public PluginLoader getPluginLoader() {
+        return pluginLoader;
     }
 }

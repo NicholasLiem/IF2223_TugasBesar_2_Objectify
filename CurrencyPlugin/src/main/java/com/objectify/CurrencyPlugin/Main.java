@@ -7,7 +7,6 @@ import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;

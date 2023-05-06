@@ -19,8 +19,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         SystemPointOfSales.getInstance().setApp(this);
 
-        PluginLoader pluginLoader = new PluginLoader();
-        String pluginName = "CurrencyPlugin-v1.0.jar";
+        PluginLoader pluginLoader = SystemPointOfSales.getInstance().getPluginLoader();
         String currentWorkingDirectory = System.getProperty("user.dir");
         String pluginJarFilePath = currentWorkingDirectory + "\\CurrencyPlugin\\target\\";
 
