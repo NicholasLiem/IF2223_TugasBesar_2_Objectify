@@ -47,31 +47,6 @@ public class RegisterMemberPage extends Pane {
     private Label userTitle;
     public RegisterMemberPage() {
 //        Dummy data doank
-        UserManager um = UserManager.getInstance();
-
-        Customer user1 = new Customer();
-        Customer user2 = new Customer();
-        Member customer1 = new Member(false,new TransactionHistory(),"Nathania","08129",12);
-
-        Member customer3 = new Member(false,new TransactionHistory(),"Sofyan","08129",12);
-        Member customer2 = new Member(false,new TransactionHistory(),"Nicholas","08129",13);
-        Member customer4 = new Member(false, new TransactionHistory(),"Hosea","0818",20);
-        Member customer5 = new Member(false, new TransactionHistory(),"cust5","0818",20);
-        Member customer6 = new Member(false,new TransactionHistory(),"member6","21123",20);
-
-        TransactionHistory th1 = new TransactionHistory();
-        VIP vip1 = new VIP(true,th1, "Hahaha","0812",12);
-        VIP vip2 = new VIP(true,th1, "heheheh","0812",20);
-        VIP vip3 = new VIP(true,th1, "vip3","0811",13);
-        VIP vip4 = new VIP(true,th1, "vip4","0810",12);
-        VIP vip5 = new VIP(true,th1,"Hahahaha","08128",12);
-        VIP vip6 = new VIP(true,th1,"hhehehehehehheh","08123123",12);
-
-        um.addUser(customer1);um.addUser(user1);um.addUser(user2);
-        um.addUser(vip1);um.addUser(vip3);um.addUser(vip4);um.addUser(customer4);um.addUser(customer5);um.addUser(customer6);
-        um.addUser(vip2);um.addUser(customer1);um.addUser(customer2);um.addUser(customer3);um.addUser(vip5);um.addUser(vip6);
-        this.listOfUsers = um.getListOfUsers();
-
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
@@ -96,98 +71,8 @@ public class RegisterMemberPage extends Pane {
         userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.4).subtract(30));
         this.userTitle = new Label("Our users");
         userTitle.getStyleClass().add("title");
-
-//        Container untuk menampung semua nama atau id member
-        VBox allMembers = new VBox();
-        allMembers.setMaxHeight(Double.MAX_VALUE);
-        allMembers.setSpacing(20);
-
-//        Container untuk menampung semua VIP user
-        VBox vipContainer = new VBox();
-        vipContainer.setMaxWidth(Double.MAX_VALUE);
-        vipContainer.setSpacing(20);
-        Label vipLabel = new Label("VIP");
-        vipLabel.getStyleClass().add("title");
-        vipContainer.getChildren().add(vipLabel);
-
-//        Container untuk menampung semua Member user
-        VBox memberContainer = new VBox();
-        memberContainer.setMaxWidth(Double.MAX_VALUE);
-        memberContainer.setSpacing(20);
-        Label memberLabel = new Label("Member");
-        memberLabel.getStyleClass().add("title");
-        memberContainer.getChildren().add(memberLabel);
-
-//        Container untuk menampung semua Customer User
-
-        VBox customerContainer = new VBox();
-        customerContainer.setMaxWidth(Double.MAX_VALUE);
-        customerContainer.setSpacing(20);
-        Label customerLabel = new Label("User");
-        customerLabel.getStyleClass().add("title");
-        customerContainer.getChildren().add(customerLabel);
-
-//        Scroll pane untuk membuat semua member jadi bisa discroll
-        this.scrollPane = new ScrollPane();
-        scrollPane.setContent(allMembers);
-        scrollPane.setPadding(new Insets(12));
-        scrollPane.setFitToWidth(true);
-        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
-        scrollPane.setPrefWidth(userPicture.getPrefWidth());
-        scrollPane.setPrefHeight(userPicture.getPrefHeight());
-
-//        Loop semua user di dalam this.listOfUsers untuk ditampailkan
-        for(User user : this.listOfUsers){
-//            Container untuk menampung data sebuah User
-            HBox dataUser = new HBox();
-            if(user instanceof  Member){
-                String name = ((Member)user).getName();
-                Text userName = new Text(name);
-                userName.getStyleClass().add("member-name");
-                String number = ((Member)user).getPhoneNumber();
-                String points = Integer.toString(((Member)user).getPoints());
-                dataUser.getChildren().add(userName);
-                memberContainer.getChildren().add(dataUser);
-                userName.setOnMouseClicked(event ->{
-                    this.userPicture.getChildren().clear();
-                    this.userPicture.getChildren().add(selectedUser(name,"Member",number,points));
-                });
-
-            }
-            if (user instanceof VIP){
-                String name = ((VIP)user).getName();
-                Text userName = new Text(name);
-                String number = ((VIP)user).getPhoneNumber();
-                String points = Integer.toString(((VIP)user).getPoints());
-                userName.getStyleClass().add("member-name");
-                dataUser.getChildren().add(userName);
-                vipContainer.getChildren().add(dataUser);
-                userName.setOnMouseClicked(event ->{
-                    this.userPicture.getChildren().clear();
-                    this.userPicture.getChildren().addAll(selectedUser(name,"VIP",number,points));
-                });
-            }
-
-            if(user instanceof Customer){
-                Integer id = user.getUserID();
-                Text user_id = new Text(id.toString());
-                user_id.getStyleClass().add("member-name");
-                dataUser.getChildren().add(user_id);
-                customerContainer.getChildren().add(dataUser);
-                user_id.setOnMouseClicked(event -> {
-                    userPicture.getChildren().clear();
-                    userPicture.getChildren().addAll(selectedUser(" ","Customer"," "," "));
-                });
-
-            }
-        }
-
-        allMembers.getChildren().addAll(vipContainer,memberContainer,customerContainer);
-        allMembers.setPadding(new Insets(10));
-        allMembers.setStyle("-fx-background-color: #E9EFFD;");
-
-        userPicture.getChildren().addAll(userTitle,scrollPane);
-
+        updateScroll();
+//        Forms di sebelah kiri
         HBox container = new HBox();
         container.setMaxWidth(Double.MAX_VALUE);
         container.setSpacing(30);
@@ -229,6 +114,7 @@ public class RegisterMemberPage extends Pane {
         HBox.setHgrow(forms, Priority.ALWAYS);
         HBox.setHgrow(userPicture, Priority.ALWAYS);
 
+//        Parent dari forms dan userPicture
         row.getChildren().addAll(forms,userPicture);
         row.getStyleClass().add("forms");
 
@@ -293,8 +179,6 @@ public class RegisterMemberPage extends Pane {
                 case "Customer":
                     Customer customer = new Customer();
                     customer.setActivationStatus(true);
-                    System.out.println("Masuk ke customer");
-                    System.out.println(customer);
                     userManager.addUser(customer);
                     break;
                 case "Member":
@@ -304,7 +188,6 @@ public class RegisterMemberPage extends Pane {
                         return;
                     }
                     Member member = new Member(true, th, nameField.getText(), phoneNumberField.getText(), points);
-
                     userManager.addUser(member);
                     break;
                 case "VIP":
@@ -314,19 +197,110 @@ public class RegisterMemberPage extends Pane {
                         return;
                     }
                     VIP vip = new VIP(true, thNew, nameField.getText(), phoneNumberField.getText(), pointsNew);
-
                     userManager.addUser(vip);
                     break;
             }
-            for (User u: userManager.getListOfUsers()){
-                System.out.println(u.toString());
-            }
+
             clearFields();
+            updateScroll();
             setAlert();
         });
         buttonBox.getChildren().add(button);
         return buttonBox;
     }
+
+    private void updateScroll(){
+        this.userPicture.getChildren().clear();
+        VBox allMembers = new VBox();
+        allMembers.setMaxHeight(Double.MAX_VALUE);
+        allMembers.setSpacing(20);
+
+//        Container untuk menampung semua VIP user
+        VBox vipContainer = new VBox();
+        vipContainer.setMaxWidth(Double.MAX_VALUE);
+        vipContainer.setSpacing(20);
+        Label vipLabel = new Label("VIP");
+        vipLabel.getStyleClass().add("title");
+        vipContainer.getChildren().add(vipLabel);
+
+//        Container untuk menampung semua Member user
+        VBox memberContainer = new VBox();
+        memberContainer.setMaxWidth(Double.MAX_VALUE);
+        memberContainer.setSpacing(20);
+        Label memberLabel = new Label("Member");
+        memberLabel.getStyleClass().add("title");
+        memberContainer.getChildren().add(memberLabel);
+
+//        Container untuk menampung semua Customer User
+
+        VBox customerContainer = new VBox();
+        customerContainer.setMaxWidth(Double.MAX_VALUE);
+        customerContainer.setSpacing(20);
+        Label customerLabel = new Label("User");
+        customerLabel.getStyleClass().add("title");
+        customerContainer.getChildren().add(customerLabel);
+
+        UserManager um = UserManager.getInstance();
+        this.listOfUsers = um.getListOfUsers();
+        this.scrollPane = new ScrollPane();
+        scrollPane.setContent(allMembers);
+        scrollPane.setPadding(new Insets(12));
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
+        scrollPane.setPrefWidth(userPicture.getPrefWidth());
+        scrollPane.setPrefHeight(userPicture.getPrefHeight());
+
+        for(User user : this.listOfUsers){
+//            Container untuk menampung data sebuah User
+            HBox dataUser = new HBox();
+            if(user instanceof  Member){
+                String name = ((Member)user).getName();
+                Text userName = new Text(name);
+                userName.getStyleClass().add("member-name");
+                String number = ((Member)user).getPhoneNumber();
+                String points = Integer.toString(((Member)user).getPoints());
+                dataUser.getChildren().add(userName);
+                memberContainer.getChildren().add(dataUser);
+                userName.setOnMouseClicked(event ->{
+                    this.userPicture.getChildren().clear();
+                    this.userPicture.getChildren().add(selectedUser(name,"Member",number,points));
+                });
+
+            }
+            if (user instanceof VIP){
+                String name = ((VIP)user).getName();
+                Text userName = new Text(name);
+                String number = ((VIP)user).getPhoneNumber();
+                String points = Integer.toString(((VIP)user).getPoints());
+                userName.getStyleClass().add("member-name");
+                dataUser.getChildren().add(userName);
+                vipContainer.getChildren().add(dataUser);
+                userName.setOnMouseClicked(event ->{
+                    this.userPicture.getChildren().clear();
+                    this.userPicture.getChildren().addAll(selectedUser(name,"VIP",number,points));
+                });
+            }
+
+            if(user instanceof Customer){
+                Integer id = user.getUserID();
+                Text user_id = new Text(id.toString());
+                user_id.getStyleClass().add("member-name");
+                dataUser.getChildren().add(user_id);
+                customerContainer.getChildren().add(dataUser);
+                user_id.setOnMouseClicked(event -> {
+                    userPicture.getChildren().clear();
+                    userPicture.getChildren().addAll(selectedUser(" ","Customer"," "," "));
+                });
+            }
+        }
+
+        allMembers.getChildren().addAll(vipContainer,memberContainer,customerContainer);
+        allMembers.setPadding(new Insets(10));
+        allMembers.setStyle("-fx-background-color: #E9EFFD;");
+
+        userPicture.getChildren().addAll(userTitle,scrollPane);
+    }
+
     private void setAlert(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -391,7 +365,6 @@ public class RegisterMemberPage extends Pane {
             userPicture.getChildren().clear();
             userPicture.getChildren().addAll(this.userTitle,this.scrollPane);
         });
-
         HBox boxContainer = new HBox();
         boxContainer.setSpacing(20);
         boxContainer.setMaxWidth(Double.MAX_VALUE);
@@ -411,7 +384,6 @@ public class RegisterMemberPage extends Pane {
         button.setOnAction(event -> {
             String selectedMembership = this.updatedMembershipComboBox.getValue();
             UserManager userManager = UserManager.getInstance();
-
             switch (selectedMembership) {
                 case "Customer":
                     Customer customer = new Customer();
