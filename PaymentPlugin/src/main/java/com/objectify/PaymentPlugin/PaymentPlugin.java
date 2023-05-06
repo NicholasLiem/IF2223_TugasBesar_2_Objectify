@@ -1,7 +1,10 @@
 package com.objectify.PaymentPlugin;
 
+
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.objectify.datastore.ComboBoxBuilder;
 import com.objectify.datastore.Settings;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
@@ -9,39 +12,54 @@ import com.objectify.plugin.Plugin;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import static java.lang.Double.parseDouble;
 
 
 public class PaymentPlugin extends Plugin {
+    private static final String PAYMENT_SETTINGS_PATH = "Payment.json";
+    private static final String SETTINGS_PATH = "Settings.json";
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private Payment payment;
 
-    public PaymentPlugin() {
-    }
+    public PaymentPlugin() {};
 
     @Override
     public void onEnable(SystemPointOfSales spos) {
+        loadPayment(spos);
+        Settings settings = spos.getSettings();
         try {
-            Path settingsPath = Paths.get(spos.getSettings().getSettingsPath());
-            InputStream input = new FileInputStream(settingsPath.toFile());
-            ObjectMapper mapper = new ObjectMapper();
-            Settings settings = mapper.readValue(input, Settings.class);
-            ObjectNode paymentPluginNode = mapper.createObjectNode();
-            paymentPluginNode.put("taxPercent", 10);
-            paymentPluginNode.put("serviceChargePercent", 5);
-            settings.getAdditionalProperties().put("Payments", paymentPluginNode);
+            // Check if Payment.json file exists, and if not, create it with default values
+            Path paymentPath = Paths.get(settings.getSettingsPath() + PAYMENT_SETTINGS_PATH);
+            if (!paymentPath.toFile().exists()) {
+                ObjectNode currencyNode = mapper.createObjectNode();
+                OutputStream currencyOutput = new FileOutputStream(paymentPath.toFile());
+                mapper.writerWithDefaultPrettyPrinter().writeValue(currencyOutput, currencyNode);
+            }
 
-            // Add discounts to additionalProperties
-            ObjectNode discountsNode = mapper.createObjectNode();
-            discountsNode.put("A", 5);
-            discountsNode.put("B", 10);
-            discountsNode.put("C", 15);
-            paymentPluginNode.set("discounts", discountsNode);
+            settings.getAdditionalProperties().put("PaymentSystem", mapper.createObjectNode()
+                    .put("PaymentSettings", paymentPath.toString()));
 
+            // Tinggal pake payments yang udah di load this.payments;
+
+//            String[] options = new String[currencies.size()];
+//            for (int i = 0; i < options.length; i++) {
+//                options[i] = currencies.get(i).getName();
+//            }
+//            settings.getUiConfig().add(new ComboBoxBuilder("currency", "Currency", options, options[0]));
+
+            Path settingsPath = Paths.get(settings.getSettingsPath() + SETTINGS_PATH);
             OutputStream output = new FileOutputStream(settingsPath.toFile());
             mapper.writerWithDefaultPrettyPrinter().writeValue(output, settings);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Payment plugin" + " has been enabled!");
+        System.out.println("Payment Plugin" + " has been enabled!");
 
         // Register a shutdown hook to run the onDisable method when the program closes
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -50,27 +68,49 @@ public class PaymentPlugin extends Plugin {
                 onDisable(spos);
             }
         }));
-
     }
+
 
 
 
     @Override
     public void onDisable(SystemPointOfSales spos) {
+        System.out.println("Payment Plugin" + " has been disabled!");
+
+        // Write the current Payment object to the JSON file
         try {
-            Path settingsPath = Paths.get(spos.getSettings().getSettingsPath());
-            InputStream input = new FileInputStream(settingsPath.toFile());
             ObjectMapper mapper = new ObjectMapper();
-            Settings settings = mapper.readValue(input, Settings.class);
-
-            // Remove PaymentPlugin from additionalProperties
-            settings.getAdditionalProperties().remove("Payments");
-
-            OutputStream output = new FileOutputStream(settingsPath.toFile());
-            mapper.writerWithDefaultPrettyPrinter().writeValue(output, settings);
+            Path paymentPath = Paths.get(spos.getSettings().getSettingsPath(), PAYMENT_SETTINGS_PATH);
+            OutputStream output = new FileOutputStream(paymentPath.toFile());
+            mapper.writerWithDefaultPrettyPrinter().writeValue(output, payment);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Payment plugin" + " has been disabled!");
     }
+
+
+    public void loadPayment(SystemPointOfSales spos) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        Path paymentPath = Paths.get(spos.getSettings().getSettingsPath(), "Payment.json");
+        if (!paymentPath.toFile().exists()) {
+            // Payment file doesn't exist, create it with default values
+            try (InputStream inputStream = getClass().getResourceAsStream("/Payment.json")) {
+                Payment defaultPayment = new Payment(1.0, 0.1, 0.1 );
+                OutputStream paymentOutput = new FileOutputStream(paymentPath.toFile());
+                mapper.writerWithDefaultPrettyPrinter().writeValue(paymentOutput, defaultPayment);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        // Payment file exists, read values from it
+        try (InputStream input = new FileInputStream(paymentPath.toFile())) {
+            this.payment = mapper.readValue(input, Payment.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

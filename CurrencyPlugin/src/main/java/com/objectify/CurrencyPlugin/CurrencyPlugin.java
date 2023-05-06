@@ -9,7 +9,6 @@ import com.objectify.datastore.ComboBoxBuilder;
 import com.objectify.plugin.Plugin;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,22 +18,21 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 
-public class Main extends Plugin {
+public class CurrencyPlugin extends Plugin {
+    private static final String CURRENCY_SETTINGS_PATH = "Currency.json";
+    private static final String SETTINGS_PATH = "Settings.json";
+    private static final ObjectMapper mapper = new ObjectMapper();
     private List<Currency> currencies;
 
-    public Main() {};
+    public CurrencyPlugin() {};
 
     @Override
     public void onEnable(SystemPointOfSales spos) {
         loadCurrencies(spos);
+        Settings settings = spos.getSettings();
         try {
-            Path settingsPath = Paths.get(spos.getSettings().getSettingsPath() + "Settings.json");
-            InputStream input = new FileInputStream(settingsPath.toFile());
-            ObjectMapper mapper = new ObjectMapper();
-            Settings settings = mapper.readValue(input, Settings.class);
-
             // Check if Currency.json file exists, and if not, create it with default values
-            Path currencyPath = Paths.get(spos.getSettings().getSettingsPath() + "Currency.json");
+            Path currencyPath = Paths.get(settings.getSettingsPath() + CURRENCY_SETTINGS_PATH);
             if (!currencyPath.toFile().exists()) {
                 ObjectNode currencyNode = mapper.createObjectNode();
                 for (Currency currency : currencies) {
@@ -46,7 +44,7 @@ public class Main extends Plugin {
 
             // Update the CurrencyDefault value with the first currency in the list
             settings.getAdditionalProperties().put("Currencies", mapper.createObjectNode()
-                    .put("CurrencySettings", spos.getSettings().getSettingsPath() + "Currency.json")
+                    .put("CurrencySettings", currencyPath.toString())
                     .put("CurrencyDefault", currencies.get(0).getName())
                     .put("CurrencyExchangeRate", 1));
 
@@ -54,9 +52,9 @@ public class Main extends Plugin {
             for (int i = 0; i < options.length; i++) {
                 options[i] = currencies.get(i).getName();
             }
-            spos.getSettings().getUiConfig().add(new ComboBoxBuilder("currency", "Currency", options, options[0]));
+            settings.getUiConfig().add(new ComboBoxBuilder("currency", "Currency", options, options[0]));
 
-
+            Path settingsPath = Paths.get(settings.getSettingsPath() + SETTINGS_PATH);
             OutputStream output = new FileOutputStream(settingsPath.toFile());
             mapper.writerWithDefaultPrettyPrinter().writeValue(output, settings);
         } catch (IOException e) {
@@ -75,8 +73,6 @@ public class Main extends Plugin {
     }
 
 
-
-
     @Override
     public void onDisable(SystemPointOfSales spos) {
         System.out.println("Currencies Plugin" + " has been disabled!");
@@ -84,44 +80,43 @@ public class Main extends Plugin {
 
     public void loadCurrencies(SystemPointOfSales spos) {
         ObjectMapper mapper = new ObjectMapper();
-        List<Currency> currencyList;
 
-        // Check if Currency.json file exists, and if not, create it with default values
-        Path currencyPath = Paths.get(spos.getSettings().getSettingsPath() + "Currency.json");
-        if (currencyPath.toFile().exists()) {
-            try {
-                InputStream input = new FileInputStream(currencyPath.toFile());
-                ObjectNode currencyNode = mapper.readValue(input, ObjectNode.class);
-                currencyList = new ArrayList<>();
-                Iterator<Map.Entry<String, JsonNode>> fields = currencyNode.fields();
-                while (fields.hasNext()) {
-                    Map.Entry<String, JsonNode> field = fields.next();
-                    String name = field.getKey();
-                    double exchangeRate = parseDouble(field.getValue().asText());
-                    Currency currency = new Currency(name, exchangeRate);
-                    currencyList.add(currency);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                currencyList = null;
-            }
-        } else {
-            InputStream inputStream = getClass().getResourceAsStream("/Currencies.json");
-            try {
-                currencyList = mapper.readValue(inputStream, CurrencyList.class).getCurrencies();
+        Path currencyPath = Paths.get(spos.getSettings().getSettingsPath() + CURRENCY_SETTINGS_PATH);
+        if (!currencyPath.toFile().exists()) {
+            // Currency file doesn't exist, create it with default values
+            try (InputStream inputStream = getClass().getResourceAsStream("/Currencies.json")) {
+                List<Currency> currencyList = mapper.readValue(inputStream, CurrencyList.class).getCurrencies();
                 ObjectNode currencyNode = mapper.createObjectNode();
                 for (Currency currency : currencyList) {
                     currencyNode.put(currency.getName(), currency.getExchangeRate());
                 }
                 OutputStream currencyOutput = new FileOutputStream(currencyPath.toFile());
                 mapper.writerWithDefaultPrettyPrinter().writeValue(currencyOutput, currencyNode);
+                currencies = currencyList;
             } catch (IOException e) {
                 e.printStackTrace();
-                currencyList = null;
+                currencies = null;
             }
+            return;
         }
 
-        currencies = currencyList;
+        // Currency file exists, read values from it
+        try (InputStream input = new FileInputStream(currencyPath.toFile())) {
+            ObjectNode currencyNode = mapper.readValue(input, ObjectNode.class);
+            List<Currency> currencyList = new ArrayList<>();
+            Iterator<Map.Entry<String, JsonNode>> fields = currencyNode.fields();
+            while (fields.hasNext()) {
+                Map.Entry<String, JsonNode> field = fields.next();
+                String name = field.getKey();
+                double exchangeRate = parseDouble(field.getValue().asText());
+                Currency currency = new Currency(name, exchangeRate);
+                currencyList.add(currency);
+            }
+            currencies = currencyList;
+        } catch (IOException e) {
+            e.printStackTrace();
+            currencies = null;
+        }
     }
 
 
