@@ -3,6 +3,7 @@ package com.objectify.controllers.components.menus;
 import com.objectify.controllers.pages.CashierPage;
 import com.objectify.controllers.pages.RegisterMemberPage;
 import com.objectify.controllers.pages.SettingsPage;
+import com.objectify.controllers.pages.CashierPage;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -10,10 +11,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class FileMenu extends Menu {
+public class FileMenu extends AppMenu {
 
-    public FileMenu(TabPane tabPane) {
-        super("File");
+    public FileMenu(TabPane tabPane){
+        super("File", tabPane);
         Menu newTab = new Menu("New Tab");
         MenuItem cashierTab = new MenuItem("Cashier Tab");
         MenuItem registerMemberTab = new MenuItem("Register Member Tab");
@@ -22,7 +23,7 @@ public class FileMenu extends Menu {
 
         this.getItems().addAll(newTab);
         cashierTab.setOnAction(event -> {
-            Pane newPage = new CashierPage();
+            CashierPage newPage = new CashierPage();
             Tab newPaneTab = new Tab("Cashier", newPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);

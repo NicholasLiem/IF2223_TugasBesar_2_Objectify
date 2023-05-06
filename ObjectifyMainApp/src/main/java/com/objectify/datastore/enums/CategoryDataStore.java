@@ -1,9 +1,8 @@
 package com.objectify.datastore.enums;
 
-import com.objectify.datastore.DataStore;
-import com.objectify.datastore.JSONAdapter;
-import com.objectify.datastore.OBJAdapter;
-import com.objectify.datastore.XMLAdapter;
+import com.objectify.datastore.adapter.JSONAdapter;
+import com.objectify.datastore.adapter.OBJAdapter;
+import com.objectify.datastore.adapter.XMLAdapter;
 import com.objectify.models.items.CategoryManager;
 
 import java.util.Optional;

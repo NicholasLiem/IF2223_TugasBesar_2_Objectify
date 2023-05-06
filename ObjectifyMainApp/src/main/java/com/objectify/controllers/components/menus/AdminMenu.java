@@ -8,10 +8,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class AdminMenu extends Menu {
+public class AdminMenu extends AppMenu {
 
     public AdminMenu(TabPane tabPane){
-        super("Admin");
+        super("Admin", tabPane);
         Menu newTab = new Menu("Admin Page");
         MenuItem productTab =  new MenuItem("Product Manager");
         MenuItem memberManagerTab = new MenuItem("Member Manager");

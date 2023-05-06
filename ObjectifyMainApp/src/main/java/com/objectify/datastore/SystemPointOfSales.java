@@ -1,16 +1,17 @@
 package com.objectify.datastore;
 
 import com.objectify.controllers.App;
+import com.objectify.datastore.enums.Command;
 import com.objectify.exceptions.AppNotFoundException;
+import com.objectify.exceptions.InvalidArgumentsException;
+import com.objectify.exceptions.ItemNotFoundException;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.TransactionManager;
-import com.objectify.plugin.PluginLoader;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
 
 public class SystemPointOfSales {
 
@@ -22,8 +23,10 @@ public class SystemPointOfSales {
     private final BillManager billManager;
     private final TransactionManager transactionManager;
 
+    //    private final PluginLoader pluginLoader;
+    private final HashMap<String, Command> commands;
+
     private App app;
-//    private final PluginLoader pluginLoader;
 
     private SystemPointOfSales(){
         this.billManager = new BillManager();
@@ -32,6 +35,7 @@ public class SystemPointOfSales {
         this.categoryManager = new CategoryManager();
         this.storageManager = new StorageManager();
         this.transactionManager = new TransactionManager();
+        this.commands = new HashMap<>();
 //        this.pluginLoader = new PluginLoader();
     }
 
@@ -81,5 +85,15 @@ public class SystemPointOfSales {
 //    public PluginLoader getPluginLoader() {
 //        return pluginLoader;
 //    }
-
+    
+    public void registerCommand(String name, Command command) {
+        this.commands.put(name, command);
+    }
+    
+    public void executeCommand(String name, Object... args) throws ItemNotFoundException, InvalidArgumentsException {
+        if (this.commands.get(name) == null) {
+            throw new ItemNotFoundException();
+        }
+        this.commands.get(name).executeCommand(this, args);
+    }
 }

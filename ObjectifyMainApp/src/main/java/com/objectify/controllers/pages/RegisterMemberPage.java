@@ -56,7 +56,6 @@ public class RegisterMemberPage extends Pane {
         Transaction t2 = new Transaction();
         th.add(t);
         th.add(t2);
-        System.out.println(th.getTransactionHistory().size());
         Customer c1 = new Customer(10,true,th);
         UserManager um = SystemPointOfSales.getInstance().getUserManager();
         um.addUser(c1);
@@ -166,7 +165,6 @@ public class RegisterMemberPage extends Pane {
     }
 
     private int parsePointsField(String pointText) {
-        System.out.println(pointText);
         int points = 0;
         try {
             points = Integer.parseInt(pointText);

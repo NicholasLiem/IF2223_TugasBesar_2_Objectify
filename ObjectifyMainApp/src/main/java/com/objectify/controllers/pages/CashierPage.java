@@ -4,7 +4,13 @@ import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
 import com.objectify.models.items.*;
 import javafx.geometry.Rectangle2D;
+
+import com.objectify.models.transactions.Bill;
+import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
+import com.objectify.models.transactions.TransactionManager;
+
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -18,8 +24,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -29,13 +38,103 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Map.Entry;
 
 public class CashierPage extends GridPane {
 
-    private Label charge;
+    private Map<Product, Integer> cart = new HashMap<Product, Integer>();
+    private User user;
+
+    private void finalizePopup() {
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+        popup.setTitle("Finalize Bill");
+
+        Label label = new Label("Enter description:");
+        TextField inputField = new TextField();
+        inputField.setPromptText("Description");
+
+        Button saveButton = new Button("Save");
+        saveButton.setDefaultButton(true);
+        CheckBox usePointsCheckbox = new CheckBox("Use points");
+        usePointsCheckbox.setSelected(true);
+        HBox buttonBox = new HBox(10, saveButton, new Button("Cancel"));
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+        VBox layout = new VBox(10, label, inputField, usePointsCheckbox, buttonBox);
+        layout.setPadding(new Insets(20));
+        layout.setAlignment(Pos.CENTER);
+
+        saveButton.setOnAction(event -> {
+            String inputText = inputField.getText();
+            Bill bill = new Bill(this.user, new ShoppingCart(this.cart));
+            bill.pay(usePointsCheckbox.isSelected(), inputText);
+            popup.close();
+        });
+
+        Scene scene = new Scene(layout, 400, 200);
+        popup.setScene(scene);
+        popup.showAndWait();
+    }
+
+    private void selectUser() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Select User");
+
+        VBox itemList = new VBox();
+        itemList.setSpacing(10);
+        itemList.setPadding(new Insets(10));
+
+        // Add some sample items to the list
+        UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
+        ArrayList<User> userList = userManager.getListOfUsers();
+        for (User user : userList) {
+            String displayText = new String();
+            if (user instanceof VIP) {
+                displayText = "Username : " + ((VIP) user).getName();
+            }
+
+            if (user instanceof Member) {
+                displayText = "Username : " + ((Member) user).getName();
+            }
+
+            if (user instanceof Customer) {
+                displayText = "User ID : " + ((Customer) user).getUserID();
+            }
+            HBox itemRow = new HBox();
+            Label userIdLabel = new Label(displayText);
+            itemRow.setSpacing(100);
+            Button selectButton = new Button("Select");
+            selectButton.setOnAction(event -> {
+                this.user = user;
+                popupStage.close();
+            });
+            itemRow.getChildren().addAll(userIdLabel, selectButton);
+            itemRow.setSpacing(10);
+            itemRow.setAlignment(Pos.CENTER_LEFT);
+            itemList.getChildren().add(itemRow);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(itemList);
+        scrollPane.setFitToWidth(true);
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+        scrollPane.setPadding(new Insets(10));
+
+        VBox popupLayout = new VBox();
+        popupLayout.getChildren().addAll(scrollPane);
+        popupLayout.setPadding(new Insets(10));
+
+        Scene popupScene = new Scene(popupLayout, 300, 300);
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
 
     public CashierPage() {
         this.setPadding(new Insets(10));
@@ -58,48 +157,8 @@ public class CashierPage extends GridPane {
         row.setPadding(new Insets(10));
         row.setSpacing(10);
 
-        StorageManager storage = SystemPointOfSales.getInstance().getStorageManager();
-        ArrayList<Product> products = storage.getProducts();
-
-        // Product list
-        FlowPane productFlowPane = new FlowPane();
-        productFlowPane.setPadding(new Insets(10));
-        productFlowPane.setHgap(20);
-        productFlowPane.setVgap(20);
-        for (int i = 0; i < 15; i++) {
-            File file = new File(
-                    ".\\ObjectifyMainApp\\src\\resources\\images\\image3.jpg");
-            Image image = new Image(file.toURI().toString());
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(100);
-            imageView.setFitHeight(100);
-            Label imageLabel = new Label("Product");
-            VBox imageBox = new VBox(imageView, imageLabel);
-            imageBox.setSpacing(10);
-            imageBox.setAlignment(Pos.CENTER);
-            imageBox.setOnMouseClicked(event -> {
-                System.out.println("image box Clicked");
-            });
-            imageBox.setOnMouseEntered(event -> {
-                imageBox.setCursor(Cursor.HAND);
-            });
-            imageBox.setOnMouseExited(event -> {
-                imageBox.setCursor(Cursor.DEFAULT);
-            });
-            productFlowPane.getChildren().add(imageBox);
-        }
-        ScrollPane productsScrollPane = new ScrollPane(productFlowPane);
-        productsScrollPane.setFitToHeight(true);
-        productsScrollPane.setFitToWidth(true);
-        productsScrollPane.setPadding(new Insets(10));
-        productsScrollPane.getStyleClass().add("mainBoxes");
-
         Screen screen = Screen.getPrimary();
         Rectangle2D screenSize = screen.getVisualBounds();
-
-        productsScrollPane.setPrefHeight(screenSize.getHeight() * 0.7);
-        productsScrollPane.setPrefWidth(screenSize.getWidth() * 0.4);
-        HBox.setHgrow(productsScrollPane, Priority.ALWAYS);
 
         // fill bill
         VBox bill = new VBox();
@@ -134,7 +193,7 @@ public class CashierPage extends GridPane {
         addCustomerButton.setAlignment(Pos.CENTER);
         addCustomerButton.getStyleClass().add("billButtons");
         addCustomerButton.setOnMouseClicked((event) -> {
-            System.out.println("add customer clicked");
+            selectUser();
         });
         addCustomerButton.setOnMouseEntered((event) -> {
             addCustomerButton.setCursor(Cursor.HAND);
@@ -146,30 +205,6 @@ public class CashierPage extends GridPane {
         addCustomerButton.setPadding(new Insets(20));
 
         addCustomerRow.getChildren().addAll(openBills, addCustomerButton);
-
-        VBox cartList = new VBox();
-        VBox.setVgrow(cartList, Priority.ALWAYS);
-        for (int i = 0; i < 100; i++) {
-            HBox itemRow = new HBox();
-            HBox itemQty = new HBox();
-            Button upQuantityButton = new Button("+");
-            Button decQuantityButton = new Button("-");
-            Text qty = new Text("1");
-            qty.setTextAlignment(TextAlignment.CENTER);
-            itemRow.setSpacing(400);
-            HBox.setHgrow(itemQty, Priority.ALWAYS);
-            itemQty.setSpacing(20);
-            itemQty.setAlignment(Pos.CENTER);
-            itemQty.getChildren().addAll(decQuantityButton, qty, upQuantityButton);
-            itemRow.setAlignment(Pos.CENTER);
-            itemRow.getChildren().addAll(new Text("Product"), itemQty);
-            cartList.getChildren().add(itemRow);
-        }
-        cartList.setSpacing(10);
-        ScrollPane itemListScrollPane = new ScrollPane(cartList);
-        itemListScrollPane.setFitToHeight(true);
-        itemListScrollPane.setFitToWidth(true);
-        itemListScrollPane.setPadding(new Insets(10));
 
         // save, finalize bill
         HBox saveNFinalizeRow = new HBox();
@@ -194,7 +229,7 @@ public class CashierPage extends GridPane {
         finalizeBillButton.setAlignment(Pos.CENTER);
         finalizeBillButton.getStyleClass().add("billButtons");
         finalizeBillButton.setOnMouseClicked((event) -> {
-            System.out.println("Finalize clicked");
+            finalizePopup();
         });
         finalizeBillButton.setOnMouseEntered((event) -> {
             finalizeBillButton.setCursor(Cursor.HAND);
@@ -208,11 +243,171 @@ public class CashierPage extends GridPane {
         saveNFinalizeRow.getChildren().addAll(saveBill, finalizeBillButton);
 
         // Show current charge
-        HBox chargeBox = new HBox(new Text("Charge Rp" + this.charge));
+        HBox chargeBox = new HBox(new Label("Charge Rp0"));
         chargeBox.setPadding(new Insets(20));
         chargeBox.setAlignment(Pos.CENTER);
         chargeBox.getStyleClass().add("billButtons");
         HBox.setHgrow(chargeBox, Priority.ALWAYS);
+
+        // Item list
+        VBox cartList = new VBox();
+        cartList.setSpacing(10);
+        ScrollPane itemListScrollPane = new ScrollPane(cartList);
+        itemListScrollPane.setFitToHeight(true);
+        itemListScrollPane.setFitToWidth(true);
+        itemListScrollPane.setPadding(new Insets(10));
+        VBox.setVgrow(itemListScrollPane, Priority.ALWAYS);
+        VBox.setVgrow(cartList, Priority.ALWAYS);
+        for (Entry<Product, Integer> entry : this.cart.entrySet()) {
+            HBox itemRow = new HBox();
+            HBox itemQty = new HBox();
+            Button upQuantityButton = new Button("+");
+            upQuantityButton.setPadding(new Insets(5, 10, 5, 10));
+            Button decQuantityButton = new Button("-");
+            decQuantityButton.setPadding(new Insets(5, 10, 5, 10));
+            Text qty = new Text(entry.getValue().toString());
+            qty.setTextAlignment(TextAlignment.CENTER);
+            HBox.setHgrow(itemQty, Priority.ALWAYS);
+            itemQty.setSpacing(20);
+            itemQty.setAlignment(Pos.CENTER);
+            itemQty.getChildren().addAll(decQuantityButton, qty, upQuantityButton);
+            itemRow.setAlignment(Pos.CENTER);
+            HBox span = new HBox();
+            HBox.setHgrow(span, Priority.ALWAYS);
+            Text prodName = new Text(entry.getKey().getProductName());
+            prodName.setWrappingWidth(200);
+            itemRow.getChildren().addAll(prodName, span, itemQty);
+            cartList.getChildren().add(itemRow);
+
+            upQuantityButton.setOnMouseClicked((event) -> {
+                int newNum = Integer.parseInt(qty.getText()) + 1;
+                qty.setText(String.valueOf(newNum));
+                entry.setValue(newNum);
+                ShoppingCart newCart = new ShoppingCart(cart);
+                chargeBox.getChildren().remove(0);
+                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                itemListScrollPane.requestLayout();
+                bill.requestLayout();
+            });
+            decQuantityButton.setOnMouseClicked((event) -> {
+                int newNum = Integer.parseInt(qty.getText()) - 1;
+                if (newNum == 0) {
+                    cartList.getChildren().remove(itemRow);
+                    this.cart.remove(entry.getKey());
+                } else {
+                    qty.setText(String.valueOf(newNum));
+                    entry.setValue(newNum);
+                }
+                ShoppingCart newCart = new ShoppingCart(cart);
+                chargeBox.getChildren().remove(0);
+                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                itemListScrollPane.requestLayout();
+                bill.requestLayout();
+            });
+            qty.textProperty().addListener((obs, oldText, newText) -> {
+                upQuantityButton.setDisable(newText.equals("99"));
+                decQuantityButton.setDisable(newText.equals("0"));
+            });
+        }
+
+        StorageManager storage = SystemPointOfSales.getInstance().getStorageManager();
+        ArrayList<Product> products = storage.getProducts();
+
+        // Product list
+        FlowPane productFlowPane = new FlowPane();
+        productFlowPane.setPadding(new Insets(10));
+        productFlowPane.setHgap(40);
+        productFlowPane.setVgap(20);
+        for (Product prod : products) {
+            File file = new File(prod.getProductImagePath());
+            Image image = new Image(file.toURI().toString());
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
+            Label imageLabel = new Label(prod.getProductName());
+            VBox imageBox = new VBox(imageView, imageLabel);
+            imageBox.setSpacing(10);
+            imageBox.setAlignment(Pos.CENTER);
+            imageBox.setOnMouseClicked(event -> {
+                if (this.cart.keySet().contains(prod)) {
+                    this.cart.replace(prod, this.cart.get(prod) + 1);
+                    itemListScrollPane.requestLayout();
+                } else {
+                    HBox itemRow = new HBox();
+                    HBox itemQty = new HBox();
+                    Button upQuantityButton = new Button("+");
+                    upQuantityButton.setPadding(new Insets(5, 10, 5, 10));
+                    Button decQuantityButton = new Button("-");
+                    decQuantityButton.setPadding(new Insets(5, 10, 5, 10));
+                    Text qty = new Text("1");
+                    qty.setTextAlignment(TextAlignment.CENTER);
+                    HBox.setHgrow(itemQty, Priority.ALWAYS);
+                    itemQty.setSpacing(20);
+                    itemQty.setAlignment(Pos.CENTER);
+                    itemQty.getChildren().addAll(decQuantityButton, qty, upQuantityButton);
+                    itemRow.setAlignment(Pos.CENTER);
+                    HBox span = new HBox();
+                    HBox.setHgrow(span, Priority.ALWAYS);
+                    Text prodName = new Text(prod.getProductName());
+                    prodName.setWrappingWidth(200);
+                    itemRow.getChildren().addAll(prodName, span, itemQty);
+                    cartList.getChildren().add(itemRow);
+
+                    this.cart.put(prod, 1);
+
+                    upQuantityButton.setOnMouseClicked((e) -> {
+                        int newNum = Integer.parseInt(qty.getText()) + 1;
+                        qty.setText(String.valueOf(newNum));
+                        this.cart.replace(prod, newNum);
+                        ShoppingCart newCart = new ShoppingCart(cart);
+                        chargeBox.getChildren().remove(0);
+                        chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                        itemListScrollPane.requestLayout();
+                        bill.requestLayout();
+                    });
+                    decQuantityButton.setOnMouseClicked((e) -> {
+                        int newNum = Integer.parseInt(qty.getText()) - 1;
+                        if (newNum == 0) {
+                            cartList.getChildren().remove(itemRow);
+                            this.cart.remove(prod);
+                        } else {
+                            qty.setText(String.valueOf(newNum));
+                            this.cart.replace(prod, newNum);
+                        }
+                        ShoppingCart newCart = new ShoppingCart(cart);
+                        chargeBox.getChildren().remove(0);
+                        chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                        itemListScrollPane.requestLayout();
+                        bill.requestLayout();
+                    });
+                    qty.textProperty().addListener((obs, oldText, newText) -> {
+                        upQuantityButton.setDisable(newText.equals("99"));
+                        decQuantityButton.setDisable(newText.equals("0"));
+                    });
+                    ShoppingCart newCart = new ShoppingCart(cart);
+                    chargeBox.getChildren().remove(0);
+                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                    itemListScrollPane.requestLayout();
+                    bill.requestLayout();
+                }
+            });
+            imageBox.setOnMouseEntered(event -> {
+                imageBox.setCursor(Cursor.HAND);
+            });
+            imageBox.setOnMouseExited(event -> {
+                imageBox.setCursor(Cursor.DEFAULT);
+            });
+            productFlowPane.getChildren().add(imageBox);
+        }
+        ScrollPane productsScrollPane = new ScrollPane(productFlowPane);
+        productsScrollPane.setFitToHeight(true);
+        productsScrollPane.setFitToWidth(true);
+        productsScrollPane.setPadding(new Insets(10));
+        productsScrollPane.getStyleClass().add("mainBoxes");
+
+        productsScrollPane.setPrefHeight(screenSize.getHeight() * 0.7);
+        productsScrollPane.setPrefWidth(screenSize.getWidth() * 0.4);
+        HBox.setHgrow(productsScrollPane, Priority.ALWAYS);
 
         bill.getChildren().addAll(addCustomerRow, itemListScrollPane, saveNFinalizeRow, chargeBox);
 
@@ -220,7 +415,4 @@ public class CashierPage extends GridPane {
         this.getChildren().add(row);
     }
 
-    private void addItem() {
-
-    }
 }

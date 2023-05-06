@@ -1,8 +1,8 @@
 package com.objectify.datastore.enums;
 
-import com.objectify.datastore.JSONAdapter;
-import com.objectify.datastore.OBJAdapter;
-import com.objectify.datastore.XMLAdapter;
+import com.objectify.datastore.adapter.JSONAdapter;
+import com.objectify.datastore.adapter.OBJAdapter;
+import com.objectify.datastore.adapter.XMLAdapter;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
