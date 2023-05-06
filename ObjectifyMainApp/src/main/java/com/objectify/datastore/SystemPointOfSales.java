@@ -14,13 +14,14 @@ import java.io.InputStream;
 
 public class SystemPointOfSales {
 
-    private Settings settings;
-    private UserManager userManager;
-    private CategoryManager categoryManager;
-    private StorageManager storageManager;
+    private final Settings settings;
+    private final UserManager userManager;
+    private final CategoryManager categoryManager;
+    private final StorageManager storageManager;
 
-    private BillManager billManager;
-    private TransactionManager transactionManager;
+    private final BillManager billManager;
+    private final TransactionManager transactionManager;
+    private final PluginLoader pluginLoader;
 
     private PluginLoader pluginLoader;
     private App app;

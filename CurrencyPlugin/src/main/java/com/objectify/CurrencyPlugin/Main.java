@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.objectify.datastore.Settings;
 import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.datastore.ComboBoxBuilder;
 import com.objectify.plugin.Plugin;
 
 import java.io.*;
@@ -38,13 +39,17 @@ public class Main extends Plugin {
             e.printStackTrace();
         }
 
+        String[] options = new String[currencies.size()];
+        for (int i = 0; i < options.length; i++) {
+            options[i] = currencies.get(i).getName();
+        }
+        spos.getSettings().getUiConfig().add(new ComboBoxBuilder("currency", "Currency", options, options[0]));
+
         System.out.println(this.getName() + " has been enabled!");
 
         // Register a shutdown hook to run the onDisable method when the program closes
         Runtime.getRuntime().addShutdownHook(new Thread(this::onDisable));
     }
-
-
 
     @Override
     public void onDisable() {

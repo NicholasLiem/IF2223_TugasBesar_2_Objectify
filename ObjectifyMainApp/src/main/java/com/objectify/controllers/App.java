@@ -12,18 +12,19 @@ import javafx.application.Application;
 import com.objectify.controllers.scenes.MainScene;
 import javafx.stage.Stage;
 
+import java.nio.file.Paths;
+
 public class App extends Application {
 
     private MainScene mainScene = new MainScene();
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         SystemPointOfSales.getInstance().setApp(this);
-
-        PluginLoader pluginLoader = SystemPointOfSales.getInstance().getPluginLoader();
         String currentWorkingDirectory = System.getProperty("user.dir");
-        String pluginJarFilePath = currentWorkingDirectory + "\\CurrencyPlugin\\target\\";
+        String pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
 
-        pluginLoader.loadPlugins(pluginJarFilePath);
+        SystemPointOfSales.getInstance().getPluginLoader().loadPlugins(pluginJarFilePath);
         MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 

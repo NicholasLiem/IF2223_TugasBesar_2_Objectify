@@ -12,11 +12,6 @@ import java.util.jar.JarFile;
 
 public class PluginLoader {
     public static HashSet<Plugin> plugins = new HashSet<>();
-    private SystemPointOfSales spos;
-
-    public PluginLoader(){
-        this.spos = SystemPointOfSales.getInstance();
-    }
 
     public void loadPlugins(String pluginsFolder) throws Exception {
         File pluginDirectory = new File(pluginsFolder);
@@ -39,7 +34,7 @@ public class PluginLoader {
                                 Constructor<?> constructor = cls.getConstructor(String.class);
                                 Plugin plugin = (Plugin) constructor.newInstance("Plugin");
                                 plugins.add(plugin);
-                                plugin.onEnable(spos);
+                                plugin.onEnable(SystemPointOfSales.getInstance());
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);

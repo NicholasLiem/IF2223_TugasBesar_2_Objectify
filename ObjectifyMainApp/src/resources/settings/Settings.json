@@ -12,6 +12,11 @@
     "USD" : {
       "currencies" : "USD",
       "exchange_rate" : 6.9E-5
+    },
+    "IDR" : {
+      "currencies" : "IDR",
+      "exchange_rate" : 1.0
     }
-  }
+  },
+  "uiConfig" : [ ]
 }
