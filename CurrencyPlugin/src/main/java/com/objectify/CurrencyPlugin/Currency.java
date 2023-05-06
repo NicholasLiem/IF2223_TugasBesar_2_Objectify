@@ -19,4 +19,9 @@ public class Currency {
     public double getExchangeRate() {
         return exchangeRate;
     }
+
+    @Override
+    public String toString() {
+        return "Currency{name=" + name + ",exchangeRate=" + exchangeRate + "}";
+    }
 }

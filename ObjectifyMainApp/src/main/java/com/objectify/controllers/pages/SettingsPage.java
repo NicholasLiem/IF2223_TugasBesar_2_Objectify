@@ -1,6 +1,7 @@
 package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SettingBuilder;
+import com.objectify.datastore.SettingComponentProvider;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.PluginLoader;
 import javafx.geometry.Insets;
@@ -82,9 +83,9 @@ public class SettingsPage extends GridPane {
             add(dirChooserBtn, 2, 0);
             add(loadPluginBtn, 3, 0);
 
-            for (SettingBuilder<?> ui : SystemPointOfSales.getInstance().getSettings().getUiConfig()) {
-                add(new Label(ui.getLabel()), 0, 2);
-                add((Node) ui.build(), 1, 2);
+            for (SettingComponentProvider ui : SystemPointOfSales.getInstance().getSettings().getComponents()) {
+                add(ui.getLabel(), 0, 2);
+                add(ui.getInputControl(), 1, 2);
             }
         });
 
@@ -94,9 +95,9 @@ public class SettingsPage extends GridPane {
         add(loadPluginBtn, 3, 0);
 
 
-        for (SettingBuilder<?> ui : SystemPointOfSales.getInstance().getSettings().getUiConfig()) {
-            add(new Label(ui.getLabel()), 0, 2);
-            add((Node) ui.build(), 1, 2);
+        for (SettingComponentProvider ui : SystemPointOfSales.getInstance().getSettings().getComponents()) {
+            add(ui.getLabel(), 0, 2);
+            add(ui.getInputControl(), 1, 2);
         }
     }
 }

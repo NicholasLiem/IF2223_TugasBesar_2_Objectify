@@ -2,6 +2,7 @@ package com.objectify.controllers.components.menus;
 
 import com.objectify.controllers.pages.RegisterMemberPage;
 import com.objectify.controllers.pages.SettingsPage;
+import com.objectify.controllers.pages.CashierPage;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -21,7 +22,7 @@ public class FileMenu extends AppMenu {
 
         this.getItems().addAll(newTab);
         cashierTab.setOnAction(event -> {
-            Pane newPage = new Pane();
+            CashierPage newPage = new CashierPage();
             Tab newPaneTab = new Tab("Cashier", newPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);
