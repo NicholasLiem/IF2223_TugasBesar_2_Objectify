@@ -36,7 +36,14 @@ public abstract class User implements Serializable {
 
     public User() {
         this.userID = totalUser+1;
+        this.transactionHistory = new TransactionHistory();
         totalUser++;
+    }
+
+    public  User(int id, boolean activationStatus,TransactionHistory th){
+        this.userID = id;
+        this.activationStatus = activationStatus;
+        this.transactionHistory = th;
     }
 
     public int getUserID() {
@@ -51,7 +58,7 @@ public abstract class User implements Serializable {
         this.activationStatus = activationStatus;
     }
 
-    public TransactionHistory getTransactionHistory() {
+    public TransactionHistory getUserTransactions() {
         return transactionHistory;
     }
 
@@ -67,4 +74,6 @@ public abstract class User implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         return ((User) o).getUserID() == this.getUserID();
     }
+
+    public  abstract  String getType();
 }
