@@ -26,4 +26,9 @@ public class Customer extends User implements Serializable {
     public String toString() {
         return "Customer{}";
     }
+
+
+    public  String getType(){
+        return "Customer";
+    }
 }

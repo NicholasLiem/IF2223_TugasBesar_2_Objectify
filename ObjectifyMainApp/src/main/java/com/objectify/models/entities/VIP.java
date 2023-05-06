@@ -61,4 +61,8 @@ public class VIP extends User implements Serializable {
                 ", points=" + points +
                 '}';
     }
+
+    public String getType(){
+        return "VIP";
+    }
 }

@@ -1,3 +1,51 @@
-.background {
-    -fx-background-color: green;
+.row1 {
+    -fx-background-color : "#E9EFFD";
+}
+.row2{
+    -fx-background-color:black;
+}
+
+.forms{
+    -fx-background-color : "#E9EFFD";
+    -fx-border-color : black;
+
+}
+
+.picture-container{
+    -fx-background-color : black;
+}
+
+.title{
+    -fx-font-size : 30;
+    -fx-font-weight : BOLDER;
+}
+
+.sub-title{
+    -fx-font-size : 16;
+    -fx-font-weight : BOLD;
+}
+
+.combo-box{
+    -fx-background-radius: 20px;
+}
+
+.submit-btn{
+    -fx-padding : 8px;
+    -fx-background-radius: 20px;
+    -fx-background-color : "#6B62B9";
+    -fx-text-fill : "#FFFCFF";
+    -fx-cursor : pointer;
+ }
+
+.submit-btn:hover{
+    -fx-opacity : 0.5;
+}
+
+.member-name{
+    -fx-font-size : 12;
+    -fx-font-weight : BOLD;
+}
+
+.background{
+    -fx-background-color : "#E9EFFD";
 }

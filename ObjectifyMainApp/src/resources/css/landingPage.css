@@ -1,0 +1,22 @@
+.landing-page{
+    -fx-background-color : "#E9EFFD";
+}
+
+.welcome-text{
+    /*-fx-posit: 10px;*/
+}
+.date{
+    -fx-padding: 10px;
+}
+
+.start-button{
+    -fx-padding : 12px;
+    -fx-background-radius: 20px;
+    -fx-background-color : "#6B62B9";
+    -fx-text-fill : "#FFFCFF";
+    -fx-cursor : pointer;
+}
+
+.start-button:hover{
+    -fx-opacity : 0.5;
+}

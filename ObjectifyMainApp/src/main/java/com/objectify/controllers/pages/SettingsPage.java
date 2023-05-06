@@ -30,6 +30,7 @@ public class SettingsPage extends GridPane {
         pluginChooserBtn.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Jar File");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Jar Files", "*.jar"));
             File selectedFile = fileChooser.showOpenDialog(getScene().getWindow());
             if (selectedFile != null) {
                 selectedPluginPath[0] = selectedFile.getAbsolutePath();
@@ -57,11 +58,11 @@ public class SettingsPage extends GridPane {
             // Load plugins from the selected directory or file
             PluginLoader loader = new PluginLoader();
             try {
-                File selectedPlugin = new File(selectedPluginPath[0]);
-                if(selectedPlugin.isDirectory()) {
+                File selectedFileOrDir = new File(selectedPluginPath[0]);
+                if(selectedFileOrDir.isDirectory()) {
                     loader.loadPlugins(selectedPluginPath[0]);
                 } else {
-                    loader.loadPlugins(selectedPlugin.getParent());
+                    loader.loadPlugin(String.valueOf(selectedFileOrDir));
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -69,6 +70,13 @@ public class SettingsPage extends GridPane {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Plugins loaded successfully");
             alert.showAndWait();
+
+            // Refresh the SettingsPage to display the updated UI components
+            getChildren().clear();
+            add(selectPlugin, 0, 0);
+            add(pluginChooserBtn, 1, 0);
+            add(dirChooserBtn, 2, 0);
+            add(loadPluginBtn, 3, 0);
 
             // Refresh the SettingsPage to display the updated UI components
             getChildren().clear();
