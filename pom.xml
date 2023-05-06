@@ -13,6 +13,8 @@
     <modules>
         <module>ObjectifyMainApp</module>
         <module>CurrencyPlugin</module>
+        <module>Chart1</module>
+        <module>BasePlugin</module>
     </modules>
 
 </project>

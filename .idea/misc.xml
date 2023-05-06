@@ -9,8 +9,6 @@
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/BasePlugin/pom.xml" />
-        <option value="$PROJECT_DIR$/Chart1/pom.xml" />
         <option value="$PROJECT_DIR$/EPSPlugin/pom.xml" />
         <option value="$PROJECT_DIR$/LineBarChartPlugin/pom.xml" />
         <option value="$PROJECT_DIR$/ObjectifySPI/pom.xml" />

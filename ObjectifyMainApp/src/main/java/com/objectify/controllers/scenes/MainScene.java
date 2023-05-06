@@ -8,11 +8,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 
 public class MainScene extends Scene {
+    
+    private final MenuBarManager mbManager;
+    
     public MainScene() {
         super(new BorderPane(), 800, 600);
 
         TabPane tabPane = new TabPane();
-        MenuBarManager mbManager = new MenuBarManager(tabPane);
+        mbManager = new MenuBarManager(tabPane);
 
         MenuBar menuBar = mbManager.getMenuBar();
 
@@ -30,5 +33,9 @@ public class MainScene extends Scene {
                 root.setCenter(tabPane);
             }
         });
+    }
+    
+    public MenuBarManager getMbManager() {
+        return mbManager;
     }
 }

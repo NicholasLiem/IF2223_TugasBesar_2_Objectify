@@ -9,10 +9,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class FileMenu extends Menu {
+public class FileMenu extends AppMenu {
 
     public FileMenu(TabPane tabPane){
-        super("File");
+        super("File", tabPane);
         Menu newTab = new Menu("New Tab");
         MenuItem cashierTab = new MenuItem("Cashier Tab");
         MenuItem registerMemberTab = new MenuItem("Register Member Tab");

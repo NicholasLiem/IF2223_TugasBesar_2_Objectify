@@ -16,18 +16,16 @@ import java.nio.file.Paths;
 
 public class App extends Application {
 
-    private MainScene mainScene = new MainScene();
+    private final MainScene mainScene = new MainScene();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         SystemPointOfSales.getInstance().setApp(this);
         
-        String pluginName = "CurrencyPlugin-v1.0.jar";
         String currentWorkingDirectory = System.getProperty("user.dir");
-        String pluginJarFilePath = Paths.get(currentWorkingDirectory, "CurrencyPlugin", "target").toString();
+        String pluginJarFilePath = Paths.get(currentWorkingDirectory, "plugins").toString();
 
         SystemPointOfSales.getInstance().getPluginLoader().loadPlugins(pluginJarFilePath);
-        MainScene mainScene = new MainScene();
         LandingScene landingScene = new LandingScene(primaryStage, mainScene);
 
         primaryStage.setScene(landingScene);
@@ -36,6 +34,6 @@ public class App extends Application {
     }
 
     public MainScene getMainScene() {
-        return mainScene;
+        return this.mainScene;
     }
 }
