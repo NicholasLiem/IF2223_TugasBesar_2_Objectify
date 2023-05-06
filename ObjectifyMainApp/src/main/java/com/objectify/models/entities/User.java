@@ -57,4 +57,6 @@ public abstract class User implements Serializable {
     }
 
     public abstract String toString();
+
+    public abstract String getType();
 }

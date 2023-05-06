@@ -40,3 +40,12 @@
 .submit-btn:hover{
     -fx-opacity : 0.5;
 }
+
+.member-name{
+    -fx-font-size : 12;
+    -fx-font-weight : BOLD,
+}
+
+.background{
+    -fx-background-color : "#E9EFFD";
+}

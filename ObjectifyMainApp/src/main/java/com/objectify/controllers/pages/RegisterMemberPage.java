@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -46,11 +47,25 @@ public class RegisterMemberPage extends Pane {
     public RegisterMemberPage() {
 //        Dummy data doank
         UserManager um = UserManager.getInstance();
-        Customer customer1 = new Customer(1,false,new TransactionHistory());
+        Member customer1 = new Member(1,false,new TransactionHistory(),"Nathania","08129",12);
+
+        Member customer3 = new Member(3,false,new TransactionHistory(),"Sofyan","08129",12);
+        Member customer2 = new Member(2,false,new TransactionHistory(),"Nicholas","08129",13);
+        Member customer4 = new Member(4,false, new TransactionHistory(),"Hosea","0818",20);
+        Member customer5 = new Member(5,false, new TransactionHistory(),"cust5","0818",20);
+        Member customer6 = new Member(6,false,new TransactionHistory(),"member6","21123",20);
+
         TransactionHistory th1 = new TransactionHistory();
-        VIP vip1 = new VIP(1,true,th1, "Hahaha","0812",12);
+        VIP vip1 = new VIP(100,true,th1, "Hahaha","0812",12);
+        VIP vip2 = new VIP(99,true,th1, "heheheh","0812",20);
+        VIP vip3 = new VIP(98,true,th1, "vip3","0811",13);
+        VIP vip4 = new VIP(97,true,th1, "vip4","0810",12);
+        VIP vip5 = new VIP(101,true,th1,"Hahahaha","08128",12);
+        VIP vip6 = new VIP(102,true,th1,"hhehehehehehheh","08123123",12);
+
         um.addUser(customer1);
-        um.addUser(vip1);
+        um.addUser(vip1);um.addUser(vip3);um.addUser(vip4);um.addUser(customer4);um.addUser(customer5);um.addUser(customer6);
+        um.addUser(vip2);um.addUser(customer1);um.addUser(customer2);um.addUser(customer3);um.addUser(vip5);um.addUser(vip6);
         this.listOfUsers = um.getListOfUsers();
 
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
@@ -70,10 +85,64 @@ public class RegisterMemberPage extends Pane {
         titleContainer.getChildren().add(title);
 
         VBox userPicture = new VBox();
+        userPicture.setSpacing(30);
         userPicture.getStyleClass().add("pict-container");
         userPicture.setAlignment(Pos.TOP_CENTER);
         userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.5).subtract(30));
+        Label userTitle = new Label("Our users");
+        userTitle.getStyleClass().add("title");
+        userPicture.getChildren().add(userTitle);
 
+        VBox allMembers = new VBox();
+        allMembers.setMaxHeight(Double.MAX_VALUE);
+        allMembers.setSpacing(20);
+        VBox vipContainer = new VBox();
+        vipContainer.setMaxWidth(Double.MAX_VALUE);
+        vipContainer.setSpacing(20);
+        Label vipLabel = new Label("VIP");
+        vipLabel.getStyleClass().add("title");
+        vipContainer.getChildren().add(vipLabel);
+
+        VBox memberContainer = new VBox();
+        memberContainer.setMaxWidth(Double.MAX_VALUE);
+        memberContainer.setSpacing(20);
+        Label memberLabel = new Label("Member");
+        memberLabel.getStyleClass().add("title");
+        memberContainer.getChildren().add(memberLabel);
+
+        Integer i = 0;
+        for(User user : this.listOfUsers){
+            if(i > 8){
+                break;
+            }
+            HBox dataUser = new HBox();
+            if(user instanceof  Member){
+                String name = ((Member)user).getName();
+                Text userName = new Text(name);
+                userName.getStyleClass().add("member-name");
+                dataUser.getChildren().add(userName);
+                memberContainer.getChildren().add(dataUser);
+            }
+            if (user instanceof VIP){
+                String name = ((VIP)user).getName();
+                Text userName = new Text(name);
+                userName.getStyleClass().add("member-name");
+                dataUser.getChildren().add(userName);
+                vipContainer.getChildren().add(dataUser);
+            }
+        }
+        allMembers.getChildren().addAll(vipContainer,memberContainer);
+        allMembers.setPadding(new Insets(10));
+        allMembers.setStyle("-fx-background-color: #E9EFFD;");
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.getStyleClass().add("background");
+        scrollPane.setContent(allMembers);
+        scrollPane.setPadding(new Insets(12));
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
+        scrollPane.setPrefWidth(userPicture.getPrefWidth());
+        scrollPane.setPrefHeight(userPicture.getPrefHeight());
+        userPicture.getChildren().addAll(scrollPane);
 
         HBox container = new HBox();
         container.setMaxWidth(Double.MAX_VALUE);
