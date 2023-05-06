@@ -8,7 +8,11 @@ import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.TransactionManager;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class SystemPointOfSales {
+
     private Settings settings;
     private UserManager userManager;
     private CategoryManager categoryManager;
@@ -16,6 +20,7 @@ public class SystemPointOfSales {
 
     private BillManager billManager;
     private TransactionManager transactionManager;
+
     private App app;
 
     private SystemPointOfSales(){

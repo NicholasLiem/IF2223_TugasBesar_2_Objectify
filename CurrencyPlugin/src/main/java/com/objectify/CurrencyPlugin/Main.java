@@ -1,10 +1,15 @@
 package com.objectify.CurrencyPlugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.objectify.datastore.Settings;
+import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class Main extends Plugin {
@@ -15,10 +20,23 @@ public class Main extends Plugin {
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable(SystemPointOfSales spos) {
         loadCurrencies();
-        for(Currency c: currencies){
-//            spos.getSettings().addCurrency(c.getName(), c.getExchangeRate());
+        try {
+            Path settingsPath = Paths.get(spos.getSettings().getSettingsPath());
+            InputStream input = new FileInputStream(settingsPath.toFile());
+            ObjectMapper mapper = new ObjectMapper();
+            Settings settings = mapper.readValue(input, Settings.class);
+            for (Currency currency : currencies) {
+                ObjectNode currencyNode = mapper.createObjectNode();
+                currencyNode.put("currencies", currency.getName());
+                currencyNode.put("exchange_rate", currency.getExchangeRate());
+                settings.getAdditionalProperties().put(currency.getName(), currencyNode);
+            }
+            OutputStream output = new FileOutputStream(settingsPath.toFile());
+            mapper.writerWithDefaultPrettyPrinter().writeValue(output, settings);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         System.out.println(this.getName() + " has been enabled!");
@@ -26,6 +44,8 @@ public class Main extends Plugin {
         // Register a shutdown hook to run the onDisable method when the program closes
         Runtime.getRuntime().addShutdownHook(new Thread(this::onDisable));
     }
+
+
 
     @Override
     public void onDisable() {

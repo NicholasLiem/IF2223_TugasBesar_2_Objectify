@@ -1,6 +1,8 @@
 package com.objectify.plugin;
 
 
+import com.objectify.datastore.SystemPointOfSales;
+
 public abstract class Plugin {
 
     public String name;
@@ -8,7 +10,7 @@ public abstract class Plugin {
         this.name = name;
     }
 
-    abstract public void onEnable();
+    abstract public void onEnable(SystemPointOfSales spos);
     abstract public void onDisable();
 
     public String getName(){

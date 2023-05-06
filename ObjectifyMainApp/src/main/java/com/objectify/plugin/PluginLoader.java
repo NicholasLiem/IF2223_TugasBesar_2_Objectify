@@ -12,8 +12,10 @@ import java.util.jar.JarFile;
 
 public class PluginLoader {
     public static HashSet<Plugin> plugins = new HashSet<>();
+    private SystemPointOfSales spos;
 
     public PluginLoader(){
+        this.spos = SystemPointOfSales.getInstance();
     }
 
     public void loadPlugins(String pluginsFolder) throws Exception {
@@ -23,7 +25,6 @@ public class PluginLoader {
         if (files != null && files.length > 0){
             ArrayList<URL> urls = new ArrayList<>(files.length);
             for (File file : files){
-                JarFile jar = new JarFile(file);
                 URL url = file.toURI().toURL();
                 urls.add(url);
             }
@@ -38,7 +39,7 @@ public class PluginLoader {
                                 Constructor<?> constructor = cls.getConstructor(String.class);
                                 Plugin plugin = (Plugin) constructor.newInstance("Plugin");
                                 plugins.add(plugin);
-                                plugin.onEnable();
+                                plugin.onEnable(spos);
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
