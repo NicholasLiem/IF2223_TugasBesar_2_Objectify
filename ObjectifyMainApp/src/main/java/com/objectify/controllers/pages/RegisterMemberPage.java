@@ -2,78 +2,235 @@ package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
+import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
-public class RegisterMemberPage extends GridPane {
+public class RegisterMemberPage extends Pane {
 
     private Label nameLabel;
     private Label phoneNumberLabel;
     private Label pointsLabel;
 
+    private Label imageLabel;
+
     private TextField nameField;
     private TextField phoneNumberField;
     private TextField pointsField;
 
+    private ImageView userImage;
+
+    private ArrayList<User> listOfUsers;
+
+
     public RegisterMemberPage() {
-        this.getStyleClass().add("background");
-        this.setPadding(new Insets(10));
-        this.setHgap(10);
-        this.setVgap(10);
+//        Dummy data doank
+        SystemPointOfSales spos = SystemPointOfSales.getInstance();
+        UserManager um = spos.getUserManager();
+        Member customer1 = new Member(1,false,new TransactionHistory(),"Nathania","08129",12);
+
+        Member customer3 = new Member(3,false,new TransactionHistory(),"Sofyan","08129",12);
+        Member customer2 = new Member(2,false,new TransactionHistory(),"Nicholas","08129",13);
+        Member customer4 = new Member(4,false, new TransactionHistory(),"Hosea","0818",20);
+        Member customer5 = new Member(5,false, new TransactionHistory(),"cust5","0818",20);
+        Member customer6 = new Member(6,false,new TransactionHistory(),"member6","21123",20);
+
+        TransactionHistory th1 = new TransactionHistory();
+        VIP vip1 = new VIP(100,true,th1, "Hahaha","0812",12);
+        VIP vip2 = new VIP(99,true,th1, "heheheh","0812",20);
+        VIP vip3 = new VIP(98,true,th1, "vip3","0811",13);
+        VIP vip4 = new VIP(97,true,th1, "vip4","0810",12);
+        VIP vip5 = new VIP(101,true,th1,"Hahahaha","08128",12);
+        VIP vip6 = new VIP(102,true,th1,"hhehehehehehheh","08123123",12);
+
+        um.addUser(customer1);
+        um.addUser(vip1);um.addUser(vip3);um.addUser(vip4);um.addUser(customer4);um.addUser(customer5);um.addUser(customer6);
+        um.addUser(vip2);um.addUser(customer1);um.addUser(customer2);um.addUser(customer3);um.addUser(vip5);um.addUser(vip6);
+        this.listOfUsers = um.getListOfUsers();
 
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
 
+        HBox row = new HBox();
+        row.setSpacing(10);
 
-        // Create radio buttons for membership types
+        VBox forms = new VBox();
+        //        Title label
+        HBox titleContainer = new HBox();
+        titleContainer.setMaxWidth(Double.MAX_VALUE);
+        titleContainer.setAlignment(Pos.CENTER);
+        Label title = new Label("Register Now");
+        title.getStyleClass().add("title");
+        titleContainer.getChildren().add(title);
+
+        VBox userPicture = new VBox();
+        userPicture.setSpacing(30);
+        userPicture.getStyleClass().add("pict-container");
+        userPicture.setAlignment(Pos.TOP_CENTER);
+        userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.5).subtract(30));
+        Label userTitle = new Label("Our users");
+        userTitle.getStyleClass().add("title");
+        userPicture.getChildren().add(userTitle);
+
+        VBox allMembers = new VBox();
+        allMembers.setMaxHeight(Double.MAX_VALUE);
+        allMembers.setSpacing(20);
+        VBox vipContainer = new VBox();
+        vipContainer.setMaxWidth(Double.MAX_VALUE);
+        vipContainer.setSpacing(20);
+        Label vipLabel = new Label("VIP");
+        vipLabel.getStyleClass().add("title");
+        vipContainer.getChildren().add(vipLabel);
+
+        VBox memberContainer = new VBox();
+        memberContainer.setMaxWidth(Double.MAX_VALUE);
+        memberContainer.setSpacing(20);
+        Label memberLabel = new Label("Member");
+        memberLabel.getStyleClass().add("title");
+        memberContainer.getChildren().add(memberLabel);
+
+        Integer i = 0;
+        for(User user : this.listOfUsers){
+            if(i > 8){
+                break;
+            }
+            HBox dataUser = new HBox();
+            if(user instanceof  Member){
+                String name = ((Member)user).getName();
+                Text userName = new Text(name);
+                userName.getStyleClass().add("member-name");
+                dataUser.getChildren().add(userName);
+                memberContainer.getChildren().add(dataUser);
+            }
+            if (user instanceof VIP){
+                String name = ((VIP)user).getName();
+                Text userName = new Text(name);
+                userName.getStyleClass().add("member-name");
+                dataUser.getChildren().add(userName);
+                vipContainer.getChildren().add(dataUser);
+            }
+        }
+        allMembers.getChildren().addAll(vipContainer,memberContainer);
+        allMembers.setPadding(new Insets(10));
+        allMembers.setStyle("-fx-background-color: #E9EFFD;");
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.getStyleClass().add("background");
+        scrollPane.setContent(allMembers);
+        scrollPane.setPadding(new Insets(12));
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: #E9EFFD;");
+        scrollPane.setPrefWidth(userPicture.getPrefWidth());
+        scrollPane.setPrefHeight(userPicture.getPrefHeight());
+        userPicture.getChildren().addAll(scrollPane);
+
+        HBox container = new HBox();
+        container.setMaxWidth(Double.MAX_VALUE);
+        container.setSpacing(30);
+        container.setPadding(new Insets(30,0,0,80));
+
+        VBox labelCol = new VBox();
+        labelCol.setSpacing(40);
+        labelCol.setMaxHeight(Double.MAX_VALUE);
+        Label membership = new Label("Membership Type: ");
+        this.nameLabel = new Label("Name:");
+        this.phoneNumberLabel = new Label("Phone Number:");
+        this.pointsLabel = new Label("Points:");
+        this.imageLabel = new Label("Choose image : ");
+        this.nameLabel.getStyleClass().add("sub-title");
+        this.imageLabel.getStyleClass().add("sub-title");
+        phoneNumberLabel.getStyleClass().add("sub-title");
+        pointsLabel.getStyleClass().add("sub-title");
+        labelCol.getChildren().addAll(membership,nameLabel,phoneNumberLabel,pointsLabel);
+
+        VBox fieldCol = new VBox();
+        fieldCol.setSpacing(40);
+        fieldCol.setMaxHeight(Double.MAX_VALUE);
         ComboBox<String> membershipComboBox = new ComboBox<>();
         membershipComboBox.getItems().addAll("Customer", "Member", "VIP");
         membershipComboBox.setValue("Customer");
-        add(new Label("Membership Type:"), 0, 0);
-        add(membershipComboBox, 1, 0);
+        membership.getStyleClass().add("sub-title");
+        membershipComboBox.setPadding(new Insets(3));
+        membershipComboBox.getStyleClass().add("combo-box");
+        this.nameField = new TextField();
+        this.phoneNumberField = new TextField();
+        this.pointsField = new TextField();
+        nameField.setPrefWidth(400);
+        Button button = new Button("Pilih File");
+        button.setOnAction(e -> {
+            if(this.userImage != null){
+                userPicture.getChildren().clear();
+            }
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Pilih File");
+            File selectedFile = fileChooser.showOpenDialog(null);
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg")
+            );
+            if (selectedFile != null && isImageFile(selectedFile)) {
+                try {
+                    // Load the image from the selected file using ImageIO
+                    javafx.scene.image.Image image = new javafx.scene.image.Image(selectedFile.toURI().toURL().toString());
 
-        // Create labels for member fields
-        nameLabel = new Label("Name:");
-        phoneNumberLabel = new Label("Phone Number:");
-        pointsLabel = new Label("Points:");
+                    // Create an image view to display the image
+                    javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(image);
+                    imageView.setFitHeight(500);
+                    imageView.setFitWidth(300);
+                    this.userImage = imageView;
+                    userPicture.getChildren().add(this.userImage);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        fieldCol.getChildren().addAll(membershipComboBox,this.nameField,this.phoneNumberField,this.pointsField,button);
+        container.getChildren().addAll(labelCol,fieldCol);
 
-        // Create text fields for member fields
-        nameField = new TextField();
-        phoneNumberField = new TextField();
-        pointsField = new TextField();
+        forms.getChildren().addAll(titleContainer,container);
+        forms.getStyleClass().add("forms");
+        forms.setPadding(new Insets(20,0,0,30));
+        forms.prefWidthProperty().bind(row.widthProperty().multiply(0.6));
 
-        // Add member fields to grid pane
-        add(nameLabel, 0, 1);
-        add(nameField, 1, 1);
-        add(phoneNumberLabel, 0, 2);
-        add(phoneNumberField, 1, 2);
-        add(pointsLabel, 0, 3);
-        add(pointsField, 1, 3);
+        // Set the grow priority for the userPicture VBox to Priority.ALWAYS
+        HBox.setHgrow(forms, Priority.ALWAYS);
+        HBox.setHgrow(userPicture, Priority.ALWAYS);
 
-        // Set font size for labels and fields
-        nameLabel.setFont(Font.font(12));
-        phoneNumberLabel.setFont(Font.font(12));
-        pointsLabel.setFont(Font.font(12));
-        nameField.setFont(Font.font(12));
-        phoneNumberField.setFont(Font.font(12));
-        pointsField.setFont(Font.font(12));
+        row.getChildren().addAll(forms,userPicture);
+        row.getStyleClass().add("forms");
 
-        // Set fixed row heights
-        this.getRowConstraints().clear();
-        RowConstraints row1 = new RowConstraints(30);
-        RowConstraints row2 = new RowConstraints(30);
-        RowConstraints row3 = new RowConstraints(30);
-        RowConstraints row4 = new RowConstraints(30);
-        this.getRowConstraints().addAll(row1, row2, row3, row4);
+        BorderPane mainContainer = new BorderPane();
+        Label bottomLabel = new Label("Bottom");
+        mainContainer.setBottom(bottomLabel);
+        mainContainer.setCenter(row);
+        mainContainer.prefWidthProperty().bind(this.widthProperty());
+        mainContainer.prefHeightProperty().bind(this.heightProperty());
+        // set row width to 100% so that forms and userPicture split 60-40
+        row.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        row.setMaxWidth(Double.MAX_VALUE);
 
+        this.getChildren().addAll(mainContainer);
         membershipComboBox.setOnAction(event -> {
             String membershipType = membershipComboBox.getValue();
             if (membershipType.equals("Customer")) {
@@ -86,8 +243,8 @@ public class RegisterMemberPage extends GridPane {
                 pointsField.setDisable(false);
             }
         });
-
         Button submitButton = new Button("Create Member");
+        submitButton.getStyleClass().add("submit-btn");
         submitButton.setOnAction(event -> {
             String selectedMembership = membershipComboBox.getValue();
             UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
@@ -96,7 +253,8 @@ public class RegisterMemberPage extends GridPane {
                 case "Customer":
                     Customer customer = new Customer();
                     customer.setActivationStatus(true);
-
+                    System.out.println("Masuk ke customer");
+                    System.out.println(customer);
                     userManager.addUser(customer);
                     break;
                 case "Member":
@@ -130,14 +288,22 @@ public class RegisterMemberPage extends GridPane {
             alert.setContentText("The new member has been created successfully");
             alert.showAndWait();
         });
-        this.add(submitButton, 0, 4, 3, 1);
+        HBox buttonBox = new HBox();
+        buttonBox.setPrefWidth(Double.MAX_VALUE);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(30,0,0,0));
+        buttonBox.getChildren().add(submitButton);
+        forms.getChildren().add(buttonBox);
     }
-
     // Helper method to clear input fields
     private void clearFields() {
         nameField.clear();
         phoneNumberField.clear();
         pointsField.clear();
+    }
+    private boolean isImageFile(File file) {
+        String name = file.getName().toLowerCase();
+        return name.endsWith(".png") || name.endsWith(".jpg");
     }
 
     private int parsePointsField() {
@@ -154,4 +320,5 @@ public class RegisterMemberPage extends GridPane {
         }
         return points;
     }
+
 }

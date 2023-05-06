@@ -15,6 +15,7 @@
         <module>CurrencyPlugin</module>
         <module>Chart1</module>
         <module>BasePlugin</module>
+        <module>PaymentPlugin</module>
     </modules>
 
 </project>

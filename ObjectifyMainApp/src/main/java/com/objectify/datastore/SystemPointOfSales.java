@@ -11,8 +11,6 @@ import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.TransactionManager;
 import com.objectify.plugin.PluginLoader;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 
 public class SystemPointOfSales {
@@ -24,8 +22,8 @@ public class SystemPointOfSales {
 
     private final BillManager billManager;
     private final TransactionManager transactionManager;
-    private final PluginLoader pluginLoader;
-    
+
+    //    private final PluginLoader pluginLoader;
     private final HashMap<String, Command> commands;
 
     private App app;
@@ -37,8 +35,8 @@ public class SystemPointOfSales {
         this.categoryManager = new CategoryManager();
         this.storageManager = new StorageManager();
         this.transactionManager = new TransactionManager();
-        this.pluginLoader = new PluginLoader();
         this.commands = new HashMap<>();
+//        this.pluginLoader = new PluginLoader();
     }
 
     private static SystemPointOfSales instance;
@@ -84,9 +82,9 @@ public class SystemPointOfSales {
         return billManager;
     }
 
-    public PluginLoader getPluginLoader() {
-        return pluginLoader;
-    }
+//    public PluginLoader getPluginLoader() {
+//        return pluginLoader;
+//    }
     
     public void registerCommand(String name, Command command) {
         this.commands.put(name, command);

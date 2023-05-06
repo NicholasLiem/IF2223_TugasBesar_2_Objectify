@@ -28,7 +28,7 @@ public class FileMenu extends AppMenu {
         });
 
         registerMemberTab.setOnAction(event -> {
-            GridPane rmPage = new RegisterMemberPage();
+            Pane rmPage = new RegisterMemberPage();
             Tab newPaneTab = new Tab("Register Member", rmPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);

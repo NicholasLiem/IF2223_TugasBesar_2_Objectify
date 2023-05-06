@@ -33,8 +33,8 @@ public class MenuBarManager {
         menuBar.getMenus().remove(menu);
         menus.remove(menu.getText());
     }
-    
-    public void addMenuItem(AppMenu menu, MenuItem menuItem) {
+
+    public void addMenuItem(Menu menu, MenuItem menuItem) {
         menu.getItems().add(menuItem);
     }
 

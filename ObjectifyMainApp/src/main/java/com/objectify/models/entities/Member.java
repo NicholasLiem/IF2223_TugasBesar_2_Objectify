@@ -61,4 +61,8 @@ public class Member extends User implements Serializable {
                 ", points=" + points +
                 '}';
     }
+
+    public String getType(){
+        return "Member";
+    }
 }
