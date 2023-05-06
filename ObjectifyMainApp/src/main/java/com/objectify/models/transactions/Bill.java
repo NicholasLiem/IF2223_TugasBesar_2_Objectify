@@ -83,7 +83,7 @@ public class Bill {
         }
 
         // Update user's transaction history
-        TransactionHistory history = user.getTransactionHistory();
+        TransactionHistory history = user.getUserTransactions();
         int count = history.getTransactionHistory().size();
         // Get current datetime
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
