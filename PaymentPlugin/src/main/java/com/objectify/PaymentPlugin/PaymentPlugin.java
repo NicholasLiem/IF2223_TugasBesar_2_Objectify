@@ -1,10 +1,7 @@
 package com.objectify.PaymentPlugin;
 
-
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.objectify.datastore.ComboBoxBuilder;
 import com.objectify.datastore.Settings;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
@@ -12,12 +9,6 @@ import com.objectify.plugin.Plugin;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import static java.lang.Double.parseDouble;
 
 
 public class PaymentPlugin extends Plugin {
@@ -78,14 +69,14 @@ public class PaymentPlugin extends Plugin {
         System.out.println("Payment Plugin" + " has been disabled!");
 
         // Write the current Payment object to the JSON file
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            Path paymentPath = Paths.get(spos.getSettings().getSettingsPath(), PAYMENT_SETTINGS_PATH);
-            OutputStream output = new FileOutputStream(paymentPath.toFile());
-            mapper.writerWithDefaultPrettyPrinter().writeValue(output, payment);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ObjectMapper mapper = new ObjectMapper();
+//            Path paymentPath = Paths.get(spos.getSettings().getSettingsPath(), PAYMENT_SETTINGS_PATH);
+//            OutputStream output = new FileOutputStream(paymentPath.toFile());
+//            mapper.writerWithDefaultPrettyPrinter().writeValue(output, payment);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
