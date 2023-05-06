@@ -57,4 +57,11 @@ public abstract class User implements Serializable {
     }
 
     public abstract String toString();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return ((User) o).getUserID() == this.getUserID();
+    }
 }

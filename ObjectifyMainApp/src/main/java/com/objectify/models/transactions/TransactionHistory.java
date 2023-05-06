@@ -15,9 +15,8 @@ public class TransactionHistory implements Serializable {
     @XmlElement(name = "Transactions")
     private ArrayList<Transaction> transactions;
 
-
-    public TransactionHistory(){
-        this.transactions = new ArrayList<>();
+    public TransactionHistory() {
+        this.transactions = new ArrayList<Transaction>();
     }
 
     public TransactionHistory(ArrayList<Transaction> transactions){
@@ -29,7 +28,12 @@ public class TransactionHistory implements Serializable {
     }
 
     public void setTransactionHistory(ArrayList<Transaction> transactionHistory) {
-        this.transactions = transactionHistory;
+        this.transactions = new ArrayList<Transaction>();
+        this.transactions = (ArrayList<Transaction>) transactionHistory.clone();
+    }
+
+    public void add(Transaction transaction) {
+        this.transactions.add(transaction);
     }
 
     public void addTransaction(Transaction newTransaction){

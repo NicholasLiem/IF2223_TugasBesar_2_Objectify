@@ -1,0 +1,16 @@
+{
+  "currencies": [
+    {
+      "name": "USD",
+      "exchangeRate": 0.000069
+    },
+    {
+      "name": "EUR",
+      "exchangeRate": 0.000058
+    },
+    {
+      "name": "JPY",
+      "exchangeRate": 0.0076
+    }
+  ]
+}

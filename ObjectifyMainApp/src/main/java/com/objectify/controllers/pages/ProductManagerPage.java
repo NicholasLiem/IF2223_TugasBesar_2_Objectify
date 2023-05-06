@@ -1,5 +1,6 @@
 package com.objectify.controllers.pages;
 
+import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.items.Category;
 import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.Product;
@@ -48,7 +49,7 @@ public class ProductManagerPage extends GridPane {
         imagePathField = new TextField();
 
         // Add categories to combo box
-        CategoryManager categoryManager = CategoryManager.getInstance();
+        CategoryManager categoryManager = SystemPointOfSales.getInstance().getCategoryManager();
         categoryComboBox.getItems().addAll(categoryManager.getCategories());
 
         // Add product fields to grid pane
@@ -90,7 +91,7 @@ public class ProductManagerPage extends GridPane {
 
         Button submitButton = new Button("Add Product");
         submitButton.setOnAction(event -> {
-            StorageManager productManager = StorageManager.getInstance();
+            StorageManager productManager = SystemPointOfSales.getInstance().getStorageManager();
 
             // Parse input fields
             String name = nameField.getText();
@@ -117,7 +118,7 @@ public class ProductManagerPage extends GridPane {
             Product product = new Product(stock, name, price, buyPrice, category, imagePath);
 
             // Add product to product manager
-            productManager.addProduct(product);
+            productManager.addNewProducts(product);
 
             // Clear input fields
             clearFields();

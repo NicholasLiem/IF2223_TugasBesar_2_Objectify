@@ -1,27 +1,52 @@
 package com.objectify.plugin;
 
-import com.objectify.controllers.App;
+import com.objectify.datastore.SystemPointOfSales;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.jar.JarFile;
 
 public class PluginLoader {
-    private App app;
-    public PluginLoader(App app){
-        this.app = app;
-    }
-    public void loadPlugin(String jarFilePath, String mainClass) throws Exception {
-        URL jarUrl = new File(jarFilePath).toURI().toURL();
-        URLClassLoader classLoader = new URLClassLoader(new URL[] {jarUrl});
+    public static HashSet<Plugin> plugins = new HashSet<>();
+    private SystemPointOfSales spos;
 
-        Class<?> pluginClass = classLoader.loadClass(mainClass);
-        Constructor<?> pluginConstructor = pluginClass.getConstructor(String.class);
-        Object pluginInstance = pluginConstructor.newInstance("Plugin");
-
-        Plugin plugin = (Plugin) pluginInstance;
-        plugin.onEnable(this.app);
+    public PluginLoader(){
+        this.spos = SystemPointOfSales.getInstance();
     }
 
+    public void loadPlugins(String pluginsFolder) throws Exception {
+        File pluginDirectory = new File(pluginsFolder);
+        File[] files = pluginDirectory.listFiles((dir, name) -> name.endsWith(".jar"));
+
+        if (files != null && files.length > 0){
+            ArrayList<URL> urls = new ArrayList<>(files.length);
+            for (File file : files){
+                URL url = file.toURI().toURL();
+                urls.add(url);
+            }
+            URLClassLoader urlClassLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+            for (File file : files){
+                JarFile jar = new JarFile(file);
+                jar.stream().forEach(jarEntry -> {
+                    if(jarEntry.getName().endsWith(".class")){
+                        try {
+                            Class<?> cls = urlClassLoader.loadClass(jarEntry.getName().replaceAll("/", ".").replace(".class", ""));
+                            if(Plugin.class.isAssignableFrom(cls)){
+                                Constructor<?> constructor = cls.getConstructor(String.class);
+                                Plugin plugin = (Plugin) constructor.newInstance("Plugin");
+                                plugins.add(plugin);
+                                plugin.onEnable(spos);
+                            }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            }
+        }
+    }
 }

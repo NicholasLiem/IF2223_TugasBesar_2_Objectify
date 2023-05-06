@@ -62,5 +62,4 @@ public class OBJAdapter<T> implements DataStore<T> {
             throw new RuntimeException("Failed to create OBJ file: " + e.getMessage());
         }
     }
-    // Kelas ini harus dapat membaca dan menulis data dalam format OBJ dengan menggunakan Java API Serializable.
 }
