@@ -1,6 +1,7 @@
 package com.objectify.controllers.pages;
 
 import com.objectify.models.entities.*;
+import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,17 +9,22 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
-import javax.swing.text.html.ImageView;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class RegisterMemberPage extends Pane {
 
@@ -26,11 +32,27 @@ public class RegisterMemberPage extends Pane {
     private Label phoneNumberLabel;
     private Label pointsLabel;
 
+    private Label imageLabel;
+
     private TextField nameField;
     private TextField phoneNumberField;
     private TextField pointsField;
 
+    private ImageView userImage;
+
+    private ArrayList<User> listOfUsers;
+
+
     public RegisterMemberPage() {
+//        Dummy data doank
+        UserManager um = UserManager.getInstance();
+        Customer customer1 = new Customer(1,false,new TransactionHistory());
+        TransactionHistory th1 = new TransactionHistory();
+        VIP vip1 = new VIP(1,true,th1, "Hahaha","0812",12);
+        um.addUser(customer1);
+        um.addUser(vip1);
+        this.listOfUsers = um.getListOfUsers();
+
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
@@ -47,6 +69,12 @@ public class RegisterMemberPage extends Pane {
         title.getStyleClass().add("title");
         titleContainer.getChildren().add(title);
 
+        VBox userPicture = new VBox();
+        userPicture.getStyleClass().add("pict-container");
+        userPicture.setAlignment(Pos.TOP_CENTER);
+        userPicture.prefWidthProperty().bind(row.widthProperty().multiply(0.5).subtract(30));
+
+
         HBox container = new HBox();
         container.setMaxWidth(Double.MAX_VALUE);
         container.setSpacing(30);
@@ -59,7 +87,9 @@ public class RegisterMemberPage extends Pane {
         this.nameLabel = new Label("Name:");
         this.phoneNumberLabel = new Label("Phone Number:");
         this.pointsLabel = new Label("Points:");
+        this.imageLabel = new Label("Choose image : ");
         this.nameLabel.getStyleClass().add("sub-title");
+        this.imageLabel.getStyleClass().add("sub-title");
         phoneNumberLabel.getStyleClass().add("sub-title");
         pointsLabel.getStyleClass().add("sub-title");
         labelCol.getChildren().addAll(membership,nameLabel,phoneNumberLabel,pointsLabel);
@@ -77,22 +107,40 @@ public class RegisterMemberPage extends Pane {
         this.phoneNumberField = new TextField();
         this.pointsField = new TextField();
         nameField.setPrefWidth(400);
-        fieldCol.getChildren().addAll(membershipComboBox,nameField,phoneNumberField,pointsField);
+        Button button = new Button("Pilih File");
+        button.setOnAction(e -> {
+            if(this.userImage != null){
+                userPicture.getChildren().clear();
+            }
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Pilih File");
+            File selectedFile = fileChooser.showOpenDialog(null);
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg")
+            );
+            if (selectedFile != null && isImageFile(selectedFile)) {
+                try {
+                    // Load the image from the selected file using ImageIO
+                    javafx.scene.image.Image image = new javafx.scene.image.Image(selectedFile.toURI().toURL().toString());
 
+                    // Create an image view to display the image
+                    javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(image);
+                    imageView.setFitHeight(500);
+                    imageView.setFitWidth(300);
+                    this.userImage = imageView;
+                    userPicture.getChildren().add(this.userImage);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        fieldCol.getChildren().addAll(membershipComboBox,this.nameField,this.phoneNumberField,this.pointsField,button);
         container.getChildren().addAll(labelCol,fieldCol);
 
         forms.getChildren().addAll(titleContainer,container);
         forms.getStyleClass().add("forms");
         forms.setPadding(new Insets(20,0,0,30));
-        forms.setPrefWidth(0.6*Region.USE_COMPUTED_SIZE); // 60% width
-
-        VBox userPicture = new VBox();
-        userPicture.getStyleClass().add("pict-container");
-        userPicture.setPadding(new Insets(30,0,0,0));
-        userPicture.setAlignment(Pos.TOP_CENTER);
-        userPicture.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
-        userPicture.getChildren().add(new Label("Hello"));
-        userPicture.setPrefWidth(0.4*Region.USE_COMPUTED_SIZE); // 40% width
+        forms.prefWidthProperty().bind(row.widthProperty().multiply(0.6));
 
         // Set the grow priority for the userPicture VBox to Priority.ALWAYS
         HBox.setHgrow(forms, Priority.ALWAYS);
@@ -182,6 +230,10 @@ public class RegisterMemberPage extends Pane {
         phoneNumberField.clear();
         pointsField.clear();
     }
+    private boolean isImageFile(File file) {
+        String name = file.getName().toLowerCase();
+        return name.endsWith(".png") || name.endsWith(".jpg");
+    }
 
     private int parsePointsField() {
         int points = 0;
@@ -197,4 +249,5 @@ public class RegisterMemberPage extends Pane {
         }
         return points;
     }
+
 }
