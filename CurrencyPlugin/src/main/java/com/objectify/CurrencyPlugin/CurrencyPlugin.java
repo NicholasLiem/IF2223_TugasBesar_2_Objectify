@@ -43,7 +43,7 @@ public class CurrencyPlugin extends Plugin {
             }
 
             // Update the CurrencyDefault value with the first currency in the list
-            settings.getAdditionalProperties().put("Currencies", mapper.createObjectNode()
+            settings.getAdditionalProperties().put("CurrencySystem", mapper.createObjectNode()
                     .put("CurrencySettings", currencyPath.toString())
                     .put("CurrencyDefault", currencies.get(0).getName())
                     .put("CurrencyExchangeRate", 1));

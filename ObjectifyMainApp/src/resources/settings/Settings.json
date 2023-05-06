@@ -3,7 +3,16 @@
   "additionalProperties" : {
     "PaymentSystem" : {
       "PaymentSettings" : "ObjectifyMainApp\\src\\resources\\settings\\Payment.json"
+    },
+    "CurrencySystem" : {
+      "CurrencySettings" : "ObjectifyMainApp\\src\\resources\\settings\\Currency.json",
+      "CurrencyDefault" : "IDR",
+      "CurrencyExchangeRate" : 1
     }
   },
-  "uiConfig" : [ ]
+  "uiConfig" : [ {
+    "type" : "ComboBox",
+    "name" : "currency",
+    "label" : "Currency"
+  } ]
 }

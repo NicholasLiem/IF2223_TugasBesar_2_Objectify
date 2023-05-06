@@ -26,9 +26,9 @@ public class PaymentPlugin extends Plugin {
             // Check if Payment.json file exists, and if not, create it with default values
             Path paymentPath = Paths.get(settings.getSettingsPath() + PAYMENT_SETTINGS_PATH);
             if (!paymentPath.toFile().exists()) {
-                ObjectNode currencyNode = mapper.createObjectNode();
-                OutputStream currencyOutput = new FileOutputStream(paymentPath.toFile());
-                mapper.writerWithDefaultPrettyPrinter().writeValue(currencyOutput, currencyNode);
+                ObjectNode paymentNode = mapper.createObjectNode();
+                OutputStream paymentOutput = new FileOutputStream(paymentPath.toFile());
+                mapper.writerWithDefaultPrettyPrinter().writeValue(paymentOutput, paymentNode);
             }
 
             settings.getAdditionalProperties().put("PaymentSystem", mapper.createObjectNode()
