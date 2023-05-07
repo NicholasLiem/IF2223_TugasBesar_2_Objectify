@@ -6,6 +6,7 @@ import com.objectify.models.items.*;
 import javafx.geometry.Rectangle2D;
 
 import com.objectify.models.transactions.Bill;
+import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 import com.objectify.models.transactions.TransactionManager;
@@ -73,7 +74,11 @@ public class CashierPage extends GridPane {
 
         saveButton.setOnAction(event -> {
             String inputText = inputField.getText();
+            BillManager billManager = SystemPointOfSales.getInstance().getBillManager();
             Bill bill = new Bill(this.user, new ShoppingCart(this.cart));
+            if (billManager.getBills().contains(bill)) {
+                billManager.removeBill(bill);
+            }
             bill.pay(usePointsCheckbox.isSelected(), inputText);
             popup.close();
         });
@@ -136,6 +141,77 @@ public class CashierPage extends GridPane {
         popupStage.showAndWait();
     }
 
+    private void saveBill() {
+        Bill bill = new Bill(this.user, new ShoppingCart(this.cart));
+        BillManager billManager = SystemPointOfSales.getInstance().getBillManager();
+        billManager.addBill(bill);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Save Bill");
+        alert.setHeaderText("Bill Saved");
+        alert.setContentText("New bill has been stored");
+        alert.showAndWait();
+    }
+
+    private void selectBill() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Select User");
+
+        VBox itemList = new VBox();
+        itemList.setSpacing(10);
+        itemList.setPadding(new Insets(10));
+
+        // Add some sample items to the list
+        BillManager billManager = SystemPointOfSales.getInstance().getBillManager();
+        ArrayList<Bill> userList = billManager.getBills();
+        for (Bill bill : userList) {
+            String displayText = new String();
+            int vip = 1;
+            int mmbr = 1;
+            int cust = 1;
+            if (bill.getUser() instanceof VIP) {
+                displayText = "User " + ((VIP) bill.getUser()).getName() + " bill number: " + vip;
+                vip++;
+            }
+
+            if (bill.getUser() instanceof Member) {
+                displayText = "User " + ((Member) bill.getUser()).getName() + " bill number: " + mmbr;
+                mmbr++;
+            }
+
+            if (bill.getUser() instanceof Customer) {
+                displayText = "User ID " + ((Customer) bill.getUser()).getUserID() + " bill number: " + cust;
+                cust++;
+            }
+            HBox itemRow = new HBox();
+            Label userIdLabel = new Label(displayText);
+            itemRow.setSpacing(100);
+            Button selectButton = new Button("Select");
+            selectButton.setOnAction(event -> {
+                this.user = bill.getUser();
+                this.cart = bill.getCart().getItems();
+                popupStage.close();
+            });
+            itemRow.getChildren().addAll(userIdLabel, selectButton);
+            itemRow.setSpacing(10);
+            itemRow.setAlignment(Pos.CENTER_LEFT);
+            itemList.getChildren().add(itemRow);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(itemList);
+        scrollPane.setFitToWidth(true);
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+        scrollPane.setPadding(new Insets(10));
+
+        VBox popupLayout = new VBox();
+        popupLayout.getChildren().addAll(scrollPane);
+        popupLayout.setPadding(new Insets(10));
+
+        Scene popupScene = new Scene(popupLayout, 300, 300);
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
+
     public CashierPage() {
         this.setPadding(new Insets(10));
         this.setHgap(10);
@@ -169,78 +245,6 @@ public class CashierPage extends GridPane {
         bill.setSpacing(10);
         bill.getStyleClass().add("mainBoxes");
         VBox.setVgrow(bill, Priority.ALWAYS);
-
-        // show all bills and choose customer row
-        HBox addCustomerRow = new HBox();
-        HBox.setHgrow(addCustomerRow, Priority.SOMETIMES);
-
-        VBox openBills = new VBox(new Text("Bills"));
-        openBills.setAlignment(Pos.CENTER);
-        openBills.getStyleClass().add("billButtons");
-        openBills.setOnMouseClicked((event) -> {
-            System.out.println("Open bills clicked");
-        });
-        openBills.setOnMouseEntered((event) -> {
-            openBills.setCursor(Cursor.HAND);
-        });
-        openBills.setOnMouseExited((event) -> {
-            openBills.setCursor(Cursor.DEFAULT);
-        });
-        HBox.setHgrow(openBills, Priority.ALWAYS);
-        openBills.setPadding(new Insets(20));
-
-        VBox addCustomerButton = new VBox(new Text("+Add Customer"));
-        addCustomerButton.setAlignment(Pos.CENTER);
-        addCustomerButton.getStyleClass().add("billButtons");
-        addCustomerButton.setOnMouseClicked((event) -> {
-            selectUser();
-        });
-        addCustomerButton.setOnMouseEntered((event) -> {
-            addCustomerButton.setCursor(Cursor.HAND);
-        });
-        addCustomerButton.setOnMouseExited((event) -> {
-            addCustomerButton.setCursor(Cursor.DEFAULT);
-        });
-        HBox.setHgrow(addCustomerButton, Priority.ALWAYS);
-        addCustomerButton.setPadding(new Insets(20));
-
-        addCustomerRow.getChildren().addAll(openBills, addCustomerButton);
-
-        // save, finalize bill
-        HBox saveNFinalizeRow = new HBox();
-        HBox.setHgrow(addCustomerRow, Priority.SOMETIMES);
-
-        VBox saveBill = new VBox(new Text("Save Bill"));
-        saveBill.setAlignment(Pos.CENTER);
-        saveBill.getStyleClass().add("billButtons");
-        saveBill.setOnMouseClicked((event) -> {
-            System.out.println("Save bill clicked");
-        });
-        saveBill.setOnMouseEntered((event) -> {
-            saveBill.setCursor(Cursor.HAND);
-        });
-        saveBill.setOnMouseExited((event) -> {
-            saveBill.setCursor(Cursor.DEFAULT);
-        });
-        HBox.setHgrow(saveBill, Priority.ALWAYS);
-        saveBill.setPadding(new Insets(20));
-
-        VBox finalizeBillButton = new VBox(new Text("Finalize"));
-        finalizeBillButton.setAlignment(Pos.CENTER);
-        finalizeBillButton.getStyleClass().add("billButtons");
-        finalizeBillButton.setOnMouseClicked((event) -> {
-            finalizePopup();
-        });
-        finalizeBillButton.setOnMouseEntered((event) -> {
-            finalizeBillButton.setCursor(Cursor.HAND);
-        });
-        finalizeBillButton.setOnMouseExited((event) -> {
-            finalizeBillButton.setCursor(Cursor.DEFAULT);
-        });
-        HBox.setHgrow(finalizeBillButton, Priority.ALWAYS);
-        finalizeBillButton.setPadding(new Insets(20));
-
-        saveNFinalizeRow.getChildren().addAll(saveBill, finalizeBillButton);
 
         // Show current charge
         HBox chargeBox = new HBox(new Label("Charge Rp0"));
@@ -312,6 +316,104 @@ public class CashierPage extends GridPane {
 
         StorageManager storage = SystemPointOfSales.getInstance().getStorageManager();
         ArrayList<Product> products = storage.getProducts();
+
+        // save, finalize bill
+        HBox saveNFinalizeRow = new HBox();
+
+        VBox saveBill = new VBox(new Text("Save Bill"));
+        saveBill.setAlignment(Pos.CENTER);
+        saveBill.getStyleClass().add("billButtons");
+        saveBill.setOnMouseClicked((event) -> {
+            if (this.user == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("No user assigned");
+                alert.setHeaderText("No user assigned");
+                alert.setContentText("Please select a user before saving");
+                alert.showAndWait();
+            } else {
+                saveBill();
+                this.cart = new HashMap<Product, Integer>();
+                this.user = null;
+                itemListScrollPane.requestLayout();
+                bill.requestLayout();
+                cartList.getChildren().clear();
+            }
+        });
+        saveBill.setOnMouseEntered((event) -> {
+            saveBill.setCursor(Cursor.HAND);
+        });
+        saveBill.setOnMouseExited((event) -> {
+            saveBill.setCursor(Cursor.DEFAULT);
+        });
+        HBox.setHgrow(saveBill, Priority.ALWAYS);
+        saveBill.setPadding(new Insets(20));
+
+        VBox finalizeBillButton = new VBox(new Text("Finalize"));
+        finalizeBillButton.setAlignment(Pos.CENTER);
+        finalizeBillButton.getStyleClass().add("billButtons");
+        finalizeBillButton.setOnMouseClicked((event) -> {
+            if (this.user == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("No user assigned");
+                alert.setHeaderText("No user assigned");
+                alert.setContentText("Please select a user before finalizing");
+                alert.showAndWait();
+            } else {
+                finalizePopup();
+                this.cart = new HashMap<Product, Integer>();
+                this.user = null;
+                itemListScrollPane.requestLayout();
+                bill.requestLayout();
+            }
+        });
+        finalizeBillButton.setOnMouseEntered((event) -> {
+            finalizeBillButton.setCursor(Cursor.HAND);
+        });
+        finalizeBillButton.setOnMouseExited((event) -> {
+            finalizeBillButton.setCursor(Cursor.DEFAULT);
+        });
+        HBox.setHgrow(finalizeBillButton, Priority.ALWAYS);
+        finalizeBillButton.setPadding(new Insets(20));
+
+        saveNFinalizeRow.getChildren().addAll(saveBill, finalizeBillButton);
+
+        // show all bills and choose customer row
+        HBox addCustomerRow = new HBox();
+        HBox.setHgrow(addCustomerRow, Priority.SOMETIMES);
+
+        VBox openBills = new VBox(new Text("Bills"));
+        openBills.setAlignment(Pos.CENTER);
+        openBills.getStyleClass().add("billButtons");
+        openBills.setOnMouseClicked((event) -> {
+            selectBill();
+            itemListScrollPane.requestLayout();
+            bill.requestLayout();
+        });
+        openBills.setOnMouseEntered((event) -> {
+            openBills.setCursor(Cursor.HAND);
+        });
+        openBills.setOnMouseExited((event) -> {
+            openBills.setCursor(Cursor.DEFAULT);
+        });
+        HBox.setHgrow(openBills, Priority.ALWAYS);
+        openBills.setPadding(new Insets(20));
+
+        VBox addCustomerButton = new VBox(new Text("+Add Customer"));
+        addCustomerButton.setAlignment(Pos.CENTER);
+        addCustomerButton.getStyleClass().add("billButtons");
+        addCustomerButton.setOnMouseClicked((event) -> {
+            selectUser();
+        });
+        addCustomerButton.setOnMouseEntered((event) -> {
+            addCustomerButton.setCursor(Cursor.HAND);
+        });
+        addCustomerButton.setOnMouseExited((event) -> {
+            addCustomerButton.setCursor(Cursor.DEFAULT);
+        });
+        HBox.setHgrow(addCustomerButton, Priority.ALWAYS);
+        addCustomerButton.setPadding(new Insets(20));
+
+        addCustomerRow.getChildren().addAll(openBills, addCustomerButton);
 
         // Product list
         FlowPane productFlowPane = new FlowPane();
