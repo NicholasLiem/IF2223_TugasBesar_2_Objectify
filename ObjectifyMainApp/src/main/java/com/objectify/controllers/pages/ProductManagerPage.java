@@ -380,7 +380,7 @@ public class ProductManagerPage extends GridPane {
         });
         buttons.getChildren().add(cancelButton);
         
-        forms.getChildren().set(6,buttons);
+        forms.getChildren().set(7,buttons);
     }
     
 }
