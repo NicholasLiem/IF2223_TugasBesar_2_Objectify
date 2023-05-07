@@ -44,7 +44,7 @@ public class LineBarChartPane extends AnchorPane {
         lineChartContainer.getChildren().add(Objects.requireNonNullElseGet(lineChart, () -> new Label("No data")));
 
         var barChartContainer = new VBox();
-        var barChartTab = new Tab("Line Chart", barChartContainer);
+        var barChartTab = new Tab("Bar Chart", barChartContainer);
         var barChart = getBarChart();
         barChartContainer.setFillWidth(true);
         barChartContainer.setAlignment(Pos.CENTER);
