@@ -10,13 +10,19 @@ import java.util.Optional;
 
 public class OBJAdapter<T> implements DataStore<T> {
     private Path objPath;
+    private final String filename;
     
     public OBJAdapter(String filename) {
-        initializeFile(filename);
+        if (!filename.endsWith(".obj")) {
+            filename += ".obj";
+        }
+        objPath = Paths.get("ObjectifyMainApp","src", "resources", "OBJ", filename);
+        this.filename = filename;
     }
     
     @Override
     public void write(T data) {
+        initializeFile();
         try (OutputStream outputStream = Files.newOutputStream(objPath)) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(data);
@@ -29,10 +35,12 @@ public class OBJAdapter<T> implements DataStore<T> {
 
     @Override
     public Optional<T> read() {
+        initializeFile();
         try (InputStream inputStream = Files.newInputStream(objPath)) {
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             return Optional.of((T) objectInputStream.readObject());
         } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
             return Optional.empty();
         }
     }
@@ -42,7 +50,7 @@ public class OBJAdapter<T> implements DataStore<T> {
         try {
             Files.deleteIfExists(objPath);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -50,7 +58,7 @@ public class OBJAdapter<T> implements DataStore<T> {
         return objPath;
     }
 
-    private void initializeFile(String filename) {
+    private void initializeFile() {
         Path resPath = Paths.get("ObjectifyMainApp","src", "resources", "OBJ");
         try {
             if (!Files.exists(resPath)) {

@@ -14,17 +14,23 @@ import java.util.Optional;
 public class JSONAdapter<T> implements DataStore<T> {
 
     private Path jsonPath;
+    private final String filename;
     private final ObjectMapper mapper;
     private final Class<T> cls;
 
     public JSONAdapter(String filename, Class<T> cls) {
-        initializeFile(filename);
+        if (!filename.endsWith(".json")) {
+            filename += ".json";
+        }
+        jsonPath = Paths.get("ObjectifyMainApp","src", "resources", "JSON", filename);
+        this.filename = filename;
         this.cls = cls;
         mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     }
 
     @Override
     public void write(T data) {
+        initializeFile();
         assert(data.getClass().equals(cls));
         try {
             mapper.writeValue(jsonPath.toFile(), data);
@@ -35,13 +41,13 @@ public class JSONAdapter<T> implements DataStore<T> {
 
     @Override
     public Optional<T> read() {
+        initializeFile();
         try {
             T result = mapper.readValue(jsonPath.toFile(), cls);
             return Optional.of(result);
-        } catch (MismatchedInputException exception) {
-            return Optional.empty();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return Optional.empty();
         }
     }
 
@@ -50,7 +56,7 @@ public class JSONAdapter<T> implements DataStore<T> {
         try {
             Files.deleteIfExists(jsonPath);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
     
@@ -58,10 +64,7 @@ public class JSONAdapter<T> implements DataStore<T> {
         return jsonPath;
     }
 
-    private void initializeFile(String filename) {
-        if (!filename.endsWith(".json")) {
-            filename += ".json";
-        }
+    private void initializeFile() {
         Path resPath = Paths.get("ObjectifyMainApp","src", "resources", "JSON");
         try {
             if (!Files.exists(resPath)) {

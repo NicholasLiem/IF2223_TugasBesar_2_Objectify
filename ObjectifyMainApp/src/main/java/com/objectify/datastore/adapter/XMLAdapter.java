@@ -16,32 +16,40 @@ import java.util.Optional;
 public class XMLAdapter<T> implements DataStore<T> {
     private final Class<T> cls;
     private Path xmlPath;
+    private final String filename;
 
     public XMLAdapter(String filename, Class<T> cls) {
-        initializeFile(filename);
+        if (!filename.endsWith(".xml")) {
+            filename += ".xml";
+        }
+        xmlPath = Paths.get("ObjectifyMainApp","src", "resources", "XML", filename);
+        this.filename = filename;
         this.cls = cls;
     }
 
     @Override
     public void write(T data) {
+        initializeFile();
         try {
             JAXBContext context = JAXBContext.newInstance(cls);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(data, new File(xmlPath.toString()));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
     @Override
     public Optional<T> read() {
+        initializeFile();
         try {
             JAXBContext context = JAXBContext.newInstance(cls);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             T result = (T) unmarshaller.unmarshal(xmlPath.toFile());
             return Optional.of(result);
         } catch (JAXBException e) {
+            e.printStackTrace();
             return Optional.empty();
         }
     }
@@ -51,7 +59,7 @@ public class XMLAdapter<T> implements DataStore<T> {
         try {
             Files.deleteIfExists(xmlPath);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -59,7 +67,7 @@ public class XMLAdapter<T> implements DataStore<T> {
         return xmlPath;
     }
 
-    private void initializeFile(String filename) {
+    private void initializeFile() {
         Path resPath = Paths.get("ObjectifyMainApp","src", "resources", "XML");
         try {
             if (!Files.exists(resPath)) {
