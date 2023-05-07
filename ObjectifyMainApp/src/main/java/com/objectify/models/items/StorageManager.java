@@ -13,21 +13,20 @@ import java.util.ArrayList;
 public class StorageManager implements Serializable {
     private static final long serialVersionUID = 1265615619191872709L;
     @XmlElement(name = "Products")
-    private ArrayList<Product> products;
+    private ArrayList<Product> listOfProducts;
 
     public StorageManager(){
-        this.products = new ArrayList<>();
+        this.listOfProducts = new ArrayList<>();
     }
     public void addNewProducts(Product new_items){
-        System.out.println("Masuk add new products");
-        this.products.add(new_items);
-        System.out.println("Sukses add list of products");
+        this.listOfProducts.add(new_items);
+
     }
     public ArrayList<Product> getProducts(){
-        return this.products;
+        return this.listOfProducts;
     }
     public void editProduct(int product_id, Product new_products){
-        for (Product products : this.products){
+        for (Product products : this.listOfProducts){
             if(products.getIdProduct() == product_id){
                 products.setProductStock(new_products.getProductStock());
                 products.setProductName(new_products.getProductName());
@@ -42,7 +41,7 @@ public class StorageManager implements Serializable {
 
     public ArrayList<Product> searchItemByName(String name) throws ItemNotFoundException{
         ArrayList<Product>results = new ArrayList<>();
-        for(Product products : this.products){
+        for(Product products : this.listOfProducts){
             if(products.getProductName().toLowerCase().contains(name.toLowerCase())) {
                 results.add(products);
             }
@@ -57,7 +56,7 @@ public class StorageManager implements Serializable {
 
     public ArrayList<Product> searchByCategory(String category) throws ItemNotFoundException{
         ArrayList<Product> results = new ArrayList<>();
-        for(Product product :this.products){
+        for(Product product :this.listOfProducts){
             if(product.getProductCategory().getName().toLowerCase().contains(category.toLowerCase())){
                 results.add(product);
             }
@@ -69,9 +68,18 @@ public class StorageManager implements Serializable {
         }
     };
 
+    public Product searchById(Integer productId) throws ItemNotFoundException{
+        for (Product product : this.listOfProducts){
+            if (product.getIdProduct() == productId){
+                return product;
+            }
+        }
+        throw new ItemNotFoundException();
+    }
+
     public ArrayList<Product> searchByPrice(String price) throws  ItemNotFoundException{
         ArrayList<Product> results = new ArrayList<>();
-        for(Product product : this.products){
+        for(Product product : this.listOfProducts){
             if(Double.toString(product.getProductPrice()).toLowerCase().contains(price.toLowerCase())){
                 results.add(product);
             }
@@ -84,7 +92,7 @@ public class StorageManager implements Serializable {
     }
 
     public void showProducts(){
-        for(Product product : this.products){
+        for(Product product : this.listOfProducts){
             System.out.println("Products : ");
             System.out.println(product.getProductName());
             System.out.println(product.getIdProduct());
@@ -93,7 +101,10 @@ public class StorageManager implements Serializable {
     }
 
     public void removeProduct(Product product){
-        this.products.remove(product);
+        this.listOfProducts.remove(product);
+    }
+    public void setProducts(ArrayList<Product> prod){
+        this.listOfProducts = prod;
     }
 
     public void setProducts(ArrayList<Product> newProducts){

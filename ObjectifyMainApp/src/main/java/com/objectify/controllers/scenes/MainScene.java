@@ -11,7 +11,10 @@ import com.objectify.datastore.interfaces.DataStore;
 import com.objectify.exceptions.InvalidArgumentsException;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.Product;
+import com.objectify.models.items.ShoppingCart;
 import com.objectify.models.items.StorageManager;
+import com.objectify.models.transactions.Transaction;
+import com.objectify.models.transactions.TransactionManager;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
@@ -19,6 +22,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 
 import javax.xml.crypto.Data;
+import java.util.HashMap;
 
 public class MainScene extends Scene {
     
@@ -33,9 +37,13 @@ public class MainScene extends Scene {
 
         SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
         SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
-//        SystemPointOfSales.getInstance().getStorageManager().addNewProducts(new Product(1, "a", 1, 1, null, ""));
-//        SystemPointOfSales.getInstance().getStorageManager().addNewProducts(new Product(1, "a", 1, 1, null, ""));
-//        SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
+        HashMap k = new HashMap<>();
+        k.put(1, 1);
+        ShoppingCart sc = new ShoppingCart(k);
+        Transaction t = new Transaction(1, "", "", 1, sc);
+        TransactionManager ta = SystemPointOfSales.getInstance().getTransactionManager();
+        ta.addTransaction(t);
+        SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
 
 
         MenuBar menuBar = mbManager.getMenuBar();

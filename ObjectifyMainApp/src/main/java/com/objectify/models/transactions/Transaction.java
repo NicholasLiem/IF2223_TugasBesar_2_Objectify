@@ -2,6 +2,7 @@ package com.objectify.models.transactions;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.objectify.models.items.ShoppingCart;
@@ -18,6 +19,9 @@ public class Transaction implements Serializable {
     private int transactionId;
     private String dateTime;
     private double amount;
+    private String description;
+
+    @XmlElement(name = "ShoppingCart")
     private ShoppingCart cart;
 
     public Transaction() {
@@ -25,14 +29,11 @@ public class Transaction implements Serializable {
     }
 
     public Transaction(int transactionId, String dateTime, String description, double amount, ShoppingCart cart) {
+        this.description = description;
         this.transactionId = transactionId;
         this.dateTime = dateTime;
         this.amount = amount;
         this.cart = cart;
-    }
-
-    public void save() {
-        // save to database
     }
 
     public int getId() {
@@ -47,10 +48,7 @@ public class Transaction implements Serializable {
         return this.amount;
     }
 
-    public ShoppingCart getCartitems() {
-        return this.cart;
-    }
-
+    @XmlElement(name = "ShoppingCart")
     public ShoppingCart getCart() {
         return this.cart;
     }
