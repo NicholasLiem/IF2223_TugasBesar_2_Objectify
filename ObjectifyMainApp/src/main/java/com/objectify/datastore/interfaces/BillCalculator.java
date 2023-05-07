@@ -1,4 +1,4 @@
-package com.objectify.datastore.enums;
+package com.objectify.datastore.interfaces;
 
 public interface BillCalculator {
     double calculate(double value);

@@ -31,7 +31,7 @@ public class TransactionManager {
         return this.listOfTransactions;
     }
 
-    public void setListOfUsers(ArrayList<Transaction> listOfTransactions){
+    public void setListOfTransactions(ArrayList<Transaction> listOfTransactions){
         this.listOfTransactions = listOfTransactions;
     }
 }

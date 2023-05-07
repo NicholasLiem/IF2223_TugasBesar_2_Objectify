@@ -1,4 +1,4 @@
-package com.objectify.datastore.enums;
+package com.objectify.datastore.interfaces;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;

@@ -1,6 +1,7 @@
 package com.objectify.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,6 +21,10 @@ public class Customer extends User implements Serializable {
 
     public Customer(boolean activationStatus, TransactionHistory transactionHistory){
         super(activationStatus, transactionHistory);
+    }
+
+    public  Customer(int id, boolean activationStatus, TransactionHistory th){
+        super(id,activationStatus,th);
     }
 
     @Override
