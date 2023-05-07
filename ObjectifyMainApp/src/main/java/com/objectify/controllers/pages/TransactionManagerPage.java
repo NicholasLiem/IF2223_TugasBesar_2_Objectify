@@ -8,12 +8,20 @@ import com.objectify.models.items.*;
 import com.objectify.exceptions.ItemNotFoundException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,6 +34,7 @@ public class TransactionManagerPage extends Pane {
     private VBox transactionsList;
 
     private ArrayList<Transaction> listOfTransactions;
+    private String filepath;
 
     public TransactionManagerPage(){
 
@@ -149,20 +158,20 @@ public class TransactionManagerPage extends Pane {
         allTransactionsData.setPrefWidth(250);
         transactionsScrollPane.setFitToWidth(true);
         
-        // Uncommnet to test the view
-        // // Create a cart and add some items to it
-        // ShoppingCart cart = new ShoppingCart();
-        // cart.addCartItem(1,3);
-        // cart.addCartItem(2, 2);
-        // cart.addCartItem(3, 1);
+        // Uncomment to test the view
+        // Create a cart and add some items to it
+        ShoppingCart cart = new ShoppingCart();
+        cart.addCartItem(1,3);
+        cart.addCartItem(2, 2);
+        cart.addCartItem(3, 1);
         
-        // TransactionHistory transactions2 = new TransactionHistory();
-        // for (int i = 0; i < 10; i++) {
-        //     String desc = "desc" + (i+1);
-        //     transactions2.addTransaction(new Transaction(i+1,"today", desc, 12, cart));
-        // }
+        TransactionHistory transactions2 = new TransactionHistory();
+        for (int i = 0; i < 10; i++) {
+            String desc = "desc" + (i+1);
+            transactions2.addTransaction(new Transaction(i+1,"today", desc, 12, cart));
+        }
         
-        // user.setTransactionHistory(transactions2);
+        user.setTransactionHistory(transactions2);
         
         TransactionHistory transactions = user.getTransactionHistory();
         for (Transaction transaction : transactions.getTransactions()) {
@@ -187,7 +196,10 @@ public class TransactionManagerPage extends Pane {
             transactionBox.getChildren().addAll(id,datetime,cartLabel,discount,amount2);
             Button print = new Button("Print Transaction");
             print.setOnAction(event -> {
-                transaction.printToPDF();
+                selectPDFPath();
+                if (filepath != "") {
+                    transaction.printToPDF(filepath);
+                }
             });
             print.getStyleClass().add("button");
             box.getChildren().addAll(transactionBox,print);
@@ -255,7 +267,10 @@ public class TransactionManagerPage extends Pane {
             unselectButton.getStyleClass().add("button");
             Button printLaporan = new Button("Print User's Transaction History");
             printLaporan.setOnAction(event -> { 
-                user.getTransactionHistory().printToPDF();
+                selectPDFPath();
+                if (filepath != "") {
+                    user.getTransactionHistory().printToPDF(filepath);
+                }
             });
             printLaporan.getStyleClass().add("button");
             box.getChildren().addAll(slctdUser, printLaporan, unselectButton);
@@ -270,4 +285,80 @@ public class TransactionManagerPage extends Pane {
             transactionsList.getChildren().remove(0);
         }
     }
+
+    private void selectPDFPath() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Print to PDF");
+    
+        VBox itemList = new VBox();
+        itemList.setSpacing(10);
+        itemList.setPadding(new Insets(10));
+    
+        // Destination folder
+        HBox destinationFolder = new HBox();
+        destinationFolder.setSpacing(10);
+        destinationFolder.setAlignment(Pos.CENTER_LEFT);
+        Label destinationFolderLabel = new Label("Destination Folder");
+        TextField pathField = new TextField();
+        pathField.setPromptText("Search users");
+        final String[] selectedPath = {""};
+        Button pathChooserBtn = new Button("Select Folder");
+        pathChooserBtn.setOnAction(event -> {
+            DirectoryChooser folderChooser = new DirectoryChooser();
+            folderChooser.setTitle("Open Folder");
+            File selectedFolder = folderChooser.showDialog(getScene().getWindow());
+            if (selectedFolder != null) {
+                selectedPath[0] = selectedFolder.getAbsolutePath();
+                pathField.setText(selectedPath[0]);
+            }
+        });
+        destinationFolder.getChildren().addAll(destinationFolderLabel, pathField, pathChooserBtn);
+    
+        // Destination file
+        HBox destinationFile = new HBox();
+        destinationFile.setSpacing(10);
+        destinationFile.setAlignment(Pos.CENTER_LEFT);
+        Label destinationLabel = new Label("Destination File");
+        TextField titleField = new TextField();
+        titleField.setPromptText("File Name");
+        Text pdf = new Text(".pdf");
+        destinationFile.getChildren().addAll(destinationLabel, titleField, pdf);
+    
+        itemList.getChildren().addAll(destinationFolder,destinationFile);
+    
+        // Submit and cancel buttons
+        HBox buttonBox = new HBox();
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+        Button submitButton = new Button("Submit");
+        submitButton.setOnAction(event -> {
+            if (pathField.getText().isEmpty() || titleField.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Please enter a destination folder and file name.");
+                alert.showAndWait();
+            } else {
+                filepath = pathField.getText() + "\\" + titleField.getText() + ".pdf";
+                popupStage.close();
+            }
+        });
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(event -> {
+            filepath = "";
+            popupStage.close();
+        });
+        buttonBox.getChildren().addAll(submitButton, cancelButton);
+    
+        VBox popupLayout = new VBox();
+        popupLayout.setAlignment(Pos.CENTER);
+        popupLayout.setSpacing(10);
+        popupLayout.setPadding(new Insets(10));
+        popupLayout.getChildren().addAll(itemList, buttonBox);
+    
+        Scene popupScene = new Scene(popupLayout, 500, 150);
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
+    
 }

@@ -18,15 +18,17 @@ import java.util.Map;
 public class TransactionPDFGenerator extends Thread {
 
     private Transaction transaction;
+    private String filename;
 
-    public TransactionPDFGenerator(Transaction transaction) {
+    public TransactionPDFGenerator(Transaction transaction, String filename) {
         this.transaction = transaction;
+        this.filename = filename;
     }
 
     @Override
     public void run() {
         try {
-            String filename = "transaction_" + transaction.getTransactionId() + ".pdf";
+            // String filename = "transaction_" + transaction.getTransactionId() + ".pdf";
             PDDocument document = new PDDocument();
             PDPage page = new PDPage(PDRectangle.A4);
             document.addPage(page);

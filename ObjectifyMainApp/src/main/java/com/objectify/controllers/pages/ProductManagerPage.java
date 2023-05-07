@@ -182,6 +182,8 @@ public class ProductManagerPage extends GridPane {
             String path = ".\\ObjectifyMainApp\\src\\resources\\images\\sample_image.png";
             if (product.getProductImagePath() != "") {
                 path = product.getProductImagePath();
+            } else {
+                product.setProductImagePath(path);
             }
             File file = new File(path);
             Image image = new Image(file.toURI().toString());

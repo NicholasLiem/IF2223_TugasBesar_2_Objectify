@@ -19,15 +19,17 @@ import java.util.Map;
 public class TransactionHistoryPDFGenerator extends Thread {
 
     private TransactionHistory transactions;
+    private String filename;
 
-    public TransactionHistoryPDFGenerator(TransactionHistory transactions) {
+    public TransactionHistoryPDFGenerator(TransactionHistory transactions, String filename) {
         this.transactions = transactions;
+        this.filename = filename;
     }
 
     @Override
     public void run() {
         try {
-            String filename = "transaction_history.pdf";
+            // String filename = "transaction_history.pdf";
             PDDocument document = new PDDocument();
 
             PDPage titlePage = new PDPage(PDRectangle.A4);
