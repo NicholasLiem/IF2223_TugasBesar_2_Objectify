@@ -59,6 +59,17 @@ public class ShoppingCart implements Serializable {
         return value;
     }
 
+    public void decQuantityStorage() {
+        for (Entry<Integer, Integer> entry : this.cartItems.entrySet()) {
+            try {
+                sm.searchById(entry.getKey())
+                        .setProductStock(sm.searchById(entry.getKey()).getProductStock() - entry.getValue());
+            } catch (ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
