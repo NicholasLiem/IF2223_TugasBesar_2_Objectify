@@ -16,9 +16,8 @@ public class FileMenu extends AppMenu {
         super("File", tabPane);
         Menu newTab = new Menu("New Tab");
         MenuItem cashierTab = new MenuItem("Cashier Tab");
-        MenuItem billHistoryTab = new MenuItem("Bill History Tab");
         MenuItem transactionsTab = new MenuItem("Transactions Tab");
-        newTab.getItems().addAll(cashierTab, billHistoryTab,transactionsTab);
+        newTab.getItems().addAll(cashierTab,transactionsTab);
 
         this.getItems().addAll(newTab);
         cashierTab.setOnAction(event -> {

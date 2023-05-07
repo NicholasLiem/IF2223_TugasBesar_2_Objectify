@@ -1,7 +1,6 @@
 package com.objectify.controllers.scenes;
 
 import com.objectify.controllers.components.menubar.MenuBarManager;
-import com.objectify.controllers.pages.DashboardPane;
 import com.objectify.controllers.pages.ProductManagerPage;
 import com.objectify.controllers.pages.RegisterMemberPage;
 import com.objectify.datastore.SystemPointOfSales;
