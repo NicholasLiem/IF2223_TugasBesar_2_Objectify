@@ -1,0 +1,42 @@
+.background{
+    -fx-background-color : "#E9EFFD";
+}
+
+.transactions-list{
+    -fx-border-color : black;
+    -fx-border-width : 2px;
+    -fx-border-radius : 2px;
+}
+
+.user-scrollpane{
+    -fx-background-radius : 6px;
+    -fx-border-color : black;
+    -fx-border-width : 2px;
+    -fx-border-radius : 6px;
+    -fx-padding : 8px;
+}
+
+.userlist{
+    -fx-background-color : "#E9EFFD";
+    -fx-background-radius : 6px;
+}
+
+.single-data{
+    -fx-background-color : "#F1ECFF";
+    -fx-background-radius : 6px;
+    -fx-border-radius : 6px;
+    -fx-border-width : 1px;
+    -fx-border-color : black;
+    -fx-padding : 6px;
+}
+
+.sub-title{
+    -fx-font-size : 16;
+    -fx-font-weight : BOLD;
+}
+
+.content{
+    -fx-font-size : 16;
+}
+
+

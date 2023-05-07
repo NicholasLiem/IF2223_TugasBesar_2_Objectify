@@ -139,7 +139,6 @@ public class ProductManagerPage extends GridPane {
         for(Category c : categoryManager.getCategories()){
             this.categoryComboBox.getItems().add(c.getName());
         }
-//        categoryComboBox.getItems().addAll(categoryManager.getCategories());
 
         add(row,0,0);
         updateProductsScrollPane();

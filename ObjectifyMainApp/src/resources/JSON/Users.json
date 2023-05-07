@@ -1,3 +1,41 @@
 {
-  "listOfUsers" : [ ]
+  "listOfUsers" : [ {
+    "type" : "Customer",
+    "userID" : 2,
+    "type" : "Customer",
+    "activationStatus" : true,
+    "userTransactions" : {
+      "transactionHistory" : [ ]
+    }
+  }, {
+    "type" : "Customer",
+    "userID" : 3,
+    "type" : "Customer",
+    "activationStatus" : true,
+    "userTransactions" : {
+      "transactionHistory" : [ ]
+    }
+  }, {
+    "type" : "Member",
+    "userID" : 4,
+    "type" : "Member",
+    "activationStatus" : true,
+    "name" : "sdas",
+    "phoneNumber" : "12",
+    "points" : 13,
+    "userTransactions" : {
+      "transactionHistory" : [ ]
+    }
+  }, {
+    "type" : "VIP",
+    "userID" : 5,
+    "type" : "VIP",
+    "activationStatus" : true,
+    "name" : "sdas",
+    "phoneNumber" : "131",
+    "points" : 121,
+    "userTransactions" : {
+      "transactionHistory" : [ ]
+    }
+  } ]
 }

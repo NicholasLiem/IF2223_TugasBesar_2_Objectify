@@ -51,14 +51,6 @@ public class RegisterMemberPage extends Pane {
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
-        TransactionHistory th = new TransactionHistory();
-        Transaction t = new Transaction();
-        Transaction t2 = new Transaction();
-        th.add(t);
-        th.add(t2);
-        Customer c1 = new Customer(10,true,th);
-        UserManager um = SystemPointOfSales.getInstance().getUserManager();
-        um.addUser(c1);
 
         HBox row = new HBox();
         row.setSpacing(10);
@@ -128,8 +120,6 @@ public class RegisterMemberPage extends Pane {
         row.getStyleClass().add("forms");
 
         BorderPane mainContainer = new BorderPane();
-        Label bottomLabel = new Label("Bottom");
-        mainContainer.setBottom(bottomLabel);
         mainContainer.setCenter(row);
         mainContainer.prefWidthProperty().bind(this.widthProperty());
         mainContainer.prefHeightProperty().bind(this.heightProperty());
@@ -264,6 +254,7 @@ public class RegisterMemberPage extends Pane {
         for(User user : this.listOfUsers){
 //            Container untuk menampung data sebuah User
             HBox dataUser = new HBox();
+            dataUser.setMaxWidth(Double.MAX_VALUE);
             if(user instanceof  Member){
                 String name = ((Member)user).getName();
                 Text userName = new Text(name);

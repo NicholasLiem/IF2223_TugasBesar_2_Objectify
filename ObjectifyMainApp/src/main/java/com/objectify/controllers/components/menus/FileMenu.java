@@ -1,8 +1,6 @@
 package com.objectify.controllers.components.menus;
 
-import com.objectify.controllers.pages.CashierPage;
-import com.objectify.controllers.pages.RegisterMemberPage;
-import com.objectify.controllers.pages.SettingsPage;
+import com.objectify.controllers.pages.*;
 import com.objectify.controllers.pages.CashierPage;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -18,9 +16,10 @@ public class FileMenu extends AppMenu {
         super("File", tabPane);
         Menu newTab = new Menu("New Tab");
         MenuItem cashierTab = new MenuItem("Cashier Tab");
-        MenuItem registerMemberTab = new MenuItem("Register Member Tab");
+        MenuItem registerMemberTab = new MenuItem("Member Tab");
         MenuItem billHistoryTab = new MenuItem("Bill History Tab");
-        newTab.getItems().addAll(cashierTab, registerMemberTab, billHistoryTab);
+        MenuItem transactionsTab = new MenuItem("Transactions Tab");
+        newTab.getItems().addAll(cashierTab, registerMemberTab, billHistoryTab,transactionsTab);
 
         this.getItems().addAll(newTab);
         cashierTab.setOnAction(event -> {
@@ -36,14 +35,12 @@ public class FileMenu extends AppMenu {
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);
         });
-
-        billHistoryTab.setOnAction(event -> {
-            Pane newPage = new Pane();
-            Tab newPaneTab = new Tab("Bill History", newPage);
+        transactionsTab.setOnAction(event->{
+            Pane tmPage = new TransactionManagerPage();
+            Tab newPaneTab = new Tab("Transactions Tab",tmPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);
         });
-
         MenuItem settingsTab = new MenuItem("Settings");
         this.getItems().add(settingsTab);
         settingsTab.setOnAction(event -> {
