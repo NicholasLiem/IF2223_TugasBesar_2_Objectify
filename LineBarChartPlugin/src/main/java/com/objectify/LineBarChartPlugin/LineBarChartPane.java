@@ -37,7 +37,7 @@ public class LineBarChartPane extends AnchorPane {
 
         var lineChartContainer= new VBox();
         var lineChartTab = new Tab("Line Chart", lineChartContainer);
-        var lineChart = getLineChart(); 
+        var lineChart = getLineChart();
         lineChartContainer.setFillWidth(true);
         lineChartContainer.setAlignment(Pos.CENTER);
         VBox.setVgrow(lineChartContainer, Priority.ALWAYS);
@@ -63,7 +63,7 @@ public class LineBarChartPane extends AnchorPane {
         }
         return null;
     }
-    
+
     private BarChart<String, Number> getBarChart() {
         final var xAxis = new CategoryAxis();
         final var yAxis = new NumberAxis();
@@ -73,7 +73,7 @@ public class LineBarChartPane extends AnchorPane {
         }
         return null;
     }
-    
+
     private boolean processData(XYChart<String, Number> chart) {
         chart.setTitle("Accumulated Sales Per Day");
         var series = new XYChart.Series<String, Number>();
