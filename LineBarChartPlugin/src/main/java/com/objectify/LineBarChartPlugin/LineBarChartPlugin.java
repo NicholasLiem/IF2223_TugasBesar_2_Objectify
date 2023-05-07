@@ -27,6 +27,6 @@ public class LineBarChartPlugin extends Plugin {
 
     @Override
     public void onDisable(SystemPointOfSales spos) {
-
+        
     }
 }

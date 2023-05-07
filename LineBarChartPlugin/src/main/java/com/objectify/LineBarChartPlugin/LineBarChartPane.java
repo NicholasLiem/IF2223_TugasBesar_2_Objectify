@@ -75,9 +75,9 @@ public class LineBarChartPane extends AnchorPane {
     }
     
     private boolean processData(XYChart<String, Number> chart) {
-        chart.setTitle("Akumulasi Penjualan Per Hari");
+        chart.setTitle("Accumulated Sales Per Day");
         var series = new XYChart.Series<String, Number>();
-        series.setName("Penjualan");
+        series.setName("Sales");
 
         var data = spos.getTransactionManager().getListOfTransaction();
         if (data.isEmpty()) {
