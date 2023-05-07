@@ -1,3 +1,19 @@
 {
-  "products" : [ ]
+  "products" : [ {
+    "idProduct" : 1,
+    "productStock" : 23,
+    "productName" : "23",
+    "productPrice" : 32.0,
+    "productBuyPrice" : 23.0,
+    "productCategory" : null,
+    "productImagePath" : ""
+  }, {
+    "idProduct" : 1,
+    "productStock" : 23456,
+    "productName" : "123456",
+    "productPrice" : 12345.0,
+    "productBuyPrice" : 12345.0,
+    "productCategory" : null,
+    "productImagePath" : ""
+  } ]
 }

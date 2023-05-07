@@ -132,17 +132,24 @@ public class Settings {
     }
 
     public void loadAllDataStore(){
-        StorageManager storageManager = this.productDataStore.read().orElse(SystemPointOfSales.getInstance().getStorageManager());
-        SystemPointOfSales.getInstance().setStorageManager(storageManager);
+        Optional<StorageManager> storageManagerOptional = this.productDataStore.read();
+        Optional<UserManager> userManagerOptional = this.userDataStore.read();
+        Optional<CategoryManager> categoryManagerOptional = this.categoryDataStore.read();
+        Optional<TransactionManager> transactionManagerOptional = this.transactionDataStore.read();
 
-        UserManager userManager = this.userDataStore.read().orElse(SystemPointOfSales.getInstance().getUserManager());
-        SystemPointOfSales.getInstance().setUserManager(userManager);
+        if (storageManagerOptional.isPresent() || userManagerOptional.isPresent() || categoryManagerOptional.isPresent() || transactionManagerOptional.isPresent()) {
+            StorageManager storageManager = storageManagerOptional.orElse(SystemPointOfSales.getInstance().getStorageManager());
+            SystemPointOfSales.getInstance().setStorageManager(storageManager);
 
-        CategoryManager categoryManager = this.categoryDataStore.read().orElse(SystemPointOfSales.getInstance().getCategoryManager());
-        SystemPointOfSales.getInstance().setCategoryManager(categoryManager);
+            UserManager userManager = userManagerOptional.orElse(SystemPointOfSales.getInstance().getUserManager());
+            SystemPointOfSales.getInstance().setUserManager(userManager);
 
-        TransactionManager transactionManager = this.transactionDataStore.read().orElse(SystemPointOfSales.getInstance().getTransactionManager());
-        SystemPointOfSales.getInstance().setTransactionManager(transactionManager);
+            CategoryManager categoryManager = categoryManagerOptional.orElse(SystemPointOfSales.getInstance().getCategoryManager());
+            SystemPointOfSales.getInstance().setCategoryManager(categoryManager);
+
+            TransactionManager transactionManager = transactionManagerOptional.orElse(SystemPointOfSales.getInstance().getTransactionManager());
+            SystemPointOfSales.getInstance().setTransactionManager(transactionManager);
+        }
     }
 
 

@@ -22,7 +22,7 @@ public class Product implements Serializable {
     private double productBuyPrice;
 
     @XmlElement(name = "ProductCategory")
-    private Category category;
+    private Category productCategory;
     private String productImagePath;
 
     public Product(){
@@ -34,7 +34,7 @@ public class Product implements Serializable {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productBuyPrice = productBuyPrice;
-        this.category = productCategory;
+        this.productCategory = productCategory;
         this.productImagePath = productImagePath;
         totalProducts++;
     }
@@ -75,11 +75,11 @@ public class Product implements Serializable {
 
     @XmlElement(name = "ProductCategory")
     public Category getProductCategory() {
-        return category;
+        return this.productCategory;
     }
 
     public void setCategory(Category category) {
-        this.category = category;
+        this.productCategory = category;
     }
 
     public String getProductImagePath() {
@@ -97,7 +97,7 @@ public class Product implements Serializable {
                 ", productName='" + productName + '\'' +
                 ", productPrice=" + productPrice +
                 ", productBuyPrice=" + productBuyPrice +
-                ", category=" + category +
+                ", category=" + productCategory +
                 ", productImagePath='" + productImagePath + '\'' +
                 '}';
     }
