@@ -12,7 +12,7 @@ public class PieChartPlugin extends Plugin {
     public void onEnable(SystemPointOfSales spos) {
         System.out.println("PieChartPlugin enabled");
         var pane = new PieChartPane(spos);
-        var tab = new Tab("Chart 1", pane);
+        var tab = new Tab("Chart 2", pane);
         try {
             spos.executeCommand("BasePlugin.NewMenuItem", "Plugin", "Chart 2", tab);
         } catch (InvalidArgumentsException e) {
