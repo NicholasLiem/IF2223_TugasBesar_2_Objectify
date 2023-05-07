@@ -16,6 +16,7 @@
         <module>BasePlugin</module>
         <module>PaymentPlugin</module>
         <module>LineBarChartPlugin</module>
+        <module>PieChartPlugin</module>
     </modules>
 
 </project>

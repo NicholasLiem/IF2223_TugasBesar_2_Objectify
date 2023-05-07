@@ -37,10 +37,6 @@ public class StorageManager implements Serializable {
             }
         }
     }
-    
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-    }
 
     public ArrayList<Product> searchItemByName(String name) throws ItemNotFoundException{
         ArrayList<Product>results = new ArrayList<>();
