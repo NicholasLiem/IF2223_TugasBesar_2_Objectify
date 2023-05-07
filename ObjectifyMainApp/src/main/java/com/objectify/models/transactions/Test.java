@@ -26,7 +26,10 @@ public class Test {
 
         TransactionHistory transactions = new TransactionHistory();
         for (int i = 0; i < 10; i++) {
-            transactions.add(new Transaction(i+1,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), amount, cart));
+            String desc = "desc" + (i+1);
+            TransactionPDFGenerator fixedBill = new TransactionPDFGenerator(new Transaction(i+1,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), desc, amount, cart));
+            fixedBill.start();
+            transactions.add(new Transaction(i+1,LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), desc, amount, cart));
         }
 
         // Generate a PDF bill for the transaction

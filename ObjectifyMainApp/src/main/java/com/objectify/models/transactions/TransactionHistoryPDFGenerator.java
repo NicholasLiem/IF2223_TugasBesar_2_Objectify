@@ -34,9 +34,13 @@ public class TransactionHistoryPDFGenerator extends Thread {
 
             PDPageContentStream titlePageContentStream = new PDPageContentStream(document,titlePage);
 
+            PDImageXObject titleLogo = PDImageXObject.createFromFile(".\\ObjectifyMainApp\\src\\resources\\images\\bmo2.png", document);
+            titlePageContentStream.drawImage(titleLogo, 0, -150, 600, 1200);
+
+
             titlePageContentStream.setFont(PDType1Font.COURIER_BOLD_OBLIQUE,20);
             titlePageContentStream.beginText();
-            titlePageContentStream.newLineAtOffset(170, 500);
+            titlePageContentStream.newLineAtOffset(170, 100);
             titlePageContentStream.showText("Laporan Penjualan BNMO");
             titlePageContentStream.endText();
             titlePageContentStream.close();
@@ -52,18 +56,19 @@ public class TransactionHistoryPDFGenerator extends Thread {
                 contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
 
                 // Add the logo
-                // PDImageXObject logo = PDImageXObject.createFromFile("logo.png", document);
-                // contentStream.drawImage(logo, 50, 700, logo.getWidth() / 2, logo.getHeight() / 2);
-
+                PDImageXObject logo = PDImageXObject.createFromFile(".\\ObjectifyMainApp\\src\\resources\\images\\bmo.png", document);
+                contentStream.drawImage(logo, 250, 710, 100, 100);
 
                 // Add the headings
                 contentStream.beginText();
-                contentStream.newLineAtOffset(250, 750);
+                contentStream.newLineAtOffset(250, 700);
                 contentStream.showText("Transaction Bill");
                 contentStream.newLineAtOffset(-5, -20);
                 contentStream.showText("Transaction ID: " + transaction.getId());
                 contentStream.newLineAtOffset(-30, -20);
                 contentStream.showText("Date Time: " + transaction.getDateTime());
+                contentStream.newLineAtOffset(-150, -50);
+                contentStream.showText("Description: " + transaction.getDescription());
                 contentStream.endText();
 
                 // Add the table
@@ -101,7 +106,7 @@ public class TransactionHistoryPDFGenerator extends Thread {
                 // Set the position of the first cell of the table
                 float currentY = tableTopY - cellHeight - 25;
                 // Add the items
-                ShoppingCart cart = transaction.getCartitems();
+                ShoppingCart cart = transaction.getCart();
                 Map<Product, Integer> items = cart.getItems();
                 int i = 1;
                 for (Product product : items.keySet()) {
