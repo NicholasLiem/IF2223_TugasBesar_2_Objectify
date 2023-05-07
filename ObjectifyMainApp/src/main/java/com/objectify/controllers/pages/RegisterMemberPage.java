@@ -2,6 +2,7 @@ package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
+import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,8 +26,10 @@ public class RegisterMemberPage extends Pane {
     private Label pointsLabel;
 
     private Label imageLabel;
-    private ComboBox<String> membershipComboBox;
+    private Label userTitle;
 
+    private ComboBox<String> membershipComboBox;
+    private ComboBox<String> activationStatusComboBox;
     private TextField nameField;
     private TextField phoneNumberField;
     private TextField pointsField;
@@ -41,12 +44,21 @@ public class RegisterMemberPage extends Pane {
     private VBox userPicture;
 
     private  ScrollPane scrollPane;
-    private Label userTitle;
+
+    private int selectedUserId;
     public RegisterMemberPage() {
 //        Dummy data doank
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
+        TransactionHistory th = new TransactionHistory();
+        Transaction t = new Transaction();
+        Transaction t2 = new Transaction();
+        th.add(t);
+        th.add(t2);
+        Customer c1 = new Customer(10,true,th);
+        UserManager um = SystemPointOfSales.getInstance().getUserManager();
+        um.addUser(c1);
 
         HBox row = new HBox();
         row.setSpacing(10);
@@ -146,16 +158,18 @@ public class RegisterMemberPage extends Pane {
         pointsField.clear();
     }
 
-    private int parsePointsField() {
+    private void clearUpdateFields(){
+        this.updatedNameField.clear();
+        this.updatedPhoneNumberField.clear();
+        this.updatedPointsField.clear();
+    }
+
+    private int parsePointsField(String pointText) {
         int points = 0;
         try {
-            points = Integer.parseInt(pointsField.getText());
+            points = Integer.parseInt(pointText);
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Invalid input");
-            alert.setContentText("Points must be a number");
-            alert.showAndWait();
+            errorAlert("Error","Invalid input","Points must be a number");
             return -1;
         }
         return points;
@@ -180,7 +194,7 @@ public class RegisterMemberPage extends Pane {
                     break;
                 case "Member":
                     TransactionHistory th = new TransactionHistory();
-                    int points = parsePointsField();
+                    int points = parsePointsField(this.pointsField.getText());
                     if (points == -1) {
                         return;
                     }
@@ -189,7 +203,7 @@ public class RegisterMemberPage extends Pane {
                     break;
                 case "VIP":
                     TransactionHistory thNew = new TransactionHistory();
-                    int pointsNew = parsePointsField();
+                    int pointsNew = parsePointsField(this.pointsField.getText());
                     if (pointsNew == -1) {
                         return;
                     }
@@ -197,10 +211,9 @@ public class RegisterMemberPage extends Pane {
                     userManager.addUser(vip);
                     break;
             }
-
             clearFields();
             updateScroll();
-            setAlert();
+            setAlert("Customer created","New Customer Succesfully Created");
         });
         buttonBox.getChildren().add(button);
         return buttonBox;
@@ -259,6 +272,7 @@ public class RegisterMemberPage extends Pane {
                 dataUser.getChildren().add(userName);
                 memberContainer.getChildren().add(dataUser);
                 userName.setOnMouseClicked(event ->{
+                    this.selectedUserId = user.getUserID();
                     this.userPicture.getChildren().clear();
                     this.userPicture.getChildren().add(selectedUser(name,"Member",number,points));
                 });
@@ -273,6 +287,7 @@ public class RegisterMemberPage extends Pane {
                 dataUser.getChildren().add(userName);
                 vipContainer.getChildren().add(dataUser);
                 userName.setOnMouseClicked(event ->{
+                    this.selectedUserId = user.getUserID();
                     this.userPicture.getChildren().clear();
                     this.userPicture.getChildren().addAll(selectedUser(name,"VIP",number,points));
                 });
@@ -285,6 +300,7 @@ public class RegisterMemberPage extends Pane {
                 dataUser.getChildren().add(user_id);
                 customerContainer.getChildren().add(dataUser);
                 user_id.setOnMouseClicked(event -> {
+                    this.selectedUserId = user.getUserID();
                     userPicture.getChildren().clear();
                     userPicture.getChildren().addAll(selectedUser(" ","Customer"," "," "));
                 });
@@ -298,11 +314,20 @@ public class RegisterMemberPage extends Pane {
         userPicture.getChildren().addAll(userTitle,scrollPane);
     }
 
-    private void setAlert(){
+    private void setAlert(String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
-        alert.setHeaderText("Member created");
-        alert.setContentText("The new member has been created successfully");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private  void errorAlert(String title,String header,String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 
@@ -313,11 +338,14 @@ public class RegisterMemberPage extends Pane {
         this.updatedPointsField = new TextField();
         this.updatedMembershipComboBox = new ComboBox<>();
         this.updatedMembershipComboBox.getItems().addAll("Customer", "Member", "VIP");
+        this.activationStatusComboBox = new ComboBox<>();
+        this.activationStatusComboBox.getItems().addAll("Active","Not Active");
 
         this.updatedNameField.setText(oldName);
         this.updatedPhoneNumberField.setText(oldNumber);
         this.updatedPointsField.setText(oldPoints);
         this.updatedMembershipComboBox.setValue(type);
+        this.activationStatusComboBox.setValue("Active");
 
         VBox spesificUser = new VBox();
         spesificUser.setSpacing(20);
@@ -332,7 +360,6 @@ public class RegisterMemberPage extends Pane {
             Text titleUserName = new Text("User");
             titleUserName.getStyleClass().add("title");
             spesificUser.getChildren().add(titleUserName);
-
         }else{
             Text titleUserName = new Text(oldName);
             titleUserName.getStyleClass().add("title");
@@ -347,21 +374,24 @@ public class RegisterMemberPage extends Pane {
         Label nameLabel = new Label("Name : ");
         Label phoneNumberLabel = new Label("Phone Number : ");
         Label pointsLabel = new Label("Points : ");
+        Label statusLabel = new Label("Activation Status : ");
         membershipLabel.getStyleClass().add("sub-title");
         phoneNumberLabel.getStyleClass().add("sub-title");
         nameLabel.getStyleClass().add("sub-title");
         pointsLabel.getStyleClass().add("sub-title");
-        labelCol.getChildren().addAll(membershipLabel,nameLabel,phoneNumberLabel,pointsLabel);
+        statusLabel.getStyleClass().add("sub-title");
+        labelCol.getChildren().addAll(membershipLabel,nameLabel,phoneNumberLabel,pointsLabel,statusLabel);
 
         VBox valueCol = new VBox();
         valueCol.setSpacing(20);
         valueCol.setMaxHeight(Double.MAX_VALUE);
-        valueCol.getChildren().addAll(this.updatedMembershipComboBox,this.updatedNameField,this.updatedPhoneNumberField,this.updatedPointsField);
+        valueCol.getChildren().addAll(this.updatedMembershipComboBox,this.updatedNameField,this.updatedPhoneNumberField,this.updatedPointsField,this.activationStatusComboBox);
         Button returnBack = new Button("Back");
         returnBack.setOnAction(backToPage ->{
             userPicture.getChildren().clear();
             userPicture.getChildren().addAll(this.userTitle,this.scrollPane);
         });
+
         HBox boxContainer = new HBox();
         boxContainer.setSpacing(20);
         boxContainer.setMaxWidth(Double.MAX_VALUE);
@@ -381,25 +411,136 @@ public class RegisterMemberPage extends Pane {
         button.setOnAction(event -> {
             String selectedMembership = this.updatedMembershipComboBox.getValue();
             UserManager userManager = SystemPointOfSales.getInstance().getUserManager();
-            switch (selectedMembership) {
+            User currentUser = userManager.getUser(this.selectedUserId);
+            String currentMembership = currentUser.getType();
+            switch (currentMembership) {
                 case "Customer":
-                    Customer customer = new Customer();
-                    customer.setActivationStatus(true);
-                    userManager.addUser(customer);
+                    if(selectedMembership == "Customer"){
+
+                        String active = this.activationStatusComboBox.getValue();
+                        boolean status = false;
+                        if(active == "Active"){
+                            status = true;
+                        }
+                        userManager.updateCustomer(this.selectedUserId,status);
+                        break;
+                    }
+                    User selected = userManager.getUser(this.selectedUserId);
+                    TransactionHistory temp = selected.getUserTransactions();
+                    if(temp.getTransactionHistory().size() < 1){
+                        errorAlert("Error","Upgrade failed","You need at least one transaction to upgrade");
+                        return;
+                    };
+                    if(selectedMembership == "Member"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhoneNumber = this.updatedPhoneNumberField.getText().trim();
+                        String pointsField = this.updatedPointsField.getText().trim();
+                        String active = this.activationStatusComboBox.getValue();
+                        boolean status = false;
+                        if(active == "Active"){
+                            status = true;
+                        }
+                        int points = parsePointsField(pointsField);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.upgradeCustomer((Customer)currentUser,status,newName,newPhoneNumber,points,"Member");
+                        break;
+                    }
+                    if(selectedMembership == "VIP"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhoneNumber = this.updatedPhoneNumberField.getText().trim();
+                        String pointsField = this.updatedPointsField.getText().trim();
+                        String active = this.activationStatusComboBox.getValue();
+                        boolean status = false;
+                        if(active == "Active"){
+                            status = true;
+                        }
+                        int points = parsePointsField(pointsField);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.displayUsers();
+                        userManager.upgradeCustomer((Customer) currentUser,status,newName,newPhoneNumber,points,"VIP");
+                        userManager.displayUsers();
+                        break;
+                    }
                     break;
                 case "Member":
-                    TransactionHistory th = new TransactionHistory();
-                    int points = parsePointsField();
-                    if (points == -1) {
+                    if(selectedMembership == "Customer"){
+                        errorAlert("Error","Upgrade failed","Member can't be downgraded to customer");
                         return;
                     }
-                    Member member = new Member(true, th, nameField.getText(), phoneNumberField.getText(), points);
-
-                    userManager.addUser(member);
+                    if(selectedMembership == "Member"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.updateMember(this.selectedUserId,active,newName,newPhone,points);
+                        break;
+                    }
+                    if(selectedMembership == "VIP"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.upgradeMember((Member)currentUser,active,newName,newPhone,points);
+                    }
                     break;
                 case "VIP":
+                    if(selectedMembership == "Customer"){
+                        errorAlert("Error","Upgrade failed","Member can't be downgraded to customer");
+                        return;
+                    }
+                    if(selectedMembership == "Member"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.convertVIP((VIP) currentUser,active,newName,newPhone,points);
+                        break;
+                    }
+                    if(selectedMembership == "VIP"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.updateVIP(this.selectedUserId,active,newName,newPhone,points);
+                    }
                     TransactionHistory thNew = new TransactionHistory();
-                    int pointsNew = parsePointsField();
+                    int pointsNew = parsePointsField(this.updatedPointsField.getText());
                     if (pointsNew == -1) {
                         return;
                     }
@@ -408,12 +549,15 @@ public class RegisterMemberPage extends Pane {
                     userManager.addUser(vip);
                     break;
             }
-            for (User u: userManager.getListOfUsers()){
-                System.out.println(u.toString());
-            }
-            clearFields();
-            setAlert();
+            clearUpdateFields();
+            updateScroll();
+            setAlert("Customer Updated","Customer's Data is Succesfully Updated");
         });
         return button;
+    }
+
+    private boolean validCustomer(){
+        
+        return true;
     }
 }

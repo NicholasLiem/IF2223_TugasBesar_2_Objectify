@@ -12,6 +12,14 @@ public class ShoppingCart {
         this.cartItems = new HashMap<Product, Integer>();
     }
 
+    public ShoppingCart(Map<Product, Integer> cart) {
+        this.cartItems = cart;
+    }
+
+    public Map<Product, Integer> getItems() {
+        return this.cartItems;
+    }
+
     public void addCartItem(Product product, Integer quantity) {
         cartItems.putIfAbsent(product, quantity);
     }
@@ -34,7 +42,7 @@ public class ShoppingCart {
         int value = 0;
         while (iterator.hasNext()) {
             Entry<Product, Integer> entry = iterator.next();
-            value += entry.getValue();
+            value += entry.getValue() * entry.getKey().getProductBuyPrice();
         }
 
         return value;

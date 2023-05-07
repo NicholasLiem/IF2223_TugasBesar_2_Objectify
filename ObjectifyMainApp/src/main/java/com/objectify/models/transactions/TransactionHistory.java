@@ -20,6 +20,7 @@ public class TransactionHistory implements Serializable {
     }
 
     public TransactionHistory(ArrayList<Transaction> transactions){
+
         this.transactions = transactions;
     }
 
