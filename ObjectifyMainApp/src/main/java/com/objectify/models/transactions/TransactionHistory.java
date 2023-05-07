@@ -25,7 +25,6 @@ public class TransactionHistory implements Serializable {
     }
 
     public ArrayList<Transaction> getTransactionHistory() {
-        System.out.print("Masuk ke get transaction history");
         return transactions;
     }
 

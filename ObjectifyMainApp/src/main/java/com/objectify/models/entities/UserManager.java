@@ -71,6 +71,39 @@ public class UserManager implements Serializable {
 
     }
 
+    public void upgradeMember(Member m, boolean status, String name, String phoneNumber, int points){
+        this.removeUser((User)m);
+        VIP newVIP = new VIP(m.getUserID(),status,m.getUserTransactions(),name,phoneNumber,points);
+        this.addUser(newVIP);
+    }
+
+    public  void updateMember(int id, boolean status, String name, String phoneNumber,int points){
+        for(User u : this.listOfUsers){
+            if(u.getUserID() == id){
+                u.setActivationStatus(status);
+                ((Member)u).setName(name);
+                ((Member)u).setPoints(points);
+                ((Member)u).setPhoneNumber(phoneNumber);
+            }
+        }
+    }
+
+    public  void convertVIP(VIP v, boolean status, String name, String phoneNumber, int points){
+        this.removeUser((User)v);
+        Member newMember = new Member(v.getUserID(),status,v.getUserTransactions(),name,phoneNumber,points);
+        this.addUser(newMember);
+    }
+
+    public  void updateVIP(int id,boolean status, String name, String phone, int points){
+        for(User u : this.listOfUsers){
+            if(u.getUserID() == id){
+                u.setActivationStatus(status);
+                ((VIP)u).setName(name);
+                ((VIP)u).setPhoneNumber(phone);
+                ((VIP)u).setPoints(points);
+            }
+        }
+    }
     public void displayUsers(){
         System.out.println("Our users : ");
         for (User u : this.listOfUsers){

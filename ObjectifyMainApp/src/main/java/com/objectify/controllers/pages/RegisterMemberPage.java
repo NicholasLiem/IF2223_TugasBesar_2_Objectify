@@ -467,15 +467,78 @@ public class RegisterMemberPage extends Pane {
                     }
                     break;
                 case "Member":
-                    TransactionHistory th = new TransactionHistory();
-                    int points = parsePointsField(this.updatedPointsField.getText());
-                    if (points == -1) {
+                    if(selectedMembership == "Customer"){
+                        errorAlert("Error","Upgrade failed","Member can't be downgraded to customer");
                         return;
                     }
-                    Member member = new Member(true, th, nameField.getText(), phoneNumberField.getText(), points);
-                    userManager.addUser(member);
+                    if(selectedMembership == "Member"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.updateMember(this.selectedUserId,active,newName,newPhone,points);
+                        break;
+                    }
+                    if(selectedMembership == "VIP"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.upgradeMember((Member)currentUser,active,newName,newPhone,points);
+                    }
                     break;
                 case "VIP":
+                    if(selectedMembership == "Customer"){
+                        errorAlert("Error","Upgrade failed","Member can't be downgraded to customer");
+                        return;
+                    }
+                    if(selectedMembership == "Member"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.convertVIP((VIP) currentUser,active,newName,newPhone,points);
+                        break;
+                    }
+                    if(selectedMembership == "VIP"){
+                        String newName = this.updatedNameField.getText().trim();
+                        String newPhone = this.updatedPhoneNumberField.getText().trim();
+                        String newPoints = this.updatedPointsField.getText().trim();
+                        String status = this.activationStatusComboBox.getValue();
+                        boolean active = false;
+                        if(status == "Active"){
+                            active= true;
+                        }
+                        int points = parsePointsField(newPoints);
+                        if(points == -1){
+                            return;
+                        }
+                        userManager.updateVIP(this.selectedUserId,active,newName,newPhone,points);
+                    }
                     TransactionHistory thNew = new TransactionHistory();
                     int pointsNew = parsePointsField(this.updatedPointsField.getText());
                     if (pointsNew == -1) {
