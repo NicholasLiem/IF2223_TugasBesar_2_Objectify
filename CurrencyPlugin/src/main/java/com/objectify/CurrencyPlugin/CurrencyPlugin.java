@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.objectify.datastore.Settings;
-import com.objectify.datastore.enums.InputControl;
+import com.objectify.datastore.interfaces.InputControl;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
 

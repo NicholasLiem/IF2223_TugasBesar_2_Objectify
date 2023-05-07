@@ -1,5 +1,10 @@
 package com.objectify.controllers.pages;
 
+import com.objectify.datastore.Settings;
+import com.objectify.datastore.interfaces.BillCalculator;
+import com.objectify.datastore.interfaces.InputControl;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
 import com.objectify.models.items.*;

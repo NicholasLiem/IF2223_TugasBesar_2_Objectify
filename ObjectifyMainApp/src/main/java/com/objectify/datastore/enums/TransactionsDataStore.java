@@ -3,25 +3,27 @@ package com.objectify.datastore.enums;
 import com.objectify.datastore.adapter.JSONAdapter;
 import com.objectify.datastore.adapter.OBJAdapter;
 import com.objectify.datastore.adapter.XMLAdapter;
+import com.objectify.datastore.interfaces.DataStore;
 import com.objectify.models.transactions.TransactionHistory;
+import com.objectify.models.transactions.TransactionManager;
 
 import java.util.Optional;
 
 public enum TransactionsDataStore {
-    JSON("JSON", new JSONAdapter<>("Transactions.json", TransactionHistory.class)),
+    JSON("JSON", new JSONAdapter<>("Transactions.json", TransactionManager.class)),
     OBJ("OBJ", new OBJAdapter<>("Transactions.obj")),
-    XML("XML", new XMLAdapter<>("Transactions.xml", TransactionHistory.class));
+    XML("XML", new XMLAdapter<>("Transactions.xml", TransactionManager.class));
 
 
-    private final DataStore<TransactionHistory> dataStore;
+    private final DataStore<TransactionManager> dataStore;
     private final String name;
 
-    TransactionsDataStore(String name, DataStore<TransactionHistory> dataStore) {
+    TransactionsDataStore(String name, DataStore<TransactionManager> dataStore) {
         this.name = name;
         this.dataStore = dataStore;
     }
 
-    public DataStore<TransactionHistory> getDataStore() {
+    public DataStore<TransactionManager> getDataStore() {
         return dataStore;
     }
 

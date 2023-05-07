@@ -1,6 +1,6 @@
 package com.objectify.controllers.pages;
 
-import com.objectify.datastore.enums.InputControl;
+import com.objectify.datastore.interfaces.InputControl;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.PluginLoader;
 import javafx.geometry.Insets;
