@@ -1,4 +1,4 @@
-package com.objectify.datastore.enums;
+package com.objectify.datastore.interfaces;
 
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.exceptions.InvalidArgumentsException;

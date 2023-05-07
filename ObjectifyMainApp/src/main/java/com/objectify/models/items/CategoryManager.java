@@ -30,4 +30,8 @@ public class CategoryManager implements Serializable {
     public void removeCategory(Category category){
         this.categories.remove(category);
     }
+
+    public void setCategories(ArrayList<Category> categories){
+        this.categories = categories;
+    }
 }

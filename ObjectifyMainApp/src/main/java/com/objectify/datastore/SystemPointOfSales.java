@@ -1,7 +1,7 @@
 package com.objectify.datastore;
 
 import com.objectify.controllers.App;
-import com.objectify.datastore.enums.Command;
+import com.objectify.datastore.interfaces.Command;
 import com.objectify.exceptions.AppNotFoundException;
 import com.objectify.exceptions.InvalidArgumentsException;
 import com.objectify.exceptions.ItemNotFoundException;
@@ -26,6 +26,8 @@ public class SystemPointOfSales {
     //    private final PluginLoader pluginLoader;
     private final HashMap<String, Command> commands;
 
+//    private final HashMap<String, Settings> pages;
+
     private App app;
 
     private SystemPointOfSales(){
@@ -36,6 +38,7 @@ public class SystemPointOfSales {
         this.storageManager = new StorageManager();
         this.transactionManager = new TransactionManager();
         this.commands = new HashMap<>();
+//        this.pages = new HashMap<>();
 //        this.pluginLoader = new PluginLoader();
     }
 
@@ -96,4 +99,25 @@ public class SystemPointOfSales {
         }
         this.commands.get(name).executeCommand(this, args);
     }
+
+    public void setUserManager(UserManager userManager){
+        this.userManager.getListOfUsers().clear();
+        this.userManager.setListOfUsers(userManager.getListOfUsers());
+    }
+
+    public void setCategoryManager(CategoryManager categoryManager) {
+        this.categoryManager.getCategories().clear();
+        this.categoryManager.setCategories(categoryManager.getCategories());
+    }
+
+    public void setStorageManager(StorageManager storageManager) {
+        this.storageManager.getProducts().clear();
+        this.storageManager.setProducts(storageManager.getProducts());
+    }
+
+    public void setTransactionManager(TransactionManager transactionManager){
+        this.transactionManager.getListOfTransaction().clear();
+        this.transactionManager.setListOfTransactions(transactionManager.getListOfTransaction());
+    }
+
 }

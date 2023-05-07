@@ -1,6 +1,6 @@
 package com.objectify.datastore.adapter;
 
-import com.objectify.datastore.enums.DataStore;
+import com.objectify.datastore.interfaces.DataStore;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -60,7 +60,7 @@ public class XMLAdapter<T> implements DataStore<T> {
     }
 
     private void initializeFile(String filename) {
-        Path resPath = Paths.get("src", "resources", "XML");
+        Path resPath = Paths.get("ObjectifyMainApp","src", "resources", "XML");
         try {
             if (!Files.exists(resPath)) {
                 Files.createDirectories(resPath);
