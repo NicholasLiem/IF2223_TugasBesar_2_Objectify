@@ -47,18 +47,9 @@ public class RegisterMemberPage extends Pane {
 
     private int selectedUserId;
     public RegisterMemberPage() {
-//        Dummy data doank
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
-        TransactionHistory th = new TransactionHistory();
-        Transaction t = new Transaction();
-        Transaction t2 = new Transaction();
-        th.add(t);
-        th.add(t2);
-        Customer c1 = new Customer(10,true,th);
-        UserManager um = SystemPointOfSales.getInstance().getUserManager();
-        um.addUser(c1);
 
         HBox row = new HBox();
         row.setSpacing(10);

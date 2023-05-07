@@ -37,14 +37,6 @@ public class MainScene extends Scene {
 
         SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
         SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
-        HashMap k = new HashMap<>();
-        k.put(1, 1);
-        ShoppingCart sc = new ShoppingCart(k);
-        Transaction t = new Transaction(1, "", "", 1, sc);
-        TransactionManager ta = SystemPointOfSales.getInstance().getTransactionManager();
-        ta.addTransaction(t);
-        SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
-
 
         MenuBar menuBar = mbManager.getMenuBar();
 
