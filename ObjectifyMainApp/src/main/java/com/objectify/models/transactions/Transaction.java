@@ -48,7 +48,6 @@ public class Transaction implements Serializable {
         return this.amount;
     }
 
-    @XmlElement(name = "ShoppingCart")
     public ShoppingCart getCart() {
         return this.cart;
     }

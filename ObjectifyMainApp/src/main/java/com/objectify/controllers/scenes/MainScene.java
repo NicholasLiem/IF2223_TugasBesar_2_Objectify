@@ -35,9 +35,6 @@ public class MainScene extends Scene {
         tabPane = new TabPane();
         mbManager = new MenuBarManager(tabPane);
 
-        SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
-        SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
-
         MenuBar menuBar = mbManager.getMenuBar();
 
         BorderPane root = (BorderPane) getRoot();

@@ -1,5 +1,6 @@
 package com.objectify.models.items;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.exceptions.ItemNotFoundException;
 
@@ -17,14 +18,19 @@ import java.util.Iterator;
 public class ShoppingCart implements Serializable {
 
     private StorageManager sm = SystemPointOfSales.getInstance().getStorageManager();
+    @JsonIgnore
     private Map<Integer, Integer> cartItems;
 
-    public ShoppingCart() {
+    private Map<Map<String, Double>, Integer> detailBarang;
+
+    public ShoppingCart() throws ItemNotFoundException {
         this.cartItems = new HashMap<>();
+        this.detailBarang = new HashMap<>();
     }
 
     public ShoppingCart(Map<Integer, Integer> cart) {
         this.cartItems = cart;
+        this.detailBarang = new HashMap<>();
     }
 
     public Map<Integer, Integer> getItems() {
@@ -90,5 +96,14 @@ public class ShoppingCart implements Serializable {
             throw new RuntimeException(e);
         }
         return sb.toString();
+    }
+
+    public void populateDetailBill() throws ItemNotFoundException {
+        Map<String, Double> pairOfDetail = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : this.cartItems.entrySet()){
+            pairOfDetail.put(sm.searchById(entry.getKey()).getProductName(), sm.searchById(entry.getKey()).getProductPrice());
+            System.out.println(pairOfDetail);
+            this.detailBarang.put(pairOfDetail,entry.getValue());
+        }
     }
 }

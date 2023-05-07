@@ -118,17 +118,10 @@ public class Settings {
     }
 
     public void initialiseDataStores(String type){
-        Optional<ProductDataStore> optionalProductDataStore = ProductDataStore.fromName(type);
-        optionalProductDataStore.ifPresent(dataStore -> this.productDataStore = dataStore.getDataStore());
-
-        Optional<CategoryDataStore> optionalCategoryDataStore = CategoryDataStore.fromName(type);
-        optionalCategoryDataStore.ifPresent(dataStore -> this.categoryDataStore = dataStore.getDataStore());
-
-        Optional<TransactionsDataStore> optionalTransactionDataStore = TransactionsDataStore.fromName(type);
-        optionalTransactionDataStore.ifPresent(transactionsDataStore -> this.transactionDataStore = transactionsDataStore.getDataStore());
-
-        Optional<UserDataStore> optionalUserDataStore = UserDataStore.fromName(type);
-        optionalUserDataStore.ifPresent(dataStore -> this.userDataStore = dataStore.getDataStore());
+        this.setProductDataStore(type);
+        this.setUserDataStore(type);
+        this.setCategoryDataStore(type);
+        this.setTransactionDataStore(type);
     }
 
     public void loadAllDataStore(){

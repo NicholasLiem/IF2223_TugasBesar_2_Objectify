@@ -241,6 +241,8 @@ public class ProductManagerPage extends GridPane {
     
             // Add product to product manager
             productManager.addNewProducts(product);
+            System.out.println(SystemPointOfSales.getInstance().getStorageManager());
+            SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
             // Clear input fields
             clearFields();
     

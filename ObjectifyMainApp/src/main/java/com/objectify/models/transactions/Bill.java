@@ -35,7 +35,7 @@ public class Bill {
         return shoppingCart.value();
     }
 
-    public void addItem(Integer productId, int quantity) {
+    public void addItem(Integer productId, int quantity) throws ItemNotFoundException {
         shoppingCart.addCartItem(productId, quantity);
     }
 
@@ -43,7 +43,7 @@ public class Bill {
         shoppingCart.removeCartItem(productId);
     }
 
-    public void incQuantity(Integer productId) {
+    public void incQuantity(Integer productId) throws ItemNotFoundException {
         shoppingCart.incQuantity(productId);
     }
 
@@ -85,6 +85,8 @@ public class Bill {
         // Get current datetime
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         // Create fixed bill
+        System.out.println(shoppingCart);
+        shoppingCart.populateDetailBill();
         Transaction newTransaction = new Transaction(count, dateTime, description, amount, shoppingCart);
         TransactionManager transactionManager = SystemPointOfSales.getInstance().getTransactionManager();
         transactionManager.addTransaction(newTransaction);
