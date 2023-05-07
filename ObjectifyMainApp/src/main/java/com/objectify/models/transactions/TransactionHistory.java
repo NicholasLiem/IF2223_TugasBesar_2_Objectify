@@ -35,4 +35,9 @@ public class TransactionHistory implements Serializable {
     public void addTransaction(Transaction newTransaction){
         this.transactions.add(newTransaction);
     }
+
+    public void printToPDF(String filename) {
+        Thread thread = new TransactionHistoryPDFGenerator(this, filename);
+        thread.start();
+    }
 }
