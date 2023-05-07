@@ -48,10 +48,6 @@ public class ShoppingCart {
         return value;
     }
 
-    public Map<Product, Integer> getItems() {
-        return cartItems;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
