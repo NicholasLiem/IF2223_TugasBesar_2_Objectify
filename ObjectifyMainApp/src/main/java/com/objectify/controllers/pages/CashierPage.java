@@ -69,6 +69,7 @@ public class CashierPage extends GridPane {
         saveButton.setOnAction(event -> {
             BillManager billManager = SystemPointOfSales.getInstance().getBillManager();
             StorageManager storageManager = SystemPointOfSales.getInstance().getStorageManager();
+            boolean found = false;
             for (Entry<Integer, Integer> entry : this.cart.entrySet()) {
                 try {
                     if (entry.getValue() > storageManager.searchById(entry.getKey()).getProductStock()) {
@@ -78,20 +79,24 @@ public class CashierPage extends GridPane {
                         alert.setContentText(storageManager.searchById(entry.getKey()).getProductName()
                                 + "is currently out of stock");
                         alert.showAndWait();
+                        found = true;
+                        popup.close();
                         break;
                     }
                 } catch (ItemNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
-            Bill bill = new Bill(this.user, new ShoppingCart(this.cart));
-            if (billManager.getBills().contains(bill)) {
-                billManager.removeBill(bill);
-            }
-            try {
-                bill.pay(usePointsCheckbox.isSelected(), inputText);
-            } catch (ItemNotFoundException e) {
-                throw new RuntimeException(e);
+            if (!found) {
+                Bill bill = new Bill(this.user, new ShoppingCart(this.cart));
+                if (billManager.getBills().contains(bill)) {
+                    billManager.removeBill(bill);
+                }
+                try {
+                    bill.pay(usePointsCheckbox.isSelected(), inputText);
+                } catch (ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
             popup.close();
         });
