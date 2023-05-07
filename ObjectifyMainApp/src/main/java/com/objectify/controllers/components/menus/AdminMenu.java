@@ -1,6 +1,7 @@
 package com.objectify.controllers.components.menus;
 
 import com.objectify.controllers.pages.ProductManagerPage;
+import com.objectify.controllers.pages.RegisterMemberPage;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -26,7 +27,7 @@ public class AdminMenu extends AppMenu {
         });
 
         memberManagerTab.setOnAction(event -> {
-            Pane newPage = new Pane();
+            Pane newPage = new RegisterMemberPage();
             Tab newPaneTab = new Tab("Member Manager", newPage);
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);

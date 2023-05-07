@@ -16,10 +16,9 @@ public class FileMenu extends AppMenu {
         super("File", tabPane);
         Menu newTab = new Menu("New Tab");
         MenuItem cashierTab = new MenuItem("Cashier Tab");
-        MenuItem registerMemberTab = new MenuItem("Member Tab");
         MenuItem billHistoryTab = new MenuItem("Bill History Tab");
         MenuItem transactionsTab = new MenuItem("Transactions Tab");
-        newTab.getItems().addAll(cashierTab, registerMemberTab, billHistoryTab,transactionsTab);
+        newTab.getItems().addAll(cashierTab, billHistoryTab,transactionsTab);
 
         this.getItems().addAll(newTab);
         cashierTab.setOnAction(event -> {
@@ -29,12 +28,6 @@ public class FileMenu extends AppMenu {
             tabPane.getSelectionModel().select(newPaneTab);
         });
 
-        registerMemberTab.setOnAction(event -> {
-            Pane rmPage = new RegisterMemberPage();
-            Tab newPaneTab = new Tab("Register Member", rmPage);
-            tabPane.getTabs().add(newPaneTab);
-            tabPane.getSelectionModel().select(newPaneTab);
-        });
         transactionsTab.setOnAction(event->{
             Pane tmPage = new TransactionManagerPage();
             Tab newPaneTab = new Tab("Transactions Tab",tmPage);
