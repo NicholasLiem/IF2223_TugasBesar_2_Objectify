@@ -4,13 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.objectify.datastore.Settings;
-import com.objectify.datastore.interfaces.InputControl;
 import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.datastore.interfaces.InputControl;
 import com.objectify.plugin.Plugin;
-
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -30,7 +29,7 @@ public class CurrencyPlugin extends Plugin {
 
     public CurrencyPlugin() {
         currencies = new ArrayList<>();
-    };
+    }
 
     @Override
     public void onEnable(SystemPointOfSales spos) {
@@ -87,12 +86,7 @@ public class CurrencyPlugin extends Plugin {
         System.out.println("Currencies Plugin" + " has been enabled!");
 
         // Register a shutdown hook to run the onDisable method when the program closes
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                onDisable(spos);
-            }
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> onDisable(spos)));
     }
 
 

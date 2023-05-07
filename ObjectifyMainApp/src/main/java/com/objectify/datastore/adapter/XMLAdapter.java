@@ -60,7 +60,7 @@ public class XMLAdapter<T> implements DataStore<T> {
     }
 
     private void initializeFile(String filename) {
-        Path resPath = Paths.get("ObjectifyMainApp","src", "resources", "XML");
+        Path resPath = Paths.get("src", "resources", "XML");
         try {
             if (!Files.exists(resPath)) {
                 Files.createDirectories(resPath);

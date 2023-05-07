@@ -51,7 +51,7 @@ public class OBJAdapter<T> implements DataStore<T> {
     }
 
     private void initializeFile(String filename) {
-        Path resPath = Paths.get("ObjectifyMainApp","src", "resources", "OBJ");
+        Path resPath = Paths.get("src", "resources", "OBJ");
         try {
             if (!Files.exists(resPath)) {
                 Files.createDirectories(resPath);
