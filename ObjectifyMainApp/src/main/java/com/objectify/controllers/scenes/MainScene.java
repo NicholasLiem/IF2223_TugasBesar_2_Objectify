@@ -10,9 +10,7 @@ import com.objectify.datastore.enums.UserDataStore;
 import com.objectify.datastore.interfaces.DataStore;
 import com.objectify.exceptions.InvalidArgumentsException;
 import com.objectify.models.entities.UserManager;
-import com.objectify.models.items.Product;
-import com.objectify.models.items.ShoppingCart;
-import com.objectify.models.items.StorageManager;
+import com.objectify.models.items.*;
 import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionManager;
 import javafx.scene.Scene;
@@ -37,6 +35,7 @@ public class MainScene extends Scene {
 
         SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
         SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
+
         HashMap k = new HashMap<>();
         k.put(1, 1);
         ShoppingCart sc = new ShoppingCart(k);

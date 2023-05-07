@@ -38,7 +38,7 @@ public class ProductManagerPage extends GridPane {
     private TextField stockField;
     private TextField priceField;
     private TextField buyPriceField;
-    private ComboBox<Category> categoryComboBox;
+    private ComboBox<String> categoryComboBox;
     private TextField imagePathField;
 
     public ProductManagerPage() {
@@ -59,39 +59,47 @@ public class ProductManagerPage extends GridPane {
         getRowConstraints().add(rowConstraints);
 
         HBox row = new HBox();
-        row.setSpacing(20);
 
         VBox forms = new VBox();
+        forms.setMaxHeight(Double.MAX_VALUE);
         forms.setSpacing(30);
-        forms.setPadding(new Insets(20,20,0,0));
-
+        forms.setPadding(new Insets(30,20,0,30));
+        Label title = new Label("Product Forms");
+        title.getStyleClass().add("title");
         // Create labels for product fields
         nameLabel = new Label("Name:");
         HBox.setHgrow(nameLabel, Priority.ALWAYS);
+        nameLabel.getStyleClass().add("sub-title");
         stockLabel = new Label("Stock:");
         HBox.setHgrow(stockLabel, Priority.ALWAYS);
+        stockLabel.getStyleClass().add("sub-title");
         priceLabel = new Label("Price:");
         HBox.setHgrow(priceLabel, Priority.ALWAYS);
+        priceLabel.getStyleClass().add("sub-title");
         buyPriceLabel = new Label("Buy Price:");
         HBox.setHgrow(buyPriceLabel, Priority.ALWAYS);
+        buyPriceLabel.getStyleClass().add("sub-title");
         categoryLabel = new Label("Category:");
         HBox.setHgrow(categoryLabel, Priority.ALWAYS);
-        imagePathLabel = new Label("Image Path:");
+        categoryLabel.getStyleClass().add("sub-title");
+        imagePathLabel = new Label("Image:");
         HBox.setHgrow(imagePathLabel, Priority.ALWAYS);
+        imagePathLabel.getStyleClass().add("sub-title");
+        HBox.setHgrow(imagePathLabel,Priority.ALWAYS);
 
         // Create text fields for product fields
         nameField = new TextField();
-        HBox.setHgrow(nameField, Priority.ALWAYS);
-        stockField = new TextField();
-        HBox.setHgrow(stockField, Priority.ALWAYS);
+        nameField.setPrefWidth(300);
         priceField = new TextField();
-        HBox.setHgrow(priceField, Priority.ALWAYS);
+        priceField.setPrefWidth(300);
+        stockField = new TextField();
+        stockField.setPrefWidth(300);
         buyPriceField = new TextField();
-        HBox.setHgrow(buyPriceField, Priority.ALWAYS);
+        buyPriceField.setPrefWidth(300);
         categoryComboBox = new ComboBox<>();
-        HBox.setHgrow(categoryComboBox, Priority.ALWAYS);
+        categoryComboBox.setPrefWidth(300);
         imagePathField = new TextField();
-        HBox.setHgrow(imagePathField, Priority.ALWAYS);
+        imagePathField.setPrefWidth(150);
 
         final String[] selectedImagePath = {""};
         Button imageChooserBtn = new Button("Select Image");
@@ -105,31 +113,33 @@ public class ProductManagerPage extends GridPane {
                 imagePathField.setText(selectedImagePath[0]);
             }
         });
-
         HBox nameBox = new HBox(nameLabel, nameField);
-        nameBox.setPrefWidth(350);
+        nameBox.setPrefWidth(450);
         nameBox.setSpacing(10);
         HBox stockBox = new HBox(stockLabel, stockField);
-        stockBox.setPrefWidth(350);
+        stockBox.setPrefWidth(450);
         stockBox.setSpacing(10);
         HBox priceBox = new HBox(priceLabel, priceField);
-        priceBox.setPrefWidth(350);
+        priceBox.setPrefWidth(450);
         priceBox.setSpacing(10);
         HBox buyPriceBox = new HBox(buyPriceLabel, buyPriceField);
-        buyPriceBox.setPrefWidth(350);
+        buyPriceBox.setPrefWidth(450);
         buyPriceBox.setSpacing(10);
         HBox categoryBox = new HBox(categoryLabel, categoryComboBox);
-        categoryBox.setPrefWidth(350);
+        categoryBox.setPrefWidth(450);
         categoryBox.setSpacing(10);
         HBox imagePathBox = new HBox(imagePathLabel, imagePathField, imageChooserBtn);
-        imagePathBox.setPrefWidth(350);
+        imagePathBox.setPrefWidth(450);
         imagePathBox.setSpacing(10);
 
-        forms.getChildren().addAll(nameBox, stockBox, priceBox, buyPriceBox, categoryBox, imagePathBox);
+        forms.getChildren().addAll(title,nameBox, stockBox, priceBox, buyPriceBox, categoryBox, imagePathBox);
 
         // Add categories to combo box
         CategoryManager categoryManager = SystemPointOfSales.getInstance().getCategoryManager();
-        categoryComboBox.getItems().addAll(categoryManager.getCategories());
+        for(Category c : categoryManager.getCategories()){
+            this.categoryComboBox.getItems().add(c.getName());
+        }
+//        categoryComboBox.getItems().addAll(categoryManager.getCategories());
 
         add(row,0,0);
         updateProductsScrollPane();
@@ -147,7 +157,6 @@ public class ProductManagerPage extends GridPane {
         priceField.setFont(Font.font(12));
         buyPriceField.setFont(Font.font(12));
         imagePathField.setFont(Font.font(12));
-
         submitButton();
     }
 
@@ -193,7 +202,7 @@ public class ProductManagerPage extends GridPane {
                 stockField.setText(String.valueOf(product.getProductStock()));
                 priceField.setText(String.valueOf(product.getProductPrice()));
                 buyPriceField.setText(String.valueOf(product.getProductBuyPrice()));
-                categoryComboBox.getSelectionModel().select(product.getProductCategory());
+                categoryComboBox.getSelectionModel().select(product.getProductCategory().getName());
                 imagePathField.setText(product.getProductImagePath());
                 updateButton(product);
             });
@@ -222,15 +231,16 @@ public class ProductManagerPage extends GridPane {
     
     private void submitButton(){
         Button submitButton = new Button("Add Product");
+//        submitButton.getStyleClass().add("submit-btn");
         submitButton.setOnAction(event -> {
             StorageManager productManager = SystemPointOfSales.getInstance().getStorageManager();
-
+            CategoryManager cm = SystemPointOfSales.getInstance().getCategoryManager();
             // Parse input fields
             String name = nameField.getText();
             int stock = 0;
             double price = 0.0;
             double buyPrice = 0.0;
-            Category category = categoryComboBox.getValue();
+            Category category = cm.searchCategory(categoryComboBox.getValue());
             String imagePath = imagePathField.getText();
     
             try {
@@ -268,14 +278,15 @@ public class ProductManagerPage extends GridPane {
         VBox forms = (VBox) row.getChildren().get(1);
         row.getStyleClass().add("background");
         forms.getStyleClass().add("background");
-        if (forms.getChildren().size() == 6) {
+        if (forms.getChildren().size() == 7) {
             forms.getChildren().add(submitButton);
         } else {
-            forms.getChildren().set(6,submitButton);
+            forms.getChildren().set(7,submitButton);
         }
     }
     private void updateButton(Product product) {
         StorageManager pManager = SystemPointOfSales.getInstance().getStorageManager();
+        CategoryManager cm = SystemPointOfSales.getInstance().getCategoryManager();
         // Update button
         Button updateProductButton = new Button("Update Product");
         updateProductButton.setOnAction(event -> {
@@ -284,7 +295,7 @@ public class ProductManagerPage extends GridPane {
             int stock = 0;
             double price = 0.0;
             double buyPrice = 0.0;
-            Category category = categoryComboBox.getValue();
+            Category category = cm.searchCategory(categoryComboBox.getValue());
             String imagePath = imagePathField.getText();
 
             try {
@@ -299,7 +310,6 @@ public class ProductManagerPage extends GridPane {
                 alert.showAndWait();
                 return;
             }
-
 
             // Update product
             pManager.removeProduct(product);
