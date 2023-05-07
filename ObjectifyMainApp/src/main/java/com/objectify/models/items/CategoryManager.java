@@ -16,7 +16,9 @@ public class CategoryManager implements Serializable {
     private ArrayList<Category> categories;
 
     public CategoryManager(){
+
         this.categories = new ArrayList<>();
+
     }
 
     public ArrayList<Category> getCategories() {
@@ -33,5 +35,14 @@ public class CategoryManager implements Serializable {
 
     public void setCategories(ArrayList<Category> categories){
         this.categories = categories;
+    }
+
+    public Category searchCategory(String category){
+        for(Category c : this.categories){
+            if(c.getName() == category){
+                return c;
+            }
+        }
+        return null;
     }
 }

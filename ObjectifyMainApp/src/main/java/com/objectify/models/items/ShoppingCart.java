@@ -1,48 +1,59 @@
 package com.objectify.models.items;
 
+import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.exceptions.ItemNotFoundException;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class ShoppingCart {
-    private Map<Product, Integer> cartItems;
+@XmlRootElement(name = "ShoppingCart")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ShoppingCart implements Serializable {
+
+    private StorageManager sm = SystemPointOfSales.getInstance().getStorageManager();
+    private Map<Integer, Integer> cartItems;
 
     public ShoppingCart() {
-        this.cartItems = new HashMap<Product, Integer>();
+        this.cartItems = new HashMap<>();
     }
 
-    public ShoppingCart(Map<Product, Integer> cart) {
+    public ShoppingCart(Map<Integer, Integer> cart) {
         this.cartItems = cart;
     }
 
-    public Map<Product, Integer> getItems() {
+    public Map<Integer, Integer> getItems() {
         return this.cartItems;
     }
 
-    public void addCartItem(Product product, Integer quantity) {
-        cartItems.putIfAbsent(product, quantity);
+    public void addCartItem(Integer productId, Integer quantity) {
+        cartItems.putIfAbsent(productId, quantity);
     }
 
-    public void incQuantity(Product product) {
-        cartItems.replace(product, cartItems.get(product) + 1);
+    public void incQuantity(Integer productId) {
+        cartItems.replace(productId, cartItems.get(productId) + 1);
     }
 
-    public void removeCartItem(Product product) {
-        cartItems.remove(product);
+    public void removeCartItem(Integer productId) {
+        cartItems.remove(productId);
     }
 
-    public void decQuantity(Product product) {
-        cartItems.replace(product, cartItems.get(product) - 1);
+    public void decQuantity(Integer productId) {
+        cartItems.replace(productId, cartItems.get(productId) - 1);
     }
 
-    public int value() {
-        Iterator<Entry<Product, Integer>> iterator = cartItems.entrySet().iterator();
+    public int value() throws ItemNotFoundException {
+        Iterator<Entry<Integer, Integer>> iterator = cartItems.entrySet().iterator();
 
         int value = 0;
         while (iterator.hasNext()) {
-            Entry<Product, Integer> entry = iterator.next();
-            value += entry.getValue() * entry.getKey().getProductBuyPrice();
+            Entry<Integer, Integer> entry = iterator.next();
+            value += entry.getValue() * sm.searchById(entry.getKey()).getProductPrice();
         }
 
         return value;
@@ -51,17 +62,33 @@ public class ShoppingCart {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Entry<Product, Integer> entry : cartItems.entrySet()) {
+        for (Entry<Integer, Integer> entry : cartItems.entrySet()) {
             sb.append(entry.getValue());
             sb.append(" ");
-            sb.append(entry.getKey().getProductName());
+            try {
+                sb.append(sm.searchById(entry.getKey()).getProductName());
+            } catch (ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             sb.append(" ");
-            sb.append(entry.getKey().getProductPrice());
+            try {
+                sb.append(sm.searchById(entry.getKey()).getProductPrice());
+            } catch (ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             sb.append(" ");
-            sb.append(entry.getKey().getProductPrice() * entry.getValue());
+            try {
+                sb.append(sm.searchById(entry.getKey()).getProductPrice() * entry.getValue());
+            } catch (ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             sb.append("\n");
         }
-        sb.append("Subtotal: " + value() + "\n");
+        try {
+            sb.append("Subtotal: " + value() + "\n");
+        } catch (ItemNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return sb.toString();
     }
 }

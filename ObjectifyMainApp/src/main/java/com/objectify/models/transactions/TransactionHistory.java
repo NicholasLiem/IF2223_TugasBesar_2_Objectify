@@ -29,8 +29,7 @@ public class TransactionHistory implements Serializable {
     }
 
     public void setTransactionHistory(ArrayList<Transaction> transactionHistory) {
-        this.transactions = new ArrayList<Transaction>();
-        this.transactions = (ArrayList<Transaction>) transactionHistory.clone();
+        this.transactions = transactionHistory;
     }
 
     public void add(Transaction transaction) {
