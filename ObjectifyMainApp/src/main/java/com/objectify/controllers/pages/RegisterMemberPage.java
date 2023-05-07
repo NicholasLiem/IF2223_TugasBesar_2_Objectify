@@ -418,8 +418,8 @@ public class RegisterMemberPage extends Pane {
                         break;
                     }
                     User selected = userManager.getUser(this.selectedUserId);
-                    TransactionHistory temp = selected.getUserTransactions();
-                    if(temp.getTransactionHistory().size() < 1){
+                    TransactionHistory temp = selected.getTransactionHistory();
+                    if(temp.getTransactions().size() < 1){
                         errorAlert("Error","Upgrade failed","You need at least one transaction to upgrade");
                         return;
                     };

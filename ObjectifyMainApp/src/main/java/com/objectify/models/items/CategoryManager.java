@@ -15,10 +15,9 @@ public class CategoryManager implements Serializable {
     @XmlElement(name = "Categories")
     private ArrayList<Category> categories;
 
+
     public CategoryManager(){
-
         this.categories = new ArrayList<>();
-
     }
 
     public ArrayList<Category> getCategories() {

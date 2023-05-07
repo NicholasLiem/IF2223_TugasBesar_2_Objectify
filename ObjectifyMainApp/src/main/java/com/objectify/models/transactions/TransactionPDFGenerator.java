@@ -16,14 +16,14 @@ public class TransactionPDFGenerator extends Thread {
     @Override
     public void run() {
         try {
-            String filename = "transaction_" + transaction.getId() + ".pdf";
+            String filename = "transaction_" + transaction.getTransactionId() + ".pdf";
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(filename));
             document.open();
-            document.add(new Paragraph("Transaction ID: " + transaction.getId()));
+            document.add(new Paragraph("Transaction ID: " + transaction.getTransactionId()));
             document.add(new Paragraph("Date Time: " + transaction.getDateTime()));
-            document.add(new Paragraph("Cart Items:\n" + transaction.getCart().toString()));
-            document.add(new Paragraph("Discount: " + (transaction.getCart().value() - transaction.getAmount())));
+            document.add(new Paragraph("Cart Items:\n" + transaction.getShoppingCart().toString()));
+            document.add(new Paragraph("Discount: " + (transaction.getShoppingCart().value() - transaction.getAmount())));
             document.add(new Paragraph("Amount: $" + transaction.getAmount()));
             document.close();
             System.out.println("PDF generated successfully!");

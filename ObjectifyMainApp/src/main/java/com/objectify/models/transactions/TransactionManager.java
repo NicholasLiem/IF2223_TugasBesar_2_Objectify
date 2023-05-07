@@ -4,11 +4,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @XmlRootElement(name = "TransactionManager")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TransactionManager {
+public class TransactionManager implements Serializable {
     @XmlElement(name = "Transactions")
     private ArrayList<Transaction> listOfTransactions;
 

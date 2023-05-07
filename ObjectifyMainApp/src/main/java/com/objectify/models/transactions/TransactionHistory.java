@@ -16,7 +16,7 @@ public class TransactionHistory implements Serializable {
     private ArrayList<Transaction> transactions;
 
     public TransactionHistory() {
-        this.transactions = new ArrayList<Transaction>();
+        this.transactions = new ArrayList<>();
     }
 
     public TransactionHistory(ArrayList<Transaction> transactions){
@@ -24,18 +24,14 @@ public class TransactionHistory implements Serializable {
         this.transactions = transactions;
     }
 
-    public ArrayList<Transaction> getTransactionHistory() {
+    @XmlElement(name = "Transactions")
+    public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
     public void setTransactionHistory(ArrayList<Transaction> transactionHistory) {
         this.transactions = transactionHistory;
     }
-
-    public void add(Transaction transaction) {
-        this.transactions.add(transaction);
-    }
-
     public void addTransaction(Transaction newTransaction){
         this.transactions.add(newTransaction);
     }
