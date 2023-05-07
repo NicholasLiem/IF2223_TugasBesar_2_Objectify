@@ -22,21 +22,21 @@ public class Transaction implements Serializable {
     private String description;
 
     @XmlElement(name = "ShoppingCart")
-    private ShoppingCart cart;
+    private ShoppingCart shoppingCart;
 
     public Transaction() {
 
     }
 
-    public Transaction(int transactionId, String dateTime, String description, double amount, ShoppingCart cart) {
+    public Transaction(int transactionId, String dateTime, String description, double amount, ShoppingCart shoppingCart) {
         this.description = description;
         this.transactionId = transactionId;
         this.dateTime = dateTime;
         this.amount = amount;
-        this.cart = cart;
+        this.shoppingCart = shoppingCart;
     }
 
-    public int getId() {
+    public int getTransactionId() {
         return this.transactionId;
     }
 
@@ -48,13 +48,33 @@ public class Transaction implements Serializable {
         return this.amount;
     }
 
-    @XmlElement(name = "ShoppingCart")
-    public ShoppingCart getCart() {
-        return this.cart;
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public void setCart(ShoppingCart cart) {
-        this.cart = cart;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @XmlElement(name = "ShoppingCart")
+    public ShoppingCart getShoppingCart() {
+        return this.shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart cart) {
+        this.shoppingCart= cart;
     }
 
     @Override

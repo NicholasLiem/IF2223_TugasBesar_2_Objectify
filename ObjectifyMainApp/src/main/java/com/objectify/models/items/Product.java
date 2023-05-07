@@ -78,8 +78,8 @@ public class Product implements Serializable {
         return this.productCategory;
     }
 
-    public void setCategory(Category category) {
-        this.productCategory = category;
+    public void setCategory(Category productCategory) {
+        this.productCategory = productCategory;
     }
 
     public String getProductImagePath() {

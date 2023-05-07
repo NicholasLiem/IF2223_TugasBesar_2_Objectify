@@ -10,10 +10,11 @@ import com.objectify.models.items.ShoppingCart;
 import com.objectify.models.items.StorageManager;
 import com.objectify.models.items.Product;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Bill {
+public class Bill implements Serializable {
     private User user;
     private ShoppingCart shoppingCart;
 
@@ -82,8 +83,8 @@ public class Bill {
         }
 
         // Update user's transaction history
-        TransactionHistory history = user.getUserTransactions();
-        int count = history.getTransactionHistory().size();
+        TransactionHistory history = user.getTransactionHistory();
+        int count = history.getTransactions().size();
         // Get current datetime
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         // Create fixed bill
@@ -91,7 +92,8 @@ public class Bill {
         TransactionManager transactionManager = SystemPointOfSales.getInstance().getTransactionManager();
         this.shoppingCart.decQuantityStorage();
         transactionManager.addTransaction(newTransaction);
-        history.add(newTransaction);
+        history.addTransaction(newTransaction);
         user.setTransactionHistory(history);
+        this.shoppingCart.populateProductDetails();
     }
 }

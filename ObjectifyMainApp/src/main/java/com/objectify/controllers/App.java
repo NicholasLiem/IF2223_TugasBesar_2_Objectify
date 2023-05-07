@@ -3,8 +3,10 @@ package com.objectify.controllers;
 import com.objectify.controllers.scenes.LandingScene;
 import com.objectify.controllers.scenes.MainScene;
 import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.models.entities.Member;
 import com.objectify.models.items.ShoppingCart;
 import com.objectify.models.transactions.Transaction;
+import com.objectify.models.transactions.TransactionHistory;
 import com.objectify.models.transactions.TransactionManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -22,13 +24,8 @@ public class App extends Application {
 
         SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
         SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
-
-        HashMap<Integer, Integer> k = new HashMap<>();
-        k.put(1, 1);
-        ShoppingCart sc = new ShoppingCart(k);
-        Transaction t = new Transaction(1, "", "", 1, sc);
-        TransactionManager ta = SystemPointOfSales.getInstance().getTransactionManager();
-        ta.addTransaction(t);
+//        Member hehe = new Member(true, new TransactionHistory(), "Haha", "123", 1);
+//        SystemPointOfSales.getInstance().getUserManager().addUser(hehe);
         SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
 
         primaryStage.setScene(landingScene);

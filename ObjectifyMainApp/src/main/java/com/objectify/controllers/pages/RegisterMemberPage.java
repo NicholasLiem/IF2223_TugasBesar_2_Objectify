@@ -54,9 +54,9 @@ public class RegisterMemberPage extends Pane {
         TransactionHistory th = new TransactionHistory();
         Transaction t = new Transaction();
         Transaction t2 = new Transaction();
-        th.add(t);
-        th.add(t2);
-        Customer c1 = new Customer(10,true,th);
+        th.addTransaction(t);
+        th.addTransaction(t2);
+        Member c1 = new Member(true, th, "Haha", "a", 1);
         UserManager um = SystemPointOfSales.getInstance().getUserManager();
         um.addUser(c1);
 
@@ -427,8 +427,8 @@ public class RegisterMemberPage extends Pane {
                         break;
                     }
                     User selected = userManager.getUser(this.selectedUserId);
-                    TransactionHistory temp = selected.getUserTransactions();
-                    if(temp.getTransactionHistory().size() < 1){
+                    TransactionHistory temp = selected.getTransactionHistory();
+                    if(temp.getTransactions().size() < 1){
                         errorAlert("Error","Upgrade failed","You need at least one transaction to upgrade");
                         return;
                     };

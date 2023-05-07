@@ -1,12 +1,16 @@
 package com.objectify.models.items;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.exceptions.ItemNotFoundException;
+import com.objectify.models.transactions.DataContainer;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
@@ -15,24 +19,43 @@ import java.util.Iterator;
 @XmlRootElement(name = "ShoppingCart")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ShoppingCart implements Serializable {
-
-    private StorageManager sm = SystemPointOfSales.getInstance().getStorageManager();
+    @JsonIgnore
     private Map<Integer, Integer> cartItems;
-
+    @XmlElement(name = "DataContainers")
+    private ArrayList<DataContainer> dataContainer;
     public ShoppingCart() {
         this.cartItems = new HashMap<>();
+        this.dataContainer = new ArrayList<>();
     }
 
     public ShoppingCart(Map<Integer, Integer> cart) {
         this.cartItems = cart;
+        this.dataContainer = new ArrayList<>();
     }
 
-    public Map<Integer, Integer> getItems() {
+    public Map<Integer, Integer> getCartItems() {
         return this.cartItems;
+    }
+
+    public void setCartItems(Map<Integer, Integer> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+
+    public ArrayList<DataContainer> getDataContainer() {
+        return dataContainer;
+    }
+
+    public void setDataContainer(ArrayList<DataContainer> dataContainer) {
+        this.dataContainer = dataContainer;
     }
 
     public void addCartItem(Integer productId, Integer quantity) {
         cartItems.putIfAbsent(productId, quantity);
+    }
+
+    public void setCartItem(Map<Integer, Integer> cartItems){
+        this.cartItems = cartItems;
     }
 
     public void incQuantity(Integer productId) {
@@ -47,13 +70,14 @@ public class ShoppingCart implements Serializable {
         cartItems.replace(productId, cartItems.get(productId) - 1);
     }
 
+
     public int value() throws ItemNotFoundException {
         Iterator<Entry<Integer, Integer>> iterator = cartItems.entrySet().iterator();
 
         int value = 0;
         while (iterator.hasNext()) {
             Entry<Integer, Integer> entry = iterator.next();
-            value += entry.getValue() * sm.searchById(entry.getKey()).getProductPrice();
+            value += entry.getValue() * SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductPrice();
         }
 
         return value;
@@ -62,8 +86,8 @@ public class ShoppingCart implements Serializable {
     public void decQuantityStorage() {
         for (Entry<Integer, Integer> entry : this.cartItems.entrySet()) {
             try {
-                sm.searchById(entry.getKey())
-                        .setProductStock(sm.searchById(entry.getKey()).getProductStock() - entry.getValue());
+                SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey())
+                        .setProductStock(SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductStock() - entry.getValue());
             } catch (ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -77,19 +101,19 @@ public class ShoppingCart implements Serializable {
             sb.append(entry.getValue());
             sb.append(" ");
             try {
-                sb.append(sm.searchById(entry.getKey()).getProductName());
+                sb.append(SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductName());
             } catch (ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
             sb.append(" ");
             try {
-                sb.append(sm.searchById(entry.getKey()).getProductPrice());
+                sb.append(SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductPrice());
             } catch (ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
             sb.append(" ");
             try {
-                sb.append(sm.searchById(entry.getKey()).getProductPrice() * entry.getValue());
+                sb.append(SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductPrice() * entry.getValue());
             } catch (ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -101,5 +125,11 @@ public class ShoppingCart implements Serializable {
             throw new RuntimeException(e);
         }
         return sb.toString();
+    }
+
+    public void populateProductDetails() throws ItemNotFoundException {
+        for (Map.Entry<Integer, Integer> entry : this.getCartItems().entrySet()){
+            this.dataContainer.add(new DataContainer(SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductName(), SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductPrice(), entry.getValue()));
+        }
     }
 }

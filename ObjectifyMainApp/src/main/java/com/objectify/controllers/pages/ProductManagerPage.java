@@ -202,7 +202,9 @@ public class ProductManagerPage extends GridPane {
                 stockField.setText(String.valueOf(product.getProductStock()));
                 priceField.setText(String.valueOf(product.getProductPrice()));
                 buyPriceField.setText(String.valueOf(product.getProductBuyPrice()));
-                categoryComboBox.getSelectionModel().select(product.getProductCategory().getName());
+                if (product.getProductCategory() != null){
+                    categoryComboBox.getSelectionModel().select(product.getProductCategory().getName());
+                }
                 imagePathField.setText(product.getProductImagePath());
                 updateButton(product);
             });

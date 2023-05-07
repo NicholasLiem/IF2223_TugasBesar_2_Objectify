@@ -1,5 +1,6 @@
 package com.objectify.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.objectify.models.transactions.TransactionHistory;
 
@@ -69,6 +70,7 @@ public class Member extends User implements Serializable {
                 '}';
     }
 
+    @JsonIgnore
     public String getType(){
         return "Member";
     }

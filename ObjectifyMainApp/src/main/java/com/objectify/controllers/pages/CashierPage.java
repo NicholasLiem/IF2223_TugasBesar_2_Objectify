@@ -246,7 +246,7 @@ public class CashierPage extends GridPane {
             Button selectButton = new Button("Select");
             selectButton.setOnAction(event -> {
                 this.user = bill.getUser();
-                this.cart = bill.getCart().getItems();
+                this.cart = bill.getCart().getCartItems();
                 popupStage.close();
             });
             itemRow.getChildren().addAll(userIdLabel, selectButton);
@@ -515,6 +515,7 @@ public class CashierPage extends GridPane {
         finalizeBillButton.setOnMouseExited((event) -> {
             finalizeBillButton.setCursor(Cursor.DEFAULT);
         });
+        SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
         HBox.setHgrow(finalizeBillButton, Priority.ALWAYS);
         finalizeBillButton.setPadding(new Insets(20));
 

@@ -1,5 +1,6 @@
 package com.objectify.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.objectify.models.transactions.TransactionHistory;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -49,6 +50,7 @@ public class UserManager implements Serializable {
             }
         }
     }
+    @JsonIgnore
     public User getUser(int id){
         for(User u : this.listOfUsers){
             if(u.getUserID() == id){
@@ -61,11 +63,11 @@ public class UserManager implements Serializable {
     public void upgradeCustomer(Customer c,boolean activationStatus, String name, String phoneNumber, int points,String type){
         this.removeUser((User)c);
         if(type == "Member"){
-            Member newMember = new Member(c.getUserID(),activationStatus,c.getUserTransactions(),name,phoneNumber,points);
+            Member newMember = new Member(c.getUserID(),activationStatus,c.getTransactionHistory(),name,phoneNumber,points);
             this.addUser(newMember);
         }
         if(type == "VIP"){
-            VIP newVIP = new VIP(c.getUserID(),activationStatus,c.getUserTransactions(),name,phoneNumber,points);
+            VIP newVIP = new VIP(c.getUserID(),activationStatus,c.getTransactionHistory(),name,phoneNumber,points);
             this.addUser(newVIP);
         }
 
@@ -73,7 +75,7 @@ public class UserManager implements Serializable {
 
     public void upgradeMember(Member m, boolean status, String name, String phoneNumber, int points){
         this.removeUser((User)m);
-        VIP newVIP = new VIP(m.getUserID(),status,m.getUserTransactions(),name,phoneNumber,points);
+        VIP newVIP = new VIP(m.getUserID(),status,m.getTransactionHistory(),name,phoneNumber,points);
         this.addUser(newVIP);
     }
 
@@ -90,7 +92,7 @@ public class UserManager implements Serializable {
 
     public  void convertVIP(VIP v, boolean status, String name, String phoneNumber, int points){
         this.removeUser((User)v);
-        Member newMember = new Member(v.getUserID(),status,v.getUserTransactions(),name,phoneNumber,points);
+        Member newMember = new Member(v.getUserID(),status,v.getTransactionHistory(),name,phoneNumber,points);
         this.addUser(newMember);
     }
 
