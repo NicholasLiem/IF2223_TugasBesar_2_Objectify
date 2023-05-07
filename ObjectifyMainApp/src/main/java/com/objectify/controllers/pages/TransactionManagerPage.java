@@ -65,7 +65,7 @@ public class TransactionManagerPage extends Pane {
                 for(Transaction t : this.listOfTransactions){
                     HBox transaction = new HBox();
                     HBox.setHgrow(transaction,Priority.ALWAYS);
-                    Label id = new Label(Integer.toString(t.getTransactionId());
+                    Label id = new Label(Integer.toString(t.getTransactionId()));
                     Label amount = new Label (Double.toString(t.getAmount()));
                     Text date = new Text(t.getDateTime());
                 }
