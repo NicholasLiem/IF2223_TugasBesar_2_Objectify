@@ -43,7 +43,7 @@ public class PieChartPane extends AnchorPane {
         for (final var datum : groupedData.entrySet()) {
             chart.getData().add(new PieChart.Data(datum.getKey(), datum.getValue().size()));
         }
-        chart.setTitle("Comparison of Number of Members");
+        chart.setTitle("Members");
         return chart;
     }
 }
