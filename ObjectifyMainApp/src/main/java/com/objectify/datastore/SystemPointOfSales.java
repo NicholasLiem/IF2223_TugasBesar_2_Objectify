@@ -22,11 +22,8 @@ public class SystemPointOfSales {
 
     private final BillManager billManager;
     private final TransactionManager transactionManager;
-
-    //    private final PluginLoader pluginLoader;
     private final HashMap<String, Command> commands;
 
-//    private final HashMap<String, Settings> pages;
 
     private App app;
 
@@ -38,8 +35,6 @@ public class SystemPointOfSales {
         this.storageManager = new StorageManager();
         this.transactionManager = new TransactionManager();
         this.commands = new HashMap<>();
-//        this.pages = new HashMap<>();
-//        this.pluginLoader = new PluginLoader();
     }
 
     private static SystemPointOfSales instance;
@@ -84,10 +79,6 @@ public class SystemPointOfSales {
     public BillManager getBillManager(){
         return billManager;
     }
-
-//    public PluginLoader getPluginLoader() {
-//        return pluginLoader;
-//    }
     
     public void registerCommand(String name, Command command) {
         this.commands.put(name, command);

@@ -262,7 +262,7 @@ public class ProductManagerPage extends GridPane {
             forms.getChildren().set(6,submitButton);
         }
     }
-    
+
     private void updateButton(Product product) {
         StorageManager pManager = SystemPointOfSales.getInstance().getStorageManager();
         // Update button

@@ -22,8 +22,8 @@ public class TransactionPDFGenerator extends Thread {
             document.open();
             document.add(new Paragraph("Transaction ID: " + transaction.getId()));
             document.add(new Paragraph("Date Time: " + transaction.getDateTime()));
-            document.add(new Paragraph("Cart Items:\n" + transaction.getCartitems().toString()));
-            document.add(new Paragraph("Discount: " + (transaction.getCartitems().value() - transaction.getAmount())));
+            document.add(new Paragraph("Cart Items:\n" + transaction.getCart().toString()));
+            document.add(new Paragraph("Discount: " + (transaction.getCart().value() - transaction.getAmount())));
             document.add(new Paragraph("Amount: $" + transaction.getAmount()));
             document.close();
             System.out.println("PDF generated successfully!");
