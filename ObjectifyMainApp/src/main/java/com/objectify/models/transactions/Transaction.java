@@ -21,7 +21,7 @@ public class Transaction implements Serializable {
     private double amount;
     private String description;
 
-    @XmlElement(name = "ShoppingCart")
+    @XmlElement(name = "ShoppingCarts")
     private ShoppingCart shoppingCart;
 
     public Transaction() {
@@ -68,7 +68,6 @@ public class Transaction implements Serializable {
         this.description = description;
     }
 
-    @XmlElement(name = "ShoppingCart")
     public ShoppingCart getShoppingCart() {
         return this.shoppingCart;
     }

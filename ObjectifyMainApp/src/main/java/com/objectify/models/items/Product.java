@@ -21,7 +21,7 @@ public class Product implements Serializable {
     private double productPrice;
     private double productBuyPrice;
 
-    @XmlElement(name = "ProductCategory")
+    @XmlElement(name = "ProductCategories")
     private Category productCategory;
     private String productImagePath;
 
@@ -72,8 +72,6 @@ public class Product implements Serializable {
     public void setProductBuyPrice(double productBuyPrice) {
         this.productBuyPrice = productBuyPrice;
     }
-
-    @XmlElement(name = "ProductCategory")
     public Category getProductCategory() {
         return this.productCategory;
     }

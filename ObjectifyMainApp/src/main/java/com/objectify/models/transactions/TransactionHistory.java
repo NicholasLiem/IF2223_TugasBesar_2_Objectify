@@ -24,7 +24,6 @@ public class TransactionHistory implements Serializable {
         this.transactions = transactions;
     }
 
-    @XmlElement(name = "Transactions")
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
