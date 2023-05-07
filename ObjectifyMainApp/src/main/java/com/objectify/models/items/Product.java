@@ -1,5 +1,7 @@
 package com.objectify.models.items;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,7 +12,8 @@ import java.io.Serializable;
 @XmlAccessorType (XmlAccessType.FIELD)
 public class Product implements Serializable {
     private static final long serialVersionUID = 730501466045521531L;
-    
+
+    @JsonIgnore
     private static int totalProducts = 0;
     private int idProduct;
     private int productStock;
@@ -70,6 +73,7 @@ public class Product implements Serializable {
         this.productBuyPrice = productBuyPrice;
     }
 
+    @XmlElement(name = "ProductCategory")
     public Category getProductCategory() {
         return category;
     }

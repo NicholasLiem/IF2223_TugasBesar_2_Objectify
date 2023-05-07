@@ -1,8 +1,6 @@
 package com.objectify.controllers.pages;
 
-import com.objectify.datastore.Settings;
-import com.objectify.datastore.interfaces.BillCalculator;
-import com.objectify.datastore.interfaces.InputControl;
+import com.objectify.exceptions.ItemNotFoundException;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import com.objectify.datastore.SystemPointOfSales;
@@ -12,22 +10,16 @@ import javafx.geometry.Rectangle2D;
 
 import com.objectify.models.transactions.Bill;
 import com.objectify.models.transactions.BillManager;
-import com.objectify.models.transactions.Transaction;
-import com.objectify.models.transactions.TransactionHistory;
-import com.objectify.models.transactions.TransactionManager;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
@@ -55,7 +47,7 @@ import java.util.Map.Entry;
 
 public class CashierPage extends GridPane {
 
-    private Map<Product, Integer> cart = new HashMap<Product, Integer>();
+    private Map<Integer, Integer> cart = new HashMap<Integer, Integer>();
     private User user;
 
     private void finalizePopup() {
@@ -84,7 +76,11 @@ public class CashierPage extends GridPane {
             if (billManager.getBills().contains(bill)) {
                 billManager.removeBill(bill);
             }
-            bill.pay(usePointsCheckbox.isSelected(), inputText);
+            try {
+                bill.pay(usePointsCheckbox.isSelected(), inputText);
+            } catch (ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             popup.close();
         });
 
@@ -222,6 +218,8 @@ public class CashierPage extends GridPane {
         this.setHgap(10);
         this.setVgap(10);
 
+        StorageManager sm = SystemPointOfSales.getInstance().getStorageManager();
+
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setPercentWidth(100);
         getColumnConstraints().add(columnConstraints);
@@ -267,7 +265,7 @@ public class CashierPage extends GridPane {
         itemListScrollPane.setPadding(new Insets(10));
         VBox.setVgrow(itemListScrollPane, Priority.ALWAYS);
         VBox.setVgrow(cartList, Priority.ALWAYS);
-        for (Entry<Product, Integer> entry : this.cart.entrySet()) {
+        for (Entry<Integer, Integer> entry : this.cart.entrySet()) {
             HBox itemRow = new HBox();
             HBox itemQty = new HBox();
             Button upQuantityButton = new Button("+");
@@ -283,7 +281,7 @@ public class CashierPage extends GridPane {
             itemRow.setAlignment(Pos.CENTER);
             HBox span = new HBox();
             HBox.setHgrow(span, Priority.ALWAYS);
-            Text prodName = new Text(entry.getKey().getProductName());
+            Text prodName = new Text();
             prodName.setWrappingWidth(200);
             itemRow.getChildren().addAll(prodName, span, itemQty);
             cartList.getChildren().add(itemRow);
@@ -294,7 +292,11 @@ public class CashierPage extends GridPane {
                 entry.setValue(newNum);
                 ShoppingCart newCart = new ShoppingCart(cart);
                 chargeBox.getChildren().remove(0);
-                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                try {
+                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                } catch (ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
             });
@@ -309,7 +311,11 @@ public class CashierPage extends GridPane {
                 }
                 ShoppingCart newCart = new ShoppingCart(cart);
                 chargeBox.getChildren().remove(0);
-                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                try {
+                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                } catch (ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
             });
@@ -337,7 +343,7 @@ public class CashierPage extends GridPane {
                 alert.showAndWait();
             } else {
                 saveBill();
-                this.cart = new HashMap<Product, Integer>();
+                this.cart = new HashMap<Integer, Integer>();
                 this.user = null;
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
@@ -365,7 +371,7 @@ public class CashierPage extends GridPane {
                 alert.showAndWait();
             } else {
                 finalizePopup();
-                this.cart = new HashMap<Product, Integer>();
+                this.cart = new HashMap<Integer, Integer>();
                 this.user = null;
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
@@ -426,6 +432,7 @@ public class CashierPage extends GridPane {
         productFlowPane.setHgap(40);
         productFlowPane.setVgap(20);
         for (Product prod : products) {
+            Integer productId = prod.getIdProduct();
             File file = new File(prod.getProductImagePath());
             Image image = new Image(file.toURI().toString());
             ImageView imageView = new ImageView(image);
@@ -436,66 +443,82 @@ public class CashierPage extends GridPane {
             imageBox.setSpacing(10);
             imageBox.setAlignment(Pos.CENTER);
             imageBox.setOnMouseClicked(event -> {
-                if (this.cart.keySet().contains(prod)) {
-                    this.cart.replace(prod, this.cart.get(prod) + 1);
-                    itemListScrollPane.requestLayout();
-                } else {
-                    HBox itemRow = new HBox();
-                    HBox itemQty = new HBox();
-                    Button upQuantityButton = new Button("+");
-                    upQuantityButton.setPadding(new Insets(5, 10, 5, 10));
-                    Button decQuantityButton = new Button("-");
-                    decQuantityButton.setPadding(new Insets(5, 10, 5, 10));
-                    Text qty = new Text("1");
-                    qty.setTextAlignment(TextAlignment.CENTER);
-                    HBox.setHgrow(itemQty, Priority.ALWAYS);
-                    itemQty.setSpacing(20);
-                    itemQty.setAlignment(Pos.CENTER);
-                    itemQty.getChildren().addAll(decQuantityButton, qty, upQuantityButton);
-                    itemRow.setAlignment(Pos.CENTER);
-                    HBox span = new HBox();
-                    HBox.setHgrow(span, Priority.ALWAYS);
-                    Text prodName = new Text(prod.getProductName());
-                    prodName.setWrappingWidth(200);
-                    itemRow.getChildren().addAll(prodName, span, itemQty);
-                    cartList.getChildren().add(itemRow);
-
-                    this.cart.put(prod, 1);
-
-                    upQuantityButton.setOnMouseClicked((e) -> {
-                        int newNum = Integer.parseInt(qty.getText()) + 1;
-                        qty.setText(String.valueOf(newNum));
-                        this.cart.replace(prod, newNum);
-                        ShoppingCart newCart = new ShoppingCart(cart);
-                        chargeBox.getChildren().remove(0);
-                        chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                try {
+                    if (this.cart.keySet().contains(sm.searchById(productId))) {
+                        this.cart.replace(productId, this.cart.get(productId) + 1);
                         itemListScrollPane.requestLayout();
-                        bill.requestLayout();
-                    });
-                    decQuantityButton.setOnMouseClicked((e) -> {
-                        int newNum = Integer.parseInt(qty.getText()) - 1;
-                        if (newNum == 0) {
-                            cartList.getChildren().remove(itemRow);
-                            this.cart.remove(prod);
-                        } else {
+                    } else {
+                        HBox itemRow = new HBox();
+                        HBox itemQty = new HBox();
+                        Button upQuantityButton = new Button("+");
+                        upQuantityButton.setPadding(new Insets(5, 10, 5, 10));
+                        Button decQuantityButton = new Button("-");
+                        decQuantityButton.setPadding(new Insets(5, 10, 5, 10));
+                        Text qty = new Text("1");
+                        qty.setTextAlignment(TextAlignment.CENTER);
+                        HBox.setHgrow(itemQty, Priority.ALWAYS);
+                        itemQty.setSpacing(20);
+                        itemQty.setAlignment(Pos.CENTER);
+                        itemQty.getChildren().addAll(decQuantityButton, qty, upQuantityButton);
+                        itemRow.setAlignment(Pos.CENTER);
+                        HBox span = new HBox();
+                        HBox.setHgrow(span, Priority.ALWAYS);
+                        Text prodName = new Text(sm.searchById(productId).getProductName());
+                        prodName.setWrappingWidth(200);
+                        itemRow.getChildren().addAll(prodName, span, itemQty);
+                        cartList.getChildren().add(itemRow);
+
+                        this.cart.put(productId, 1);
+
+                        upQuantityButton.setOnMouseClicked((e) -> {
+                            int newNum = Integer.parseInt(qty.getText()) + 1;
                             qty.setText(String.valueOf(newNum));
-                            this.cart.replace(prod, newNum);
-                        }
+                            this.cart.replace(productId, newNum);
+                            ShoppingCart newCart = new ShoppingCart(cart);
+                            chargeBox.getChildren().remove(0);
+                            try {
+                                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                            } catch (ItemNotFoundException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            itemListScrollPane.requestLayout();
+                            bill.requestLayout();
+                        });
+                        decQuantityButton.setOnMouseClicked((e) -> {
+                            int newNum = Integer.parseInt(qty.getText()) - 1;
+                            if (newNum == 0) {
+                                cartList.getChildren().remove(itemRow);
+                                this.cart.remove(productId);
+                            } else {
+                                qty.setText(String.valueOf(newNum));
+                                this.cart.replace(productId, newNum);
+                            }
+                            ShoppingCart newCart = new ShoppingCart(cart);
+                            chargeBox.getChildren().remove(0);
+                            try {
+                                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                            } catch (ItemNotFoundException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            itemListScrollPane.requestLayout();
+                            bill.requestLayout();
+                        });
+                        qty.textProperty().addListener((obs, oldText, newText) -> {
+                            upQuantityButton.setDisable(newText.equals("99"));
+                            decQuantityButton.setDisable(newText.equals("0"));
+                        });
                         ShoppingCart newCart = new ShoppingCart(cart);
                         chargeBox.getChildren().remove(0);
-                        chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                        try {
+                            chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                        } catch (ItemNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
                         itemListScrollPane.requestLayout();
                         bill.requestLayout();
-                    });
-                    qty.textProperty().addListener((obs, oldText, newText) -> {
-                        upQuantityButton.setDisable(newText.equals("99"));
-                        decQuantityButton.setDisable(newText.equals("0"));
-                    });
-                    ShoppingCart newCart = new ShoppingCart(cart);
-                    chargeBox.getChildren().remove(0);
-                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
-                    itemListScrollPane.requestLayout();
-                    bill.requestLayout();
+                    }
+                } catch (ItemNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
             });
             imageBox.setOnMouseEntered(event -> {

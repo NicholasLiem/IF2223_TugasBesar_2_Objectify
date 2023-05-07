@@ -1,5 +1,6 @@
 package com.objectify.models.transactions;
 
+import com.objectify.exceptions.ItemNotFoundException;
 import com.objectify.models.entities.User;
 import com.objectify.models.entities.VIP;
 import com.objectify.datastore.SystemPointOfSales;
@@ -27,34 +28,30 @@ public class Bill {
         return this.shoppingCart;
     }
 
-    public int value() {
+    public int value() throws ItemNotFoundException {
         if (user instanceof VIP) {
             return Math.round((int) (0.9 * shoppingCart.value()));
         }
         return shoppingCart.value();
     }
 
-    public void addItem(Product product, int quantity) {
-        shoppingCart.addCartItem(product, quantity);
+    public void addItem(Integer productId, int quantity) {
+        shoppingCart.addCartItem(productId, quantity);
     }
 
-    public void removeItem(Product product) {
-        shoppingCart.removeCartItem(product);
+    public void removeItem(Integer productId) {
+        shoppingCart.removeCartItem(productId);
     }
 
-    public void incQuantity(Product product) {
-        shoppingCart.incQuantity(product);
+    public void incQuantity(Integer productId) {
+        shoppingCart.incQuantity(productId);
     }
 
-    public void decQuantity(Product product) {
-        shoppingCart.decQuantity(product);
+    public void decQuantity(Integer productIdt) {
+        shoppingCart.decQuantity(productIdt);
     }
 
-    public void save() {
-
-    }
-
-    public void pay(boolean usePoints, String description) {
+    public void pay(boolean usePoints, String description) throws ItemNotFoundException {
 
         int amount = this.value();
 
