@@ -6,7 +6,7 @@
     "productPrice" : 12.0,
     "productBuyPrice" : 10.0,
     "productCategory" : null,
-    "productImagePath" : ""
+    "productImagePath" : ".\\ObjectifyMainApp\\src\\resources\\images\\sample_image.png"
   }, {
     "idProduct" : 2,
     "productStock" : 10,
@@ -14,7 +14,7 @@
     "productPrice" : 3.0,
     "productBuyPrice" : 1.0,
     "productCategory" : null,
-    "productImagePath" : ""
+    "productImagePath" : ".\\ObjectifyMainApp\\src\\resources\\images\\sample_image.png"
   }, {
     "idProduct" : 3,
     "productStock" : 213,
@@ -22,6 +22,6 @@
     "productPrice" : 123.0,
     "productBuyPrice" : 21.0,
     "productCategory" : null,
-    "productImagePath" : ""
+    "productImagePath" : ".\\ObjectifyMainApp\\src\\resources\\images\\sample_image.png"
   } ]
 }

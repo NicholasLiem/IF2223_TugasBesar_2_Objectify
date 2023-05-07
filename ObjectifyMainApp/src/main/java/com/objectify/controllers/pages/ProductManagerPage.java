@@ -234,7 +234,8 @@ public class ProductManagerPage extends GridPane {
     
     private void submitButton(){
         Button submitButton = new Button("Add Product");
-//        submitButton.getStyleClass().add("submit-btn");
+    
+       submitButton.getStyleClass().add("submit-btn");
         submitButton.setOnAction(event -> {
             StorageManager productManager = SystemPointOfSales.getInstance().getStorageManager();
             CategoryManager cm = SystemPointOfSales.getInstance().getCategoryManager();
@@ -292,6 +293,7 @@ public class ProductManagerPage extends GridPane {
         CategoryManager cm = SystemPointOfSales.getInstance().getCategoryManager();
         // Update button
         Button updateProductButton = new Button("Update Product");
+        updateProductButton.getStyleClass().add("submit-btn");
         updateProductButton.setOnAction(event -> {
             // Parse input fields
             String name = nameField.getText();

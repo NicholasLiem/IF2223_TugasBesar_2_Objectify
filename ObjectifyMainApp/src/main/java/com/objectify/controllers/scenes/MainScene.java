@@ -39,6 +39,7 @@ public class MainScene extends Scene {
         root.setCenter(tabPane);
         root.setTop(menuBar);
 
+        SystemPointOfSales.getInstance().getUserManager();
         RegisterMemberPage registeMemberPage = new RegisterMemberPage();
         root.setCenter(registeMemberPage);
 
