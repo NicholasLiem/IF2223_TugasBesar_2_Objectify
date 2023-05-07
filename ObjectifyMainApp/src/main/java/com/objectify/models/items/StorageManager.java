@@ -95,4 +95,8 @@ public class StorageManager implements Serializable {
     public void removeProduct(Product product){
         this.products.remove(product);
     }
+
+    public void setProducts(ArrayList<Product> newProducts){
+        this.products = newProducts;
+    }
 }

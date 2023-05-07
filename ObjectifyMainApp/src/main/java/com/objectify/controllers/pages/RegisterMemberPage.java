@@ -211,6 +211,7 @@ public class RegisterMemberPage extends Pane {
                     userManager.addUser(vip);
                     break;
             }
+            SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
             clearFields();
             updateScroll();
             setAlert("Customer created","New Customer Succesfully Created");

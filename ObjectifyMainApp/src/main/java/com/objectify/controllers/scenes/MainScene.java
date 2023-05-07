@@ -31,8 +31,8 @@ public class MainScene extends Scene {
         tabPane = new TabPane();
         mbManager = new MenuBarManager(tabPane);
 
-//        SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
-//        SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
+        SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
+        SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
 //        SystemPointOfSales.getInstance().getStorageManager().addNewProducts(new Product(1, "a", 1, 1, null, ""));
 //        SystemPointOfSales.getInstance().getStorageManager().addNewProducts(new Product(1, "a", 1, 1, null, ""));
 //        SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
