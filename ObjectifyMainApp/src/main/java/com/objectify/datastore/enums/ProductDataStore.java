@@ -3,6 +3,7 @@ package com.objectify.datastore.enums;
 import com.objectify.datastore.adapter.JSONAdapter;
 import com.objectify.datastore.adapter.OBJAdapter;
 import com.objectify.datastore.adapter.XMLAdapter;
+import com.objectify.datastore.interfaces.DataStore;
 import com.objectify.models.items.StorageManager;
 
 import java.util.Optional;

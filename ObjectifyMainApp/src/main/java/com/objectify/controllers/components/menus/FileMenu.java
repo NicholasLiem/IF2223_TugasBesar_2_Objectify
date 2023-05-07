@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class FileMenu extends AppMenu {
+    private boolean settingsTabOpened = false;
 
     public FileMenu(TabPane tabPane){
         super("File", tabPane);
@@ -46,11 +47,23 @@ public class FileMenu extends AppMenu {
         MenuItem settingsTab = new MenuItem("Settings");
         this.getItems().add(settingsTab);
         settingsTab.setOnAction(event -> {
-            GridPane newPage = new SettingsPage();
-            Tab newPaneTab = new Tab("Settings", newPage);
-            tabPane.getTabs().add(newPaneTab);
-            tabPane.getSelectionModel().select(newPaneTab);
+            if (!settingsTabOpened) {
+                GridPane newPage = new SettingsPage();
+                Tab newPaneTab = new Tab("Settings", newPage);
+                tabPane.getTabs().add(newPaneTab);
+                tabPane.getSelectionModel().select(newPaneTab);
+                settingsTabOpened = true;
+            } else {
+                // settings tab already opened, select it
+                for (Tab tab : tabPane.getTabs()) {
+                    if (tab.getText().equals("Settings")) {
+                        tabPane.getSelectionModel().select(tab);
+                        break;
+                    }
+                }
+            }
         });
-
     }
 }
+
+

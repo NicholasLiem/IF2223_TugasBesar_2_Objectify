@@ -2,13 +2,23 @@ package com.objectify.controllers.scenes;
 
 import com.objectify.controllers.components.menubar.MenuBarManager;
 import com.objectify.controllers.pages.DashboardPane;
+import com.objectify.controllers.pages.ProductManagerPage;
 import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.datastore.adapter.JSONAdapter;
+import com.objectify.datastore.enums.ProductDataStore;
+import com.objectify.datastore.enums.UserDataStore;
+import com.objectify.datastore.interfaces.DataStore;
 import com.objectify.exceptions.InvalidArgumentsException;
+import com.objectify.models.entities.UserManager;
+import com.objectify.models.items.Product;
+import com.objectify.models.items.StorageManager;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+
+import javax.xml.crypto.Data;
 
 public class MainScene extends Scene {
     
@@ -20,6 +30,13 @@ public class MainScene extends Scene {
 
         tabPane = new TabPane();
         mbManager = new MenuBarManager(tabPane);
+
+//        SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
+//        SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
+//        SystemPointOfSales.getInstance().getStorageManager().addNewProducts(new Product(1, "a", 1, 1, null, ""));
+//        SystemPointOfSales.getInstance().getStorageManager().addNewProducts(new Product(1, "a", 1, 1, null, ""));
+//        SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
+
 
         MenuBar menuBar = mbManager.getMenuBar();
 

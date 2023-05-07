@@ -1,7 +1,7 @@
 package com.objectify.BasePlugin;
 
 import com.objectify.controllers.components.menubar.MenuBarManager;
-import com.objectify.datastore.enums.Command;
+import com.objectify.datastore.interfaces.Command;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.exceptions.AppNotFoundException;
 import com.objectify.exceptions.InvalidArgumentsException;

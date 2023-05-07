@@ -2,7 +2,7 @@ package com.objectify.PaymentPlugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.objectify.datastore.enums.InputControl;
+import com.objectify.datastore.interfaces.InputControl;
 import com.objectify.datastore.Settings;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.plugin.Plugin;
@@ -81,6 +81,28 @@ public class PaymentPlugin extends Plugin {
                     return numberTextField;
                 }
             });
+
+//            settings.getBillComponents().add(new InputControl() {
+//                @Override
+//                public Label getLabel() {
+//                    return new Label("Discount");
+//                }
+//                @Override
+//                public Node getInputControl() {
+//                    TextField numberTextField = new TextField();
+//                    numberTextField.setText(Double.toString(payment.getDiscount()));
+//                    spos.getSettings().addCalculator("DiscountCalculator", value -> value * (1 - payment.getDiscount()));
+//                    numberTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//                        if (!newValue.matches("\\d*\\.?\\d*")) {
+//                            numberTextField.setText(oldValue);
+//                        } else {
+//                            payment.setTax(Double.parseDouble(newValue));
+//                            spos.getSettings().addCalculator("DiscountCalculator", value -> value * (1 - payment.getDiscount()));
+//                        }
+//                    });
+//                    return numberTextField;
+//                }
+//            });
 
 
             Path settingsPath = Paths.get(settings.getSettingsPath() + SETTINGS_PATH);
