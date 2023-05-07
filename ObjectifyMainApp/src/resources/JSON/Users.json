@@ -33,5 +33,46 @@
     "name" : "knklnlk",
     "phoneNumber" : "4345345",
     "points" : 2354
+  }, {
+    "type" : "Customer",
+    "userID" : 5,
+    "activationStatus" : true,
+    "transactionHistory" : {
+      "transactions" : [ ]
+    }
+  }, {
+    "type" : "Customer",
+    "userID" : 6,
+    "activationStatus" : true,
+    "transactionHistory" : {
+      "transactions" : [ ]
+    }
+  }, {
+    "type" : "Member",
+    "userID" : 7,
+    "activationStatus" : true,
+    "transactionHistory" : {
+      "transactions" : [ ]
+    },
+    "name" : "Nathania",
+    "phoneNumber" : "12321",
+    "points" : 123213
+  }, {
+    "type" : "Customer",
+    "userID" : 8,
+    "activationStatus" : true,
+    "transactionHistory" : {
+      "transactions" : [ ]
+    }
+  }, {
+    "type" : "VIP",
+    "userID" : 9,
+    "activationStatus" : true,
+    "transactionHistory" : {
+      "transactions" : [ ]
+    },
+    "name" : "asdsad",
+    "phoneNumber" : "21321",
+    "points" : 1231
   } ]
 }

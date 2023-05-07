@@ -2,6 +2,7 @@ package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
+import com.objectify.models.transactions.Transaction;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.scene.text.Text;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class TransactionManagerPage extends Pane {
 
@@ -18,6 +20,7 @@ public class TransactionManagerPage extends Pane {
     private VBox userList;
     private VBox transactionsList;
 
+    private ArrayList<Transaction> listOfTransactions;
 
     public TransactionManagerPage(){
 
@@ -43,7 +46,7 @@ public class TransactionManagerPage extends Pane {
         VBox.setVgrow(this.userList,Priority.ALWAYS);
         ScrollPane userData = new ScrollPane();
         userData.getStyleClass().add("user-scrollpane");
-        userData.setMaxWidth(450);
+        userData.setMaxWidth(500);
 
         VBox allUserDatas = new VBox();
         allUserDatas.setSpacing(10);
@@ -57,6 +60,16 @@ public class TransactionManagerPage extends Pane {
             aData.setSpacing(10);
             aData.getChildren().addAll(labelCol(u),valueCol(u));
             aData.setAlignment(Pos.CENTER);
+            aData.setOnMouseClicked(event->{
+                this.listOfTransactions = u.getTransactionHistory().getTransactions();
+                for(Transaction t : this.listOfTransactions){
+                    HBox transaction = new HBox();
+                    HBox.setHgrow(transaction,Priority.ALWAYS);
+                    Label id = new Label(Integer.toString(t.getTransactionId());
+                    Label amount = new Label (Double.toString(t.getAmount()));
+                    Text date = new Text(t.getDateTime());
+                }
+            });
             allUserDatas.getChildren().add(aData);
             allUserDatas.setAlignment(Pos.CENTER);
         }
