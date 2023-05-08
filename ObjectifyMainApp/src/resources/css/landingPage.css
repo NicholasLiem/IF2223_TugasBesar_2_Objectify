@@ -1,10 +1,12 @@
 .landing-page{
-    -fx-background-image : url("../images/bg.jpg");
+    -fx-background-image : url("../images/bg4.jpg");
     -fx-background-color : "#E9EFFD";
     -fx-background-repeat : no-repeat;
     -fx-background-size : cover;
     -fx-text-fill : white;
 }
+
+
 
 .welcome-text{
     -fx-text-fill: #ffffff;
@@ -22,7 +24,7 @@
 }
 
 .start-button:hover{
-    -fx-opacity : 0.5;
+    -fx-background-color: #3D346F;
 }
 
 .author{

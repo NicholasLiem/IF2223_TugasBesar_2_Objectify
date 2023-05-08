@@ -28,7 +28,7 @@ public class MainScene extends Scene {
     private final TabPane tabPane;
     
     public MainScene() {
-        super(new BorderPane(), 800, 600);
+        super(new BorderPane());
 
         tabPane = new TabPane();
         mbManager = new MenuBarManager(tabPane);
