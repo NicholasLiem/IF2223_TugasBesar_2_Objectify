@@ -94,17 +94,13 @@ public class SettingsPage extends GridPane {
 
             // Refresh the SettingsPage to display the updated UI components
             getChildren().clear();
+            add(selectDatastore, 0, 1);
+            add(datastoreComboBox, 1, 1);
             add(selectPlugin, 0, 0);
             add(pluginChooserBtn, 1, 0);
             add(dirChooserBtn, 2, 0);
             add(loadPluginBtn, 3, 0);
 
-            // Refresh the SettingsPage to display the updated UI components
-            getChildren().clear();
-            add(selectPlugin, 0, 0);
-            add(pluginChooserBtn, 1, 0);
-            add(dirChooserBtn, 2, 0);
-            add(loadPluginBtn, 3, 0);
 
             int count = 2;
             for (InputControl ui : SystemPointOfSales.getInstance().getSettings().getComponents()) {

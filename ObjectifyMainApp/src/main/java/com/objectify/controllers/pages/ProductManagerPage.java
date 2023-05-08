@@ -136,8 +136,12 @@ public class ProductManagerPage extends GridPane {
 
         // Add categories to combo box
         CategoryManager categoryManager = SystemPointOfSales.getInstance().getCategoryManager();
-        for(Category c : categoryManager.getCategories()){
-            this.categoryComboBox.getItems().add(c.getName());
+        if (categoryManager.getCategories().isEmpty()){
+            this.categoryComboBox.getItems().add("Empty Category");
+        } else {
+            for (Category c : categoryManager.getCategories()) {
+                this.categoryComboBox.getItems().add(c.getName());
+            }
         }
 
         add(row,0,0);
@@ -265,6 +269,8 @@ public class ProductManagerPage extends GridPane {
     
             // Add product to product manager
             productManager.addNewProducts(product);
+            System.out.println(SystemPointOfSales.getInstance().getStorageManager());
+            SystemPointOfSales.getInstance().getSettings().saveAllDataStore();
             // Clear input fields
             clearFields();
     

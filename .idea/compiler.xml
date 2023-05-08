@@ -23,6 +23,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="EPSPlugin" target="18" />
+      <module name="LineChartPlugin" target="19" />
       <module name="ObjectifySPI" target="18" />
       <module name="PieChartPlugin" target="18" />
     </bytecodeTargetLevel>

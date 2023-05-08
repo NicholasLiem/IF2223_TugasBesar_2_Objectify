@@ -47,7 +47,6 @@ public class RegisterMemberPage extends Pane {
 
     private int selectedUserId;
     public RegisterMemberPage() {
-//        Dummy data doank
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "registerMember.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);

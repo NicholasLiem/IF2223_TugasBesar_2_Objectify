@@ -10,8 +10,14 @@ import java.util.Optional;
 
 public class OBJAdapter<T> implements DataStore<T> {
     private Path objPath;
+    private final String filename;
     
     public OBJAdapter(String filename) {
+        if (!filename.endsWith(".obj")) {
+            filename += ".obj";
+        }
+        objPath = Paths.get("ObjectifyMainApp","src", "resources", "OBJ", filename);
+        this.filename = filename;
         initializeFile(filename);
     }
     
@@ -33,6 +39,7 @@ public class OBJAdapter<T> implements DataStore<T> {
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             return Optional.of((T) objectInputStream.readObject());
         } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
             return Optional.empty();
         }
     }
@@ -42,7 +49,7 @@ public class OBJAdapter<T> implements DataStore<T> {
         try {
             Files.deleteIfExists(objPath);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 

@@ -159,21 +159,6 @@ public class TransactionManagerPage extends Pane {
         allTransactionsData.setPrefWidth(250);
         transactionsScrollPane.setFitToWidth(true);
         
-        // Uncomment to test the view
-        // Create a cart and add some items to it
-//        ShoppingCart cart = new ShoppingCart();
-//        cart.addCartItem(1,3);
-//        cart.addCartItem(2, 2);
-//        cart.addCartItem(3, 1);
-//
-//        TransactionHistory transactions2 = new TransactionHistory();
-//        for (int i = 0; i < 10; i++) {
-//            String desc = "desc" + (i+1);
-//            transactions2.addTransaction(new Transaction(i+1,"today", desc, 12, cart));
-//        }
-//
-//        user.setTransactionHistory(transactions2);
-        
         TransactionHistory transactions = user.getTransactionHistory();
         for (Transaction transaction : transactions.getTransactions()) {
             HBox box = new HBox();
@@ -229,9 +214,8 @@ public class TransactionManagerPage extends Pane {
             sb.append(dc.getProductPrice());
             sb.append("     Total Price: ");
             sb.append(dc.getProductPrice()*dc.getProductCount());
-            sb.append("\n");
         try {
-            sb.append("\nSubtotal  : " + shoppingCart.value() + "\n");
+            sb.append("\nSubtotal  : " + shoppingCart.value() + "\n\n");
         } catch (ItemNotFoundException e) {
             throw new RuntimeException(e);
         }

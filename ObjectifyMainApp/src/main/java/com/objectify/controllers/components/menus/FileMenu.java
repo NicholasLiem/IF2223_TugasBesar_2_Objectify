@@ -34,6 +34,7 @@ public class FileMenu extends AppMenu {
             tabPane.getTabs().add(newPaneTab);
             tabPane.getSelectionModel().select(newPaneTab);
         });
+
         MenuItem settingsTab = new MenuItem("Settings");
         this.getItems().add(settingsTab);
         settingsTab.setOnAction(event -> {

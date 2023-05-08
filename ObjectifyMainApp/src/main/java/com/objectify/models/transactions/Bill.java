@@ -38,7 +38,7 @@ public class Bill implements Serializable {
         return shoppingCart.value();
     }
 
-    public void addItem(Integer productId, int quantity) {
+    public void addItem(Integer productId, int quantity) throws ItemNotFoundException {
         shoppingCart.addCartItem(productId, quantity);
     }
 
@@ -46,7 +46,7 @@ public class Bill implements Serializable {
         shoppingCart.removeCartItem(productId);
     }
 
-    public void incQuantity(Integer productId) {
+    public void incQuantity(Integer productId) throws ItemNotFoundException {
         shoppingCart.incQuantity(productId);
     }
 

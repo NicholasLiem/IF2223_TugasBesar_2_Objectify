@@ -14,12 +14,18 @@ import java.util.Optional;
 public class JSONAdapter<T> implements DataStore<T> {
 
     private Path jsonPath;
+    private final String filename;
     private final ObjectMapper mapper;
     private final Class<T> cls;
 
     public JSONAdapter(String filename, Class<T> cls) {
-        initializeFile(filename);
+        if (!filename.endsWith(".json")) {
+            filename += ".json";
+        }
+        jsonPath = Paths.get("ObjectifyMainApp","src", "resources", "JSON", filename);
+        this.filename = filename;
         this.cls = cls;
+        initializeFile(filename);
         mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     }
 
@@ -38,10 +44,12 @@ public class JSONAdapter<T> implements DataStore<T> {
         try {
             T result = mapper.readValue(jsonPath.toFile(), cls);
             return Optional.of(result);
-        } catch (MismatchedInputException exception) {
+        } catch (MismatchedInputException e) {
+            System.out.println("Either file empty or fail to parse");
             return Optional.empty();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return Optional.empty();
         }
     }
 
@@ -50,7 +58,7 @@ public class JSONAdapter<T> implements DataStore<T> {
         try {
             Files.deleteIfExists(jsonPath);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
     

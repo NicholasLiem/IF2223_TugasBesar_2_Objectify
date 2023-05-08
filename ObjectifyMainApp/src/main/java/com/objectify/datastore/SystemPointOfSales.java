@@ -7,11 +7,14 @@ import com.objectify.exceptions.InvalidArgumentsException;
 import com.objectify.exceptions.ItemNotFoundException;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.CategoryManager;
+import com.objectify.models.items.Product;
 import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.TransactionManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class SystemPointOfSales {
 
@@ -92,22 +95,18 @@ public class SystemPointOfSales {
     }
 
     public void setUserManager(UserManager userManager){
-        this.userManager.getListOfUsers().clear();
         this.userManager.setListOfUsers(userManager.getListOfUsers());
     }
 
     public void setCategoryManager(CategoryManager categoryManager) {
-        this.categoryManager.getCategories().clear();
         this.categoryManager.setCategories(categoryManager.getCategories());
     }
 
-    public void setStorageManager(StorageManager storageManager) {
-        this.storageManager.getProducts().clear();
-        this.storageManager.setProducts(storageManager.getProducts());
+    public void setStorageManager(StorageManager sm) {
+        this.storageManager.setProducts(sm.getProducts());
     }
 
     public void setTransactionManager(TransactionManager transactionManager){
-        this.transactionManager.getListOfTransaction().clear();
         this.transactionManager.setListOfTransactions(transactionManager.getListOfTransaction());
     }
 
