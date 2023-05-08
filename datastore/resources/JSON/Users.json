@@ -1,0 +1,10 @@
+{
+  "listOfUsers" : [ {
+    "type" : "Customer",
+    "userID" : 1,
+    "activationStatus" : true,
+    "transactionHistory" : {
+      "transactions" : [ ]
+    }
+  } ]
+}

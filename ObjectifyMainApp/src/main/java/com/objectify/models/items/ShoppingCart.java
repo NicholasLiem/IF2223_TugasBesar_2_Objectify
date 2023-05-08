@@ -98,7 +98,6 @@ public class ShoppingCart implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Entry<Integer, Integer> entry : cartItems.entrySet()) {
-            sb.append(entry.getValue());
             sb.append(" ");
             try {
                 sb.append(SystemPointOfSales.getInstance().getStorageManager().searchById(entry.getKey()).getProductName());

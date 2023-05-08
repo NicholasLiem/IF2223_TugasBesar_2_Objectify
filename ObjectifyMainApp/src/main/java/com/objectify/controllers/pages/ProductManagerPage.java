@@ -139,7 +139,6 @@ public class ProductManagerPage extends GridPane {
         for(Category c : categoryManager.getCategories()){
             this.categoryComboBox.getItems().add(c.getName());
         }
-//        categoryComboBox.getItems().addAll(categoryManager.getCategories());
 
         add(row,0,0);
         updateProductsScrollPane();
@@ -183,6 +182,8 @@ public class ProductManagerPage extends GridPane {
             String path = ".\\ObjectifyMainApp\\src\\resources\\images\\sample_image.png";
             if (product.getProductImagePath() != "") {
                 path = product.getProductImagePath();
+            } else {
+                product.setProductImagePath(path);
             }
             File file = new File(path);
             Image image = new Image(file.toURI().toString());
@@ -233,7 +234,8 @@ public class ProductManagerPage extends GridPane {
     
     private void submitButton(){
         Button submitButton = new Button("Add Product");
-//        submitButton.getStyleClass().add("submit-btn");
+    
+       submitButton.getStyleClass().add("submit-btn");
         submitButton.setOnAction(event -> {
             StorageManager productManager = SystemPointOfSales.getInstance().getStorageManager();
             CategoryManager cm = SystemPointOfSales.getInstance().getCategoryManager();
@@ -291,6 +293,7 @@ public class ProductManagerPage extends GridPane {
         CategoryManager cm = SystemPointOfSales.getInstance().getCategoryManager();
         // Update button
         Button updateProductButton = new Button("Update Product");
+        updateProductButton.getStyleClass().add("submit-btn");
         updateProductButton.setOnAction(event -> {
             // Parse input fields
             String name = nameField.getText();
@@ -381,7 +384,7 @@ public class ProductManagerPage extends GridPane {
         });
         buttons.getChildren().add(cancelButton);
         
-        forms.getChildren().set(6,buttons);
+        forms.getChildren().set(7,buttons);
     }
     
 }

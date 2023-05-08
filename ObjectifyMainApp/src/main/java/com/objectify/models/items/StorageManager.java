@@ -71,7 +71,7 @@ public class StorageManager implements Serializable {
         }
     };
 
-    public Product searchById(Integer productId) throws ItemNotFoundException {
+    public Product searchById(int productId) throws ItemNotFoundException {
         for (Product product : this.listOfProducts) {
             if (product.getIdProduct() == productId) {
                 return product;

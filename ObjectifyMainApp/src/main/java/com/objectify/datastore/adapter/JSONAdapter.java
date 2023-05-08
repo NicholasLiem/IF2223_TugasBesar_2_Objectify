@@ -62,7 +62,7 @@ public class JSONAdapter<T> implements DataStore<T> {
         if (!filename.endsWith(".json")) {
             filename += ".json";
         }
-        Path resPath = Paths.get("src", "resources", "JSON");
+        Path resPath = Paths.get("datastore", "resources", "JSON");
         try {
             if (!Files.exists(resPath)) {
                 Files.createDirectories(resPath);

@@ -1,8 +1,8 @@
 package com.objectify.controllers.scenes;
 
 import com.objectify.controllers.components.menubar.MenuBarManager;
-import com.objectify.controllers.pages.DashboardPane;
 import com.objectify.controllers.pages.ProductManagerPage;
+import com.objectify.controllers.pages.RegisterMemberPage;
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.datastore.adapter.JSONAdapter;
 import com.objectify.datastore.enums.ProductDataStore;
@@ -39,12 +39,13 @@ public class MainScene extends Scene {
         root.setCenter(tabPane);
         root.setTop(menuBar);
 
-        DashboardPane dashboardPane = new DashboardPane();
-        root.setCenter(dashboardPane);
+        SystemPointOfSales.getInstance().getUserManager();
+        RegisterMemberPage registeMemberPage = new RegisterMemberPage();
+        root.setCenter(registeMemberPage);
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
             if (newTab == null) {
-                root.setCenter(dashboardPane);
+                root.setCenter(registeMemberPage);
             } else {
                 root.setCenter(tabPane);
             }

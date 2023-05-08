@@ -85,8 +85,8 @@ public class Transaction implements Serializable {
                 '}';
     }
 
-    public void printToPDF() {
-        Thread thread = new TransactionPDFGenerator(this);
+    public void printToPDF(String filename) {
+        Thread thread = new TransactionPDFGenerator(this, filename);
         thread.start();
     }
 }

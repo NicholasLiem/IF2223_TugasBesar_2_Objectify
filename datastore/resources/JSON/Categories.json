@@ -1,0 +1,11 @@
+{
+  "categories" : [ {
+    "name" : "Makanan"
+  }, {
+    "name" : "Minuman"
+  }, {
+    "name" : "Barang"
+  }, {
+    "name" : "Cemilan"
+  } ]
+}

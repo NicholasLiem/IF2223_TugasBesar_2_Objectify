@@ -3,6 +3,14 @@
   "additionalProperties" : {
     "PaymentSystem" : {
       "PaymentSettings" : "ObjectifyMainApp\\src\\resources\\settings\\Payment.json"
+    },
+    "CurrencySystem" : {
+      "CurrencySettings" : "ObjectifyMainApp\\src\\resources\\settings\\Currency.json",
+      "CurrencyDefault" : "IDR",
+      "CurrencyExchangeRate" : 1
     }
+  },
+  "productDataStore" : {
+    "xmlPath" : "file:///C:/Users/nicho/Desktop/Programming%20Repository/GitHub%20Repository/IF2223_TugasBesar_2_Objectify/datastore/resources/XML/Products.xml"
   }
 }

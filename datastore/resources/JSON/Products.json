@@ -1,0 +1,13 @@
+{
+  "products" : [ {
+    "idProduct" : 1,
+    "productStock" : 123,
+    "productName" : "HJaHAhaha",
+    "productPrice" : 123.0,
+    "productBuyPrice" : 123.0,
+    "productCategory" : {
+      "name" : "Minuman"
+    },
+    "productImagePath" : "C:\\Users\\nicho\\Pictures\\2022-10-16_20-49.png"
+  } ]
+}

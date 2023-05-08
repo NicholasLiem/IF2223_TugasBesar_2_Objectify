@@ -6,6 +6,7 @@ import com.objectify.plugin.PluginLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
@@ -19,6 +20,30 @@ public class SettingsPage extends GridPane {
         setPadding(new Insets(10));
         setHgap(10);
         setVgap(10);
+        Label selectDatastore = new Label("Select Datastore: ");
+        ComboBox<String> datastoreComboBox = new ComboBox<>();
+        datastoreComboBox.getItems().addAll("JSON", "XML", "OBJ");
+        datastoreComboBox.getSelectionModel().selectFirst();
+
+        datastoreComboBox.setOnAction(event -> {
+            String selectedDatastore = datastoreComboBox.getValue();
+            switch (selectedDatastore) {
+                case "JSON":
+                    SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
+                    break;
+                case "XML":
+                    SystemPointOfSales.getInstance().getSettings().initialiseDataStores("XML");
+                    break;
+                case "OBJ":
+                    SystemPointOfSales.getInstance().getSettings().initialiseDataStores("OBJ");
+                    break;
+                default:
+                    SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
+                    break;
+            }
+            SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
+        });
+
 
         final String[] selectedPluginPath = {""};
         Label selectPlugin = new Label("Select Plugin: ");
@@ -89,10 +114,13 @@ public class SettingsPage extends GridPane {
             }
         });
 
+        add(selectDatastore, 0, 1);
+        add(datastoreComboBox, 1, 1);
         add(selectPlugin, 0, 0);
         add(pluginChooserBtn, 1, 0);
         add(dirChooserBtn, 2, 0);
         add(loadPluginBtn, 3, 0);
+
 
         int count = 2;
         for (InputControl ui : SystemPointOfSales.getInstance().getSettings().getComponents()) {
