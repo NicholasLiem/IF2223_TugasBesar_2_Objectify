@@ -1,15 +1,12 @@
 package com.objectify.models.transactions;
 
+import com.objectify.models.items.ShoppingCart;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.objectify.models.items.ShoppingCart;
-
 import java.io.Serializable;
-
-import com.objectify.models.items.ShoppingCart;
 
 @XmlRootElement(name = "Transaction")
 @XmlAccessorType(XmlAccessType.FIELD)

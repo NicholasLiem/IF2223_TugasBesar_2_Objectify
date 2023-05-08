@@ -3,7 +3,6 @@ package com.objectify.controllers;
 import com.objectify.controllers.scenes.LandingScene;
 import com.objectify.controllers.scenes.MainScene;
 import com.objectify.datastore.SystemPointOfSales;
-import com.objectify.models.items.Category;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;

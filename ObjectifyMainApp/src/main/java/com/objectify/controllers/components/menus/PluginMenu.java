@@ -1,7 +1,6 @@
 package com.objectify.controllers.components.menus;
 
-import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.TabPane;
 
 public class PluginMenu extends AppMenu {
     

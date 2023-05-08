@@ -1,12 +1,10 @@
 package com.objectify.datastore;
 
-import java.util.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.objectify.datastore.enums.CategoryDataStore;
-import com.objectify.datastore.enums.UserDataStore;
 import com.objectify.datastore.enums.ProductDataStore;
 import com.objectify.datastore.enums.TransactionsDataStore;
+import com.objectify.datastore.enums.UserDataStore;
 import com.objectify.datastore.interfaces.BillCalculator;
 import com.objectify.datastore.interfaces.DataStore;
 import com.objectify.datastore.interfaces.InputControl;
@@ -14,6 +12,8 @@ import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.TransactionManager;
+
+import java.util.*;
 
 public class Settings {
     private final String settingsPath = "ObjectifyMainApp/src/resources/settings/";

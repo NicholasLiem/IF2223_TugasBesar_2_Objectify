@@ -2,18 +2,13 @@ package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.models.entities.*;
-import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import java.awt.*;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;

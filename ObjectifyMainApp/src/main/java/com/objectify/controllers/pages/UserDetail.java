@@ -1,8 +1,5 @@
 package com.objectify.controllers.pages;
 
-import com.objectify.models.entities.Member;
-import com.objectify.models.entities.User;
-import com.objectify.models.entities.VIP;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

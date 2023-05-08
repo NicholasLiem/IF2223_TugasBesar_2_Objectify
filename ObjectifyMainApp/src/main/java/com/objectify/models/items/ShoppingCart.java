@@ -11,10 +11,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @XmlRootElement(name = "ShoppingCart")
 @XmlAccessorType(XmlAccessType.FIELD)

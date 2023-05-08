@@ -1,49 +1,34 @@
 package com.objectify.controllers.pages;
 
-import com.objectify.exceptions.ItemNotFoundException;
-import javafx.scene.layout.GridPane;
-import javafx.scene.control.Label;
 import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.exceptions.ItemNotFoundException;
 import com.objectify.models.entities.*;
-import com.objectify.models.items.*;
-import javafx.geometry.Rectangle2D;
-
+import com.objectify.models.items.Product;
+import com.objectify.models.items.ShoppingCart;
+import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.Bill;
 import com.objectify.models.transactions.BillManager;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Map.Entry;
 
 public class CashierPage extends GridPane {

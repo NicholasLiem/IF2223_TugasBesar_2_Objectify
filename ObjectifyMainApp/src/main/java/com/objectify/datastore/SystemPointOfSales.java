@@ -7,12 +7,10 @@ import com.objectify.exceptions.InvalidArgumentsException;
 import com.objectify.exceptions.ItemNotFoundException;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.items.CategoryManager;
-import com.objectify.models.items.Product;
 import com.objectify.models.items.StorageManager;
 import com.objectify.models.transactions.BillManager;
 import com.objectify.models.transactions.TransactionManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 

@@ -1,24 +1,19 @@
 package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.exceptions.ItemNotFoundException;
 import com.objectify.models.entities.*;
+import com.objectify.models.items.ShoppingCart;
 import com.objectify.models.transactions.DataContainer;
 import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
-import com.objectify.models.items.*;
-import com.objectify.exceptions.ItemNotFoundException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -26,7 +21,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map.Entry;
 
 public class TransactionManagerPage extends Pane {
 

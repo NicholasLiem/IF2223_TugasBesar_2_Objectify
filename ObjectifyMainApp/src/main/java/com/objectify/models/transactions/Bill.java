@@ -1,14 +1,12 @@
 package com.objectify.models.transactions;
 
+import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.exceptions.ItemNotFoundException;
+import com.objectify.models.entities.Member;
 import com.objectify.models.entities.User;
 import com.objectify.models.entities.UserManager;
 import com.objectify.models.entities.VIP;
-import com.objectify.datastore.SystemPointOfSales;
-import com.objectify.models.entities.Member;
 import com.objectify.models.items.ShoppingCart;
-import com.objectify.models.items.StorageManager;
-import com.objectify.models.items.Product;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

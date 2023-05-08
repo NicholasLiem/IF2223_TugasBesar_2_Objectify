@@ -1,6 +1,5 @@
 package com.objectify.datastore.adapter;
 
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.objectify.datastore.interfaces.DataStore;
 
 import javax.xml.bind.JAXBContext;

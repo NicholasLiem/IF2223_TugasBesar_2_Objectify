@@ -1,29 +1,23 @@
 package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import com.objectify.models.items.Category;
 import com.objectify.models.items.CategoryManager;
 import com.objectify.models.items.Product;
 import com.objectify.models.items.StorageManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.Cursor;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ProductManagerPage extends GridPane {
 

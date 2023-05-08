@@ -2,7 +2,6 @@ package com.objectify.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.objectify.models.transactions.Transaction;
 import com.objectify.models.transactions.TransactionHistory;
 
 import javax.xml.bind.annotation.XmlAccessType;

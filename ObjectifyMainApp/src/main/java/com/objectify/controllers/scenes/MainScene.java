@@ -2,29 +2,14 @@ package com.objectify.controllers.scenes;
 
 import com.objectify.controllers.components.menubar.MenuBarManager;
 import com.objectify.controllers.pages.CashierPage;
-import com.objectify.controllers.pages.ProductManagerPage;
-import com.objectify.controllers.pages.RegisterMemberPage;
 import com.objectify.datastore.SystemPointOfSales;
-import com.objectify.datastore.adapter.JSONAdapter;
-import com.objectify.datastore.enums.ProductDataStore;
-import com.objectify.datastore.enums.UserDataStore;
-import com.objectify.datastore.interfaces.DataStore;
 import com.objectify.exceptions.InvalidArgumentsException;
-import com.objectify.models.entities.UserManager;
-import com.objectify.models.items.*;
-import com.objectify.models.transactions.Transaction;
-import com.objectify.models.transactions.TransactionManager;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
-
-import javax.xml.crypto.Data;
-import java.util.HashMap;
 
 public class MainScene extends Scene {
     

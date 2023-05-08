@@ -5,7 +5,6 @@ import com.objectify.exceptions.InvalidArgumentsException;
 import com.objectify.exceptions.ItemNotFoundException;
 import com.objectify.plugin.Plugin;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.Pane;
 
 public class LineBarChartPlugin extends Plugin {
 

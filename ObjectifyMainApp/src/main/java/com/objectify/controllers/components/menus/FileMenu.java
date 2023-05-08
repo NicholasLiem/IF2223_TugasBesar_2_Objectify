@@ -1,7 +1,8 @@
 package com.objectify.controllers.components.menus;
 
-import com.objectify.controllers.pages.*;
 import com.objectify.controllers.pages.CashierPage;
+import com.objectify.controllers.pages.SettingsPage;
+import com.objectify.controllers.pages.TransactionManagerPage;
 import com.objectify.datastore.SystemPointOfSales;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;

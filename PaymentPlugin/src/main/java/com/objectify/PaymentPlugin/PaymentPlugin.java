@@ -2,9 +2,9 @@ package com.objectify.PaymentPlugin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.objectify.datastore.interfaces.InputControl;
 import com.objectify.datastore.Settings;
 import com.objectify.datastore.SystemPointOfSales;
+import com.objectify.datastore.interfaces.InputControl;
 import com.objectify.plugin.Plugin;
 import javafx.scene.Node;
 import javafx.scene.control.Label;

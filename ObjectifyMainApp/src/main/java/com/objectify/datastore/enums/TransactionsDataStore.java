@@ -4,7 +4,6 @@ import com.objectify.datastore.adapter.JSONAdapter;
 import com.objectify.datastore.adapter.OBJAdapter;
 import com.objectify.datastore.adapter.XMLAdapter;
 import com.objectify.datastore.interfaces.DataStore;
-import com.objectify.models.transactions.TransactionHistory;
 import com.objectify.models.transactions.TransactionManager;
 
 import java.util.Optional;
