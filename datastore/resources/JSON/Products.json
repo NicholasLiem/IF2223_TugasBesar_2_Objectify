@@ -1,9 +1,9 @@
 {
   "products" : [ {
     "idProduct" : 1,
-    "productStock" : 199,
+    "productStock" : 190,
     "productName" : "Hahaha",
-    "productPrice" : 11.0,
+    "productPrice" : 10000.0,
     "productBuyPrice" : 1.0,
     "productCategory" : null,
     "productImagePath" : "C:\\Users\\nicho\\Pictures\\2022-10-16_20-49.png"

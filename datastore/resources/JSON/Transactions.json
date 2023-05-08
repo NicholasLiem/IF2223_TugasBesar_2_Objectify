@@ -23,5 +23,17 @@
         "productCount" : 1
       } ]
     }
+  }, {
+    "transactionId" : 0,
+    "dateTime" : "2023-05-08 08:50:26",
+    "amount" : 90000.0,
+    "description" : "",
+    "shoppingCart" : {
+      "dataContainer" : [ {
+        "productName" : "Hahaha",
+        "productPrice" : 10000.0,
+        "productCount" : 9
+      } ]
+    }
   } ]
 }

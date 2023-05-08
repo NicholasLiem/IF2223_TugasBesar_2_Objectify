@@ -359,6 +359,7 @@ public class ProductManagerPage extends GridPane {
         // Delete button
         if (product.getProductStock() == 0) {
             Button deleteButton = new Button("Delete Product");
+            deleteButton.getStyleClass().add("submit-btn");
             deleteButton.setOnAction(event -> {
                 // Remove the product
                 pManager.removeProduct(product);
@@ -384,6 +385,7 @@ public class ProductManagerPage extends GridPane {
 
         // Cancel button
         Button cancelButton = new Button("Cancel");
+        cancelButton.getStyleClass().add("submit-btn");
         cancelButton.setOnAction(event -> {
             clearFields();
             submitButton();

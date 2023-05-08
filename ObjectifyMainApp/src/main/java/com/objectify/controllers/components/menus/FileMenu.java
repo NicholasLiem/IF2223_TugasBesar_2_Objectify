@@ -44,6 +44,10 @@ public class FileMenu extends AppMenu {
                 tabPane.getTabs().add(newPaneTab);
                 tabPane.getSelectionModel().select(newPaneTab);
                 settingsTabOpened = true;
+
+                newPaneTab.setOnClosed(closeEvent -> {
+                    settingsTabOpened = false;
+                });
             } else {
                 // settings tab already opened, select it
                 for (Tab tab : tabPane.getTabs()) {
