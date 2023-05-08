@@ -20,7 +20,6 @@ public class App extends Application {
         System.out.println("Initializing data with JSON datastore (default)");
         SystemPointOfSales.getInstance().getSettings().initialiseDataStores("JSON");
         SystemPointOfSales.getInstance().getSettings().loadAllDataStore();
-        initializeDefaultCategories();
 
 
         primaryStage.setScene(landingScene);
@@ -30,20 +29,5 @@ public class App extends Application {
 
     public MainScene getMainScene() {
         return mainScene;
-    }
-    public void initializeDefaultCategories(){
-        Category makanan = new Category("Makanan");
-        Category minuman = new Category("Minuman");
-        Category barang = new Category("Barang");
-        Category cemilan = new Category("Cemilan");
-        if (SystemPointOfSales.getInstance().getCategoryManager().getCategories().contains(makanan)){
-            return;
-        }
-        // Set Default Category
-
-        SystemPointOfSales.getInstance().getCategoryManager().addCategory(makanan);
-        SystemPointOfSales.getInstance().getCategoryManager().addCategory(minuman);
-        SystemPointOfSales.getInstance().getCategoryManager().addCategory(barang);
-        SystemPointOfSales.getInstance().getCategoryManager().addCategory(cemilan);
     }
 }
