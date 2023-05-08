@@ -315,11 +315,13 @@ public class CashierPage extends GridPane {
                 entry.setValue(newNum);
                 ShoppingCart newCart = new ShoppingCart(cart);
                 chargeBox.getChildren().remove(0);
+                double newValue = 0;
                 try {
-                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                    newValue = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
                 } catch (ItemNotFoundException e) {
                     throw new RuntimeException(e);
                 }
+                chargeBox.getChildren().add(new Label("Charge " + newValue));
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
             });
@@ -334,11 +336,13 @@ public class CashierPage extends GridPane {
                 }
                 ShoppingCart newCart = new ShoppingCart(cart);
                 chargeBox.getChildren().remove(0);
+                double newValue = 0;
                 try {
-                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                    newValue = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
                 } catch (ItemNotFoundException e) {
                     throw new RuntimeException(e);
                 }
+                chargeBox.getChildren().add(new Label("Charge " + newValue));
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
             });
@@ -386,7 +390,7 @@ public class CashierPage extends GridPane {
         VBox.setVgrow(bill, Priority.ALWAYS);
 
         // Show current charge
-        HBox chargeBox = new HBox(new Label("Charge Rp0"));
+        HBox chargeBox = new HBox(new Label("Charge 0"));
         chargeBox.setPadding(new Insets(20));
         chargeBox.setAlignment(Pos.CENTER);
         chargeBox.getStyleClass().add("billButtons");
@@ -433,11 +437,13 @@ public class CashierPage extends GridPane {
                 entry.setValue(newNum);
                 ShoppingCart newCart = new ShoppingCart(cart);
                 chargeBox.getChildren().remove(0);
+                double newValues = 0;
                 try {
-                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
-                } catch (ItemNotFoundException e) {
-                    throw new RuntimeException(e);
+                    newValues = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
+                } catch (ItemNotFoundException ex) {
+                    throw new RuntimeException(ex);
                 }
+                chargeBox.getChildren().add(new Label("Charge " + newValues));
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
             });
@@ -452,11 +458,13 @@ public class CashierPage extends GridPane {
                 }
                 ShoppingCart newCart = new ShoppingCart(cart);
                 chargeBox.getChildren().remove(0);
+                double newValues = 0;
                 try {
-                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
-                } catch (ItemNotFoundException e) {
-                    throw new RuntimeException(e);
+                    newValues = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
+                } catch (ItemNotFoundException ex) {
+                    throw new RuntimeException(ex);
                 }
+                chargeBox.getChildren().add(new Label("Charge " + newValues));
                 itemListScrollPane.requestLayout();
                 bill.requestLayout();
             });
@@ -619,11 +627,13 @@ public class CashierPage extends GridPane {
                                 this.cart.replace(prod.getIdProduct(), newNum);
                                 ShoppingCart newCart = new ShoppingCart(cart);
                                 chargeBox.getChildren().remove(0);
+                                double newValues = 0;
                                 try {
-                                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                                    newValues = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
                                 } catch (ItemNotFoundException ex) {
                                     throw new RuntimeException(ex);
                                 }
+                                chargeBox.getChildren().add(new Label("Charge " + newValues));
                                 itemListScrollPane.requestLayout();
                                 bill.requestLayout();
                             });
@@ -638,11 +648,13 @@ public class CashierPage extends GridPane {
                                 }
                                 ShoppingCart newCart = new ShoppingCart(cart);
                                 chargeBox.getChildren().remove(0);
+                                double newValues = 0;
                                 try {
-                                    chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                                    newValues = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
                                 } catch (ItemNotFoundException ex) {
                                     throw new RuntimeException(ex);
                                 }
+                                chargeBox.getChildren().add(new Label("Charge " + newValues));
                                 itemListScrollPane.requestLayout();
                                 bill.requestLayout();
                             });
@@ -652,11 +664,13 @@ public class CashierPage extends GridPane {
                             });
                             ShoppingCart newCart = new ShoppingCart(cart);
                             chargeBox.getChildren().remove(0);
+                            double newValues = 0;
                             try {
-                                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
-                            } catch (ItemNotFoundException e) {
-                                throw new RuntimeException(e);
+                                newValues = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
+                            } catch (ItemNotFoundException ex) {
+                                throw new RuntimeException(ex);
                             }
+                            chargeBox.getChildren().add(new Label("Charge " + newValues));
                             itemListScrollPane.requestLayout();
                             bill.requestLayout();
                         }
@@ -719,11 +733,13 @@ public class CashierPage extends GridPane {
                             upQuantityButton.setDisable(Integer.parseInt(qty.getText()) == prod.getProductStock());
                             ShoppingCart newCart = new ShoppingCart(cart);
                             chargeBox.getChildren().remove(0);
+                            double newValue = 0;
                             try {
-                                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                                newValue = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
                             } catch (ItemNotFoundException ex) {
                                 throw new RuntimeException(ex);
                             }
+                            chargeBox.getChildren().add(new Label("Charge " + newValue));
                             itemListScrollPane.requestLayout();
                             bill.requestLayout();
                         });
@@ -738,11 +754,13 @@ public class CashierPage extends GridPane {
                             }
                             ShoppingCart newCart = new ShoppingCart(cart);
                             chargeBox.getChildren().remove(0);
+                            double newValue = 0;
                             try {
-                                chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                                newValue = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
                             } catch (ItemNotFoundException ex) {
                                 throw new RuntimeException(ex);
                             }
+                            chargeBox.getChildren().add(new Label("Charge " + newValue));
                             itemListScrollPane.requestLayout();
                             bill.requestLayout();
                         });
@@ -752,11 +770,13 @@ public class CashierPage extends GridPane {
                         });
                         ShoppingCart newCart = new ShoppingCart(cart);
                         chargeBox.getChildren().remove(0);
+                        double newValue = 0;
                         try {
-                            chargeBox.getChildren().add(new Label("Charge Rp" + newCart.value()));
+                            newValue = SystemPointOfSales.getInstance().getSettings().getCalculator().calculate(newCart.value());
                         } catch (ItemNotFoundException e) {
                             throw new RuntimeException(e);
                         }
+                        chargeBox.getChildren().add(new Label("Charge " + newValue));
                         itemListScrollPane.requestLayout();
                         bill.requestLayout();
                     }

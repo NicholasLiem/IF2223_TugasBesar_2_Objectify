@@ -1,3 +1,27 @@
 {
-  "listOfTransaction" : [ ]
+  "listOfTransaction" : [ {
+    "transactionId" : 0,
+    "dateTime" : "2023-05-08 08:29:11",
+    "amount" : 11.0,
+    "description" : "",
+    "shoppingCart" : {
+      "dataContainer" : [ {
+        "productName" : "Hahaha",
+        "productPrice" : 11.0,
+        "productCount" : 1
+      } ]
+    }
+  }, {
+    "transactionId" : 1,
+    "dateTime" : "2023-05-08 08:30:24",
+    "amount" : 11.0,
+    "description" : "",
+    "shoppingCart" : {
+      "dataContainer" : [ {
+        "productName" : "Hahaha",
+        "productPrice" : 11.0,
+        "productCount" : 1
+      } ]
+    }
+  } ]
 }

@@ -1,6 +1,9 @@
 {
   "settingsPath" : "ObjectifyMainApp/src/resources/settings/",
   "additionalProperties" : {
+    "PaymentSystem" : {
+      "PaymentSettings" : "ObjectifyMainApp\\src\\resources\\settings\\Payment.json"
+    },
     "CurrencySystem" : {
       "CurrencySettings" : "ObjectifyMainApp\\src\\resources\\settings\\Currency.json",
       "CurrencyDefault" : "IDR",
@@ -8,6 +11,6 @@
     }
   },
   "productDataStore" : {
-    "jsonPath" : "file:///C:/Users/nicho/Desktop/Programming%20Repository/GitHub%20Repository/IF2223_TugasBesar_2_Objectify/ObjectifyMainApp/src/resources/JSON/Products.json"
+    "jsonPath" : "file:///C:/Users/nicho/Desktop/Programming%20Repository/GitHub%20Repository/IF2223_TugasBesar_2_Objectify/datastore/resources/JSON/Products.json"
   }
 }

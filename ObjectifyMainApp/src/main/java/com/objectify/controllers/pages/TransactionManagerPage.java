@@ -177,6 +177,9 @@ public class TransactionManagerPage extends Pane {
             } catch (ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
+            if (discountVal < 0){
+                discountVal = 0;
+            }
             Text discount = new Text("Discount : " + Double.toString(discountVal));
             Text amount2 = new Text("Total       : " + Double.toString(transaction.getAmount()));
             transactionBox.getChildren().addAll(id,datetime,cartLabel,discount,amount2);

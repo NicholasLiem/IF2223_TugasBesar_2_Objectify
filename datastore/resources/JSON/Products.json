@@ -1,7 +1,7 @@
 {
   "products" : [ {
     "idProduct" : 1,
-    "productStock" : 1,
+    "productStock" : 199,
     "productName" : "Hahaha",
     "productPrice" : 11.0,
     "productBuyPrice" : 1.0,
