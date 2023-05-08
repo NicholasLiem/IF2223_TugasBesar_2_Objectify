@@ -2,12 +2,10 @@ package com.objectify.controllers.pages;
 
 import com.objectify.datastore.SystemPointOfSales;
 import com.objectify.datastore.interfaces.InputControl;
+import com.objectify.models.items.Category;
 import com.objectify.plugin.PluginLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -20,6 +18,32 @@ public class SettingsPage extends GridPane {
         setPadding(new Insets(10));
         setHgap(10);
         setVgap(10);
+
+        Label categoryLabel = new Label("Category Name: ");
+        TextField categoryInput = new TextField();
+        categoryInput.setPromptText("Enter category name");
+        Button addCategoryBtn = new Button("Add Category");
+        addCategoryBtn.setOnAction(event -> {
+            String categoryName = categoryInput.getText().trim();
+            if (categoryName.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a category name");
+                alert.showAndWait();
+                return;
+            }
+            if (SystemPointOfSales.getInstance().getCategoryManager().getCategories().stream().anyMatch(category -> category.getName().equals(categoryName))) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Category already exists");
+                alert.showAndWait();
+                return;
+            }
+            Category newCategory = new Category(categoryName);
+            SystemPointOfSales.getInstance().getCategoryManager().addCategory(newCategory);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Category added successfully");
+            alert.showAndWait();
+            categoryInput.clear();
+        });
+
+
+
         Label selectDatastore = new Label("Select Datastore: ");
         ComboBox<String> datastoreComboBox = new ComboBox<>();
         datastoreComboBox.getItems().addAll("JSON", "XML", "OBJ");
@@ -100,6 +124,9 @@ public class SettingsPage extends GridPane {
             add(pluginChooserBtn, 1, 0);
             add(dirChooserBtn, 2, 0);
             add(loadPluginBtn, 3, 0);
+            add(categoryLabel, 0, 2);
+            add(categoryInput, 1, 2);
+            add(addCategoryBtn, 2, 2);
 
 
             int count = 2;
@@ -116,6 +143,9 @@ public class SettingsPage extends GridPane {
         add(pluginChooserBtn, 1, 0);
         add(dirChooserBtn, 2, 0);
         add(loadPluginBtn, 3, 0);
+        add(categoryLabel, 0, 2);
+        add(categoryInput, 1, 2);
+        add(addCategoryBtn, 2, 2);
 
 
         int count = 2;

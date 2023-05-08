@@ -351,33 +351,6 @@ public class ProductManagerPage extends GridPane {
         buttons.setSpacing(10);
 
         // Delete button
-        if (product.getProductStock() == 0) {
-            Button deleteButton = new Button("Delete Product");
-            deleteButton.getStyleClass().add("submit-btn");
-            deleteButton.setOnAction(event -> {
-                // Remove the product
-                pManager.removeProduct(product);
-
-                // Clear input fields
-                clearFields();
-
-                // Update scroll pane
-                updateProductsScrollPane();
-
-                // Update button
-                submitButton();
-
-                // Show success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText("Product Deleted");
-                alert.setContentText("The product has been deleted successfully");
-                alert.showAndWait();
-            });
-            buttons.getChildren().add(deleteButton);
-        } 
-
-        // Cancel button
         Button cancelButton = new Button("Cancel");
         cancelButton.getStyleClass().add("submit-btn");
         cancelButton.setOnAction(event -> {
@@ -385,8 +358,10 @@ public class ProductManagerPage extends GridPane {
             submitButton();
         });
         buttons.getChildren().add(cancelButton);
-        
+
         forms.getChildren().set(7,buttons);
-    }
+
+        } 
+
     
 }

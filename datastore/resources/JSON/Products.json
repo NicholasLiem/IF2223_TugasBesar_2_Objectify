@@ -1,3 +1,21 @@
 {
-  "products" : [ ]
+  "products" : [ {
+    "idProduct" : 1,
+    "productStock" : 1,
+    "productName" : "Hahahaha",
+    "productPrice" : 123.0,
+    "productBuyPrice" : 123.0,
+    "productCategory" : null,
+    "productImagePath" : "C:\\Users\\nicho\\Pictures\\2022-10-16_20-49.png"
+  }, {
+    "idProduct" : 1,
+    "productStock" : 1,
+    "productName" : "Hahahaha",
+    "productPrice" : 123.0,
+    "productBuyPrice" : 222.0,
+    "productCategory" : {
+      "name" : "asdsdsd"
+    },
+    "productImagePath" : "C:\\Users\\nicho\\Pictures\\2022-10-16_20-49.png"
+  } ]
 }

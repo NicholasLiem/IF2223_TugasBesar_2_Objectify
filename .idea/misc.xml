@@ -5,13 +5,13 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/PieChartPlugin/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/EPSPlugin/pom.xml" />
         <option value="$PROJECT_DIR$/ObjectifySPI/pom.xml" />
-        <option value="$PROJECT_DIR$/PieChartPlugin/pom.xml" />
       </set>
     </option>
   </component>
