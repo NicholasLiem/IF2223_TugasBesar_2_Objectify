@@ -12,11 +12,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LandingScene extends Scene {
@@ -24,7 +26,8 @@ public class LandingScene extends Scene {
     private Text timeText;
 
     public LandingScene(Stage primaryStage, MainScene mainScene) {
-        super(new VBox(), 800, 600);
+        super(new VBox(), Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight());
+
         Path cssPath = Paths.get("ObjectifyMainApp","src", "resources", "css", "landingPage.css");
         String cssUrl = cssPath.toUri().toString();
         this.getStylesheets().add(cssUrl);
