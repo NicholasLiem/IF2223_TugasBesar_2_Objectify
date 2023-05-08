@@ -2,7 +2,7 @@
 
 ## 💻 Objectify App
 ```
-📢 "Simple ChatGPT using String Matching Algorithms and Regular Expression"
+📢 "Business Management Desktop App"
 ```
 
 ## **📜 Table of Contents**
